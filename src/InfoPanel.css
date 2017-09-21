@@ -34,6 +34,10 @@
   }
 }
 
+.rc-drawer-overlay {
+  display: none !important;
+}
+
 .rc-drawer-content {
   display: flex;
   flex: 1;

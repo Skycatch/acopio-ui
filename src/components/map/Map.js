@@ -95,6 +95,7 @@ class Mapbox extends Component {
       zoom: [14],
       collectionCenterData: collectionCenter
     });
+    this.props.onSelect(collectionCenter);
   }
 
   onDrag () {
@@ -141,44 +142,6 @@ class Mapbox extends Component {
           >
           {features}
         </Layer>
-          {
-            collectionCenterData && (
-              <Popup
-                key={collectionCenterData}
-                offset={[0, -50]}
-                coordinates={[collectionCenterData.lng, collectionCenterData.lat]}
-              >
-                <StyledPopup>
-                <h3> Centro de Acopio</h3>
-                  <div>
-                    Nombre: {collectionCenterData.nombre}
-                  </div>
-                  <div>
-                    Direccion: {collectionCenterData.direccion}
-                  </div>
-                  <div>
-                    Estatus: {collectionCenterData.status}
-                  </div>
-                  <div>
-                    Responsables:
-
-                      {
-                        [collectionCenterData.ResponsableDeCentro].map(responsable =>(
-                          <ul>
-                            <li>Nombre: {responsable.nombreResponsable}</li>
-                            <li>Telefono: {responsable.telefonoResponsable}</li>
-                            <li>Twitter: {responsable.twitterResponsable}</li>
-                            <li>Facebook: {responsable.facebookResponsable}</li>
-                            <li>Email: {responsable.emailResponsable}</li>
-                          </ul>
-                        ))
-                      }
-
-                  </div>
-                </StyledPopup>
-              </Popup>
-            )
-          }
       </Map>
     );
   }
