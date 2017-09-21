@@ -4,8 +4,10 @@
   "private": true,
   "dependencies": {
     "axios": "^0.16.2",
+    "mapbox-gl": "^0.40.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-mapbox-gl": "^2.5.0",
     "react-scripts": "1.0.13"
   },
   "scripts": {
