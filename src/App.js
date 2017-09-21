@@ -4,7 +4,7 @@ import './App.css';
 import Map from './components/map/Map';
 import Drawer from 'rc-drawer';
 
-import './components/infoPanel/InfoPanel.css';
+import './InfoPanel.css';
 import 'rc-drawer/assets/index.css';
 
 class App extends Component {
