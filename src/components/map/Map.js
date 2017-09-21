@@ -50,22 +50,17 @@ class Mapbox extends Component {
 
   componentWillReceiveProps (nextProps, nextState) {
 
-    console.log('Component will receive props');
     const component = this;
     return this.getLatLng(nextProps.collectionCenters).then((data) => {
-      // nextProps.collectionCenters = data;
       component.setState({ collectionCenters: data });
-      console.log('State 1', component.state);
     });
   }
 
   componentDidMount() {
 
-    console.log('Did moiunt');
     const component = this;
     return this.getLatLng(this.props.collectionCenters).then((data) => {
       component.setState({ collectionCenters: data });
-      console.log('State 2', component.state);
     });
   }
 
@@ -73,7 +68,6 @@ class Mapbox extends Component {
     const transformed = [];
     return Promise.all(centers.map((center) => {
 
-      console.log('Converting', { center });
       return new Promise((resolve, reject) => {
 
         Locator.locate(center.direccionCentroDeAcopio, (err, result) => {
@@ -91,7 +85,6 @@ class Mapbox extends Component {
       });
     }))
     .then(() => {
-      console.log('TRANSFORMED::::', transformed, transformed.length);
       return transformed;
     });
   }
@@ -113,9 +106,6 @@ class Mapbox extends Component {
 
   render() {
     const { collectionCenterData } = this.state;
-    console.log('RENDERING!!!!', this.state.collectionCenters, this.state.collectionCenters.length, this.state.collectionCenters.map((center, index) => {
-      return [center.lng, center.lat];
-    }));
 
     const component = this;
     let features =this.state.collectionCenters.map((center,index) =>(
