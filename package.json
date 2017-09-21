@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "mapbox-gl": "^0.40.1",
+    "axios": "^0.16.2",
+    "mapbox-gl": "^0.39.1",
     "node-where": "^1.1.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",

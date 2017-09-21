@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import api from './api';
 import './App.css';
 import Map from './components/map/Map';
 import Where from 'node-where';
@@ -9,14 +10,25 @@ class App extends Component {
 
     super();
     this.state = {
+      // this.testApi(); // This should be uncommented only in local testing!!!S!!
       gatheringCenters: [],
     };
   }
 
   componentDidMount () {
-    fetch(`http://localhost:3000/acopios.json`)
+
+    // Use this block with dummy testing -----
+    // fetch(`http://localhost:3000/acopios.json`)
+    // .then((result) => {
+    //   console.log('===> result', result);
+    //   return result.json();
+    // })
+    // ----------
+
+    api.getAcopios()
     .then((result) => {
-      return result.json();
+      console.log('===> result', result);
+      return result.data;
     })
     .then((centers) => {
       const transformed = [];
@@ -46,9 +58,10 @@ class App extends Component {
     });
   }
 
-  render () {
+  render() {
     return (
       <div className="App">
+        <div className="App-header">Acopio</div>
         <div className="App-header">
           <h1 className="title left">Sismo MX</h1>
           <h1 className="title">Información del centro de acopio</h1>
@@ -57,6 +70,30 @@ class App extends Component {
       </div>
     );
   }
+
+  testApi() {
+    try {
+      api.getAcopios();
+
+      api.getProductos('1');
+
+      api.postAcopio({});
+      api.postProducto({});
+
+      api.postResponsable({});
+
+      api.updateAcopio('1', {});
+      api.updateProducto('1', {});
+      api.updateResponsable('1', {});
+
+      api.deleteAcopio('1');
+      api.deleteProducto('1');
+      api.deleteResponsable('1');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 }
 
 export default App;
