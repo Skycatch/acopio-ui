@@ -13,9 +13,7 @@ class App extends Component {
 
     super();
     this.state = {
-      // this.testApi(); // This should be uncommented only in local testing!!!!!
-      gatheringCenters: [],
-
+      collectionCenters: [],
       docked: true,
       open: true,
       transitions: true,
@@ -27,11 +25,12 @@ class App extends Component {
   }
 
   onOpenChange (open) {
-    console.log('onOpenChange', open);
+
     this.setState({ open });
   }
 
   onDock () {
+
     const docked = !this.state.docked;
     this.setState({
       docked,
@@ -43,23 +42,12 @@ class App extends Component {
 
   componentDidMount () {
 
-    // Use this block with dummy testing -----
-    return fetch(`http://localhost:3000/acopios.json`)
+    api.getAcopios()
     .then((result) => {
-      console.log('======> ACOPIOS FETCH RESULT::', result);
-      return result.json();
-    })
-    // ----------
-    // api.getAcopios()
-    // .then((result) => {
-    //   console.log('===> result', result);
-    //   return result.data;
-    // })
-    .then((centers) => {
-      console.log('CENTERS ARE::', centers);
+
       this.setState({
-        gatheringCenters: centers,
-        activeCenter: null
+        activeCenter: null,
+        collectionCenters: result.data
       });
     });
   }
@@ -138,35 +126,11 @@ class App extends Component {
             <h1 className="title left">Sismo MX</h1>
             <h1 className="sub-title">Información de centros de acopio</h1>
           </div>
-          <Map collectionCenters={ this.state.gatheringCenters } onSelect={ this.selectCenter.bind(this) } ></Map>
+          <Map collectionCenters={ this.state.collectionCenters } onSelect={ this.selectCenter.bind(this) } ></Map>
         </Drawer>
       </div>
     );
   }
-
-  testApi() {
-    try {
-      api.getAcopios();
-
-      api.getProductos('1');
-
-      api.postAcopio({});
-      api.postProducto({});
-
-      api.postResponsable({});
-
-      api.updateAcopio('1', {});
-      api.updateProducto('1', {});
-      api.updateResponsable('1', {});
-
-      api.deleteAcopio('1');
-      api.deleteProducto('1');
-      api.deleteResponsable('1');
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
 }
 
 export default App;
