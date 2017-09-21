@@ -50,51 +50,57 @@ class Mapbox extends Component {
 
   componentWillReceiveProps (nextProps, nextState) {
 
+    console.log('Component will receive props');
     const component = this;
     return this.getLatLng(nextProps.collectionCenters).then((data) => {
       // nextProps.collectionCenters = data;
       component.setState({ collectionCenters: data });
-      console.log('DummyData', component.state);
+      console.log('State 1', component.state);
     });
   }
 
   componentDidMount() {
 
+    console.log('Did moiunt');
     const component = this;
     return this.getLatLng(this.props.collectionCenters).then((data) => {
       component.setState({ collectionCenters: data });
-      console.log('DummyData', component.state);
+      console.log('State 2', component.state);
     });
   }
 
   getLatLng (centers) {
     const transformed = [];
     return Promise.all(centers.map((center) => {
+
       console.log('Converting', { center });
-      return Locator.locate(center.direccionCentroDeAcopio, (err, result) => {
-        if (err) {
-          console.error('ERROR PARSING ADDRESS:', center.direccionCentroDeAcopio);
-          return center;
-        }
-        console.log('Geoloc result:', result, result.lat, result.lng);
-        return transformed.push(Object.assign(center, {
-          center: [result.lng, result.lat],
-          lat: result.lat,
-          lng: result.lng
-        }));
+      return new Promise((resolve, reject) => {
+
+        Locator.locate(center.direccionCentroDeAcopio, (err, result) => {
+          if (err) {
+            console.error('ERROR PARSING ADDRESS:', center.direccionCentroDeAcopio);
+            resolve(center);
+          }
+          console.log('Geoloc result:', result, result.lat, result.lng);
+          resolve(transformed.push(Object.assign(center, {
+            center: [result.lng, result.lat],
+            lat: result.lat,
+            lng: result.lng
+          })));
+        });
       });
     }))
     .then(() => {
-      console.log('TRANSFORMED::::', transformed);
+      console.log('TRANSFORMED::::', transformed, transformed.length);
       return transformed;
     });
   }
 
   markerClick (collectionCenter) {
     this.setState({
-      center: [collectionCenter.longitud, collectionCenter.latitud],
+      center: [collectionCenter.lng, collectionCenter.lat],
       zoom: [14],
-      collectionCenterData:collectionCenter
+      collectionCenterData: collectionCenter
     });
   }
 
@@ -107,18 +113,22 @@ class Mapbox extends Component {
 
   render() {
     const { collectionCenterData } = this.state;
-    console.log('RENDEGIN!!!!', this.state.collectionCenters);
+    console.log('RENDERING!!!!', this.state.collectionCenters, this.state.collectionCenters.length, this.state.collectionCenters.map((center, index) => {
+      return [center.lng, center.lat];
+    }));
+
+    const component = this;
     let features =this.state.collectionCenters.map((center,index) =>(
        <Feature
         key={index}
         coordinates={[center.lng, center.lat]}
-        onClick={this.markerClick.bind(this,center)} />
+        onClick={component.markerClick.bind(component, center)} />
     ));
     return (
       <Map
       style="mapbox://styles/mapbox/streets-v10"
       center={Config.mapbox.style.center}
-      onDrag={this.onDrag.bind(this)}
+      onDrag={component.onDrag.bind(component)}
       containerStyle={{
         height: "100vh",
         width: "100vw"
@@ -163,13 +173,13 @@ class Mapbox extends Component {
                     Responsables:
 
                       {
-                        collectionCenterData.responsables.map(responsable =>(
+                        [collectionCenterData.ResponsableDeCentro].map(responsable =>(
                           <ul>
-                            <li>Nombre: {responsable.nombre}</li>
-                            <li>Telefono: {responsable.telefono}</li>
-                            <li>Twitter: {responsable.twitter}</li>
-                            <li>Facebook: {responsable.facebook}</li>
-                            <li>Email: {responsable.email}</li>
+                            <li>Nombre: {responsable.nombreResponsable}</li>
+                            <li>Telefono: {responsable.telefonoResponsable}</li>
+                            <li>Twitter: {responsable.twitterResponsable}</li>
+                            <li>Facebook: {responsable.facebookResponsable}</li>
+                            <li>Email: {responsable.emailResponsable}</li>
                           </ul>
                         ))
                       }

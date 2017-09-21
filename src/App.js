@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import api from './api';
 import './App.css';
 import Map from './components/map/Map';
-import Where from 'node-where';
 
 class App extends Component {
 
