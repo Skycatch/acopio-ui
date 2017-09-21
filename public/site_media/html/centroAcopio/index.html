@@ -1,0 +1,70 @@
+<html>
+     <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Centros de Acopio Mexico</title>
+         
+         <link rel="stylesheet" href="../../css/font-awesome.min.css">
+         <link rel="stylesheet" href="../../css/bootstrap.min.css">
+         <link rel="stylesheet" href="../../css/bootstrap-toggle.min.css">
+         <link rel="stylesheet" href="../../css/styles_CA.css">
+        <meta/>
+    </head>
+<body>
+	  <h1>Alta de datos por Centro de acopio</h1>
+
+  
+  <form>
+	    <h1>Capture todos los datos como le son solicitados. Sea preciso con la información</h1>
+	    
+        <div class="contentform">
+            <div class="leftcontact">
+                <div class="form-group">
+                    <p>Nombre de Producto<span>*</span></p>
+                    <span class="icon-case"></span>
+                     <input type="text" name="nom" id="nom" data-rule="required" data-msg="Capture el campo "/>
+                    <div class="validation"></div>
+                </div> 
+                <div class="form-group">
+                    <p>Estado del Producto<span>*</span></p><input type="checkbox" data-toggle="toggle" data-on="Sobra" data-off="Faltante" id="est">
+                </div>	
+                <div class="form-group">
+                    <p>Ultima fecha de Actualización</p>
+                    <div id="lastUpdate">22/22/22</div>
+
+                </div>
+            </div>
+
+            <div class="rightcontact">	
+                
+                <div class="dropdown">
+                      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Listas de Centro de Acopio
+                      <span class="caret"></span></button>
+                      <ul class="dropdown-menu" id="caList">
+                        <li>CA_1</li>
+                        <li>CA_2</li>
+                        <li>CA_3</li>
+                      </ul>
+                </div>
+                
+            </div>
+        </div>
+        <button type="submit" class="button-createProduct">Alta de Producto</button>
+     
+    </form>	
+    
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/bootstrap-toggle.min.js"></script>
+    <script src="../../js/CA_script.js"></script>
+   <div class="footer">
+       <footer>Creado por el Equipo Humanitario de <a href="http://www.codeandomexico.org/">Codeando México.</a>
+       </footer>
+    </div> 
+</body>
+  
+</html>
