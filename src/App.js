@@ -47,13 +47,14 @@ class App extends Component {
   }
 
   render () {
+    console.log('this.state APP', this.state);
     return (
       <div className="App">
         <div className="App-header">
           <h1 className="title left">Sismo MX</h1>
           <h1 className="title">Información del centro de acopio</h1>
         </div>
-        <Map></Map>
+        <Map centers={this.state.gatheringCenters}></Map>
       </div>
     );
   }
