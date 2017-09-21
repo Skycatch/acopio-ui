@@ -17,10 +17,17 @@ class App extends Component {
   componentDidMount () {
 
     // Use this block with dummy testing -----
-    return fetch(`http://localhost:3000/acopios.json`)
+    // return fetch(`http://localhost:3000/acopios.json`)
+    // .then((result) => {
+    //   console.log('======> ACOPIOS FETCH RESULT::', result);
+    //   return result.json();
+    // })
+    // ----------
+
+    api.getAcopios()
     .then((result) => {
-      console.log('======> ACOPIOS FETCH RESULT::', result);
-      return result.json();
+      console.log('===> result', result);
+      return result.data;
     })
     // ----------
 

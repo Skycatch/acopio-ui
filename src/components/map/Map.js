@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import ReactMapboxGl, { Layer, Feature, Marker, ZoomControl, Popup } from "react-mapbox-gl";
-import Config from '../../config/Config';
-import Locator from './Locator';
 import styled from 'styled-components';
 
 let Map;
@@ -14,10 +12,10 @@ const StyledPopup = styled.div `
   border-radius: 2px;
 `;
 
-
 class Mapbox extends Component {
 
   constructor(props) {
+
     super(props);
     this.state = {
       data: [],
@@ -41,55 +39,22 @@ class Mapbox extends Component {
   }
 
   componentWillMount () {
+
     Map = ReactMapboxGl({
       accessToken: this.state.config.token,
       attributionControl: this.state.config.style.attributionControl
     });
-    // this.setState({ 'pointDescription': undefined });
   }
 
   componentWillReceiveProps (nextProps, nextState) {
 
     const component = this;
-    return this.getLatLng(nextProps.collectionCenters).then((data) => {
-      component.setState({ collectionCenters: data });
-    });
-  }
 
-  componentDidMount() {
-
-    const component = this;
-    return this.getLatLng(this.props.collectionCenters).then((data) => {
-      component.setState({ collectionCenters: data });
-    });
-  }
-
-  getLatLng (centers) {
-    const transformed = [];
-    return Promise.all(centers.map((center) => {
-
-      return new Promise((resolve, reject) => {
-
-        Locator.locate(center.direccionCentroDeAcopio, (err, result) => {
-          if (err) {
-            console.error('ERROR PARSING ADDRESS:', center.direccionCentroDeAcopio);
-            resolve(center);
-          }
-          console.log('Geoloc result:', result, result.lat, result.lng);
-          resolve(transformed.push(Object.assign(center, {
-            center: [result.lng, result.lat],
-            lat: result.lat,
-            lng: result.lng
-          })));
-        });
-      });
-    }))
-    .then(() => {
-      return transformed;
-    });
+    component.setState({ collectionCenters: nextProps.collectionCenters });
   }
 
   markerClick (collectionCenter) {
+
     this.setState({
       center: [collectionCenter.lng, collectionCenter.lat],
       zoom: [14],
@@ -98,6 +63,7 @@ class Mapbox extends Component {
   }
 
   onDrag () {
+
     if (this.state.collectionCenterData) {
       // this.setState({ collectionCenterData: undefined });
     }
@@ -105,39 +71,33 @@ class Mapbox extends Component {
 
 
   render() {
-    const { collectionCenterData } = this.state;
 
+    const { collectionCenterData } = this.state;
     const component = this;
-    let features =this.state.collectionCenters.map((center,index) =>(
+    const config = component.state.config;
+
+    let features = this.state.collectionCenters.map((center,index) =>(
        <Feature
-        key={index}
-        coordinates={[center.lng, center.lat]}
+        key={center.id}
+        coordinates={[center.longitud, center.latitud]}
         onClick={component.markerClick.bind(component, center)} />
     ));
+
+    console.log('features', features);
+
     return (
       <Map
       style="mapbox://styles/mapbox/streets-v10"
-      center={Config.mapbox.style.center}
+      center={config.style.center}
       onDrag={component.onDrag.bind(component)}
       containerStyle={{
-        height: "100vh",
+        height: "88vh",
         width: "100vw"
       }}>
         <Layer
-          type="circle"
-          layout={
-            {
-              "visibility":'visible'
-
-           }
-          }
-          paint = {
-             {
-               'circle-radius': 8,
-               'circle-color': 'rgba(55,148,179,1)'
-             }
-           }
-
+          type="symbol"
+          id="marker"
+          layout={{"icon-image": "marker-15", "icon-size": 3}}
           >
           {features}
         </Layer>
