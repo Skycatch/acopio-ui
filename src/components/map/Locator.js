@@ -7,7 +7,6 @@ var request = require('request');
 
 function Address(address) {
   this.address = address;
-  // this.url = 'https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=' + encodeURIComponent(this.address); // + '&key=AIzaSyCkgia4tuZ_tZBjxNYPx0gn-0JZr9SdI18';
   this.url = 'https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=' + encodeURIComponent(this.address) + '&key=AIzaSyCkgia4tuZ_tZBjxNYPx0gn-0JZr9SdI18';
 }
 

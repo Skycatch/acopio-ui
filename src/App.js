@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import api from './api';
 import './App.css';
 import Map from './components/map/Map';
+import Drawer from 'rc-drawer';
+
+import './components/infoPanel/InfoPanel.css';
+import 'rc-drawer/assets/index.css';
 
 class App extends Component {
 
@@ -9,9 +13,32 @@ class App extends Component {
 
     super();
     this.state = {
-      // this.testApi(); // This should be uncommented only in local testing!!!S!!
+      // this.testApi(); // This should be uncommented only in local testing!!!!!
       gatheringCenters: [],
+
+      docked: true,
+      open: true,
+      transitions: true,
+      touch: true,
+      enableDragHandle: true,
+      position: 'bottom',
+      dragToggleDistance: 30,
     };
+  }
+
+  onOpenChange (open) {
+    console.log('onOpenChange', open);
+    this.setState({ open });
+  }
+
+  onDock () {
+    const docked = !this.state.docked;
+    this.setState({
+      docked,
+    });
+    if (!docked) {
+      this.onOpenChange(false);
+    }
   }
 
   componentDidMount () {
@@ -23,52 +50,96 @@ class App extends Component {
       return result.json();
     })
     // ----------
-
     // api.getAcopios()
     // .then((result) => {
     //   console.log('===> result', result);
     //   return result.data;
     // })
     .then((centers) => {
-      // const transformed = [];
-      // return Promise.all(centers.map((center) => {
-      //   console.log('Converting', { center });
-      //   Where.is(center.direccionCentroDeAcopio, (err, result) => {
-      //     if (err) {
-      //       console.error('ERROR PARSING ADDRESS:', center.direccionCentroDeAcopio);
-      //       return center;
-      //     }
-      //     console.log('Geoloc result:', result, result.get('lat'), result.get('lng'));
-      //     transformed.push(Object.assign(center, {
-      //       lat: result.get('lat'),
-      //       lng: result.get('lng')
-      //     }));
-      //   });
-      // }))
-      // .then(() => {
-      //   return transformed;
-      // });
-      // return centers.json();
-      return centers;
-    })
-    .then((centers) => {
       console.log('CENTERS ARE::', centers);
       this.setState({
-        gatheringCenters: centers
+        gatheringCenters: centers,
+        activeCenter: null
       });
     });
   }
 
+  selectCenter (center) {
+    this.setState({
+      activeCenter: center
+    });
+  }
+
   render() {
-    console.log("~~~~~~~~~~", this.state.gatheringCenters)
-    return (
-      <div className="App">
-        <div className="App-header">Acopio</div>
-        <div className="App-header">
-          <h1 className="title left">Sismo MX</h1>
-          <h1 className="title">Información del centro de acopio</h1>
+
+    let sidebar;
+    if (!this.state.activeCenter) {
+      sidebar = (<div>
+        <h3>
+          {/*
+            <button onClick={ this.onDock.bind(this) }>
+              {this.state.docked ? 'unpin' : 'pin'}
+            </button>
+          */}
+          Selecciona un centro de apoyo en el mapa
+
+          {/* Later on there will be search option here */}
+        </h3>
+      </div>);
+    }
+    else {
+      const collectionCenterData = this.state.activeCenter;
+      sidebar = (<div>
+        <h3> Centro de Acopio</h3>
+        <div>
+          Nombre: {collectionCenterData.nombre}
         </div>
-        <Map collectionCenters={ this.state.gatheringCenters }></Map>
+        <div>
+          Direccion: {collectionCenterData.direccion}
+        </div>
+        <div>
+          Estatus: {collectionCenterData.status}
+        </div>
+        <div>
+          Responsables:
+
+            {
+              [collectionCenterData.ResponsableDeCentro].map(responsable =>(
+                <ul>
+                  <li>Nombre: {responsable.nombreResponsable}</li>
+                  <li>Telefono: {responsable.telefonoResponsable}</li>
+                  <li>Twitter: {responsable.twitterResponsable}</li>
+                  <li>Facebook: {responsable.facebookResponsable}</li>
+                  <li>Email: {responsable.emailResponsable}</li>
+                </ul>
+              ))
+            }
+
+        </div>
+      </div>);
+    }
+
+    const drawerProps = {
+      docked: this.state.docked,
+      open: this.state.open,
+      touch: this.state.touch,
+      enableDragHandle: this.state.enableDragHandle,
+      position: this.state.position,
+      dragToggleDistance: this.state.dragToggleDistance,
+      transitions: this.state.transitions,
+      onOpenChange: this.onOpenChange.bind(this),
+    };
+
+    return (
+      <div className="App drawer-container">
+
+        <Drawer sidebar={sidebar} {...drawerProps} style={{ overflow: 'auto' }}>
+          <div className="App-header">
+            <h1 className="title left">Sismo MX</h1>
+            <h1 className="sub-title">Información de centros de acopio</h1>
+          </div>
+          <Map collectionCenters={ this.state.gatheringCenters } onSelect={ this.selectCenter.bind(this) } ></Map>
+        </Drawer>
       </div>
     );
   }
