@@ -56,19 +56,11 @@ class Mapbox extends Component {
   markerClick (collectionCenter) {
 
     this.setState({
-      center: [collectionCenter.lng, collectionCenter.lat],
+      center: [collectionCenter.longitud, collectionCenter.latitud],
       zoom: [14],
       collectionCenterData: collectionCenter
     });
   }
-
-  onDrag () {
-
-    if (this.state.collectionCenterData) {
-      // this.setState({ collectionCenterData: undefined });
-    }
-  }
-
 
   render() {
 
@@ -76,40 +68,41 @@ class Mapbox extends Component {
     const component = this;
     const config = component.state.config;
 
-    let features = this.state.collectionCenters.map((center,index) =>(
-       <Feature
+    let markers = this.state.collectionCenters.map((center,index) =>(
+      <Marker
         key={center.id}
         coordinates={[center.longitud, center.latitud]}
-        onClick={component.markerClick.bind(component, center)} />
+        onClick={component.markerClick.bind(component, center)}>
+      </Marker>
     ));
 
-    console.log('features', features);
+    console.log('markers', markers);
 
     return (
       <Map
       style="mapbox://styles/mapbox/streets-v10"
       center={config.style.center}
-      onDrag={component.onDrag.bind(component)}
       containerStyle={{
         height: "88vh",
         width: "100vw"
       }}>
         <Layer
-          type="symbol"
           id="marker"
-          layout={{"icon-image": "marker-15", "icon-size": 3}}
-          >
-          {features}
+          type="symbol"
+          layout={{
+            "icon-image": "marker-15",
+            "icon-size": 3
+          }}>
+          {markers}
         </Layer>
           {
             collectionCenterData && (
               <Popup
                 key={collectionCenterData}
                 offset={[0, -50]}
-                coordinates={[collectionCenterData.lng, collectionCenterData.lat]}
-              >
+                coordinates={[collectionCenterData.longitud, collectionCenterData.latitud]}>
                 <StyledPopup>
-                <h3> Centro de Acopio</h3>
+                <h3>Centro de Acopio</h3>
                   <div>
                     Nombre: {collectionCenterData.nombre}
                   </div>
@@ -119,22 +112,7 @@ class Mapbox extends Component {
                   <div>
                     Estatus: {collectionCenterData.status}
                   </div>
-                  <div>
-                    Responsables:
 
-                      {
-                        [collectionCenterData.ResponsableDeCentro].map(responsable =>(
-                          <ul>
-                            <li>Nombre: {responsable.nombreResponsable}</li>
-                            <li>Telefono: {responsable.telefonoResponsable}</li>
-                            <li>Twitter: {responsable.twitterResponsable}</li>
-                            <li>Facebook: {responsable.facebookResponsable}</li>
-                            <li>Email: {responsable.emailResponsable}</li>
-                          </ul>
-                        ))
-                      }
-
-                  </div>
                 </StyledPopup>
               </Popup>
             )
