@@ -18,37 +18,39 @@ class App extends Component {
   componentDidMount () {
 
     // Use this block with dummy testing -----
-    // fetch(`http://localhost:3000/acopios.json`)
-    // .then((result) => {
-    //   console.log('===> result', result);
-    //   return result.json();
-    // })
-    // ----------
-
-    api.getAcopios()
+    fetch(`http://localhost:3000/acopios.json`)
     .then((result) => {
       console.log('===> result', result);
-      return result.data;
+      return result.json();
     })
+    // ----------
+
+    // api.getAcopios()
+    // .then((result) => {
+    //   console.log('===> result', result);
+    //   return result.data;
+    // })
     .then((centers) => {
-      const transformed = [];
-      return Promise.all(centers.map((center) => {
-        console.log('Converting', { center });
-        Where.is(center.direccionCentroDeAcopio, (err, result) => {
-          if (err) {
-            console.error('ERROR PARSING ADDRESS:', center.direccionCentroDeAcopio);
-            return center;
-          }
-          console.log('Geoloc result:', result, result.get('lat'), result.get('lng'));
-          transformed.push(Object.assign(center, {
-            lat: result.get('lat'),
-            lng: result.get('lng')
-          }));
-        });
-      }))
-      .then(() => {
-        return transformed;
-      });
+      // const transformed = [];
+      // return Promise.all(centers.map((center) => {
+      //   console.log('Converting', { center });
+      //   Where.is(center.direccionCentroDeAcopio, (err, result) => {
+      //     if (err) {
+      //       console.error('ERROR PARSING ADDRESS:', center.direccionCentroDeAcopio);
+      //       return center;
+      //     }
+      //     console.log('Geoloc result:', result, result.get('lat'), result.get('lng'));
+      //     transformed.push(Object.assign(center, {
+      //       lat: result.get('lat'),
+      //       lng: result.get('lng')
+      //     }));
+      //   });
+      // }))
+      // .then(() => {
+      //   return transformed;
+      // });
+      // return centers.json();
+      return centers;
     })
     .then((centers) => {
       console.log('CENTERS ARE::', centers);
