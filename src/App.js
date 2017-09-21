@@ -18,9 +18,9 @@ class App extends Component {
   componentDidMount () {
 
     // Use this block with dummy testing -----
-    fetch(`http://localhost:3000/acopios.json`)
+    return fetch(`http://localhost:3000/acopios.json`)
     .then((result) => {
-      console.log('===> result', result);
+      console.log('======> ACOPIOS FETCH RESULT::', result);
       return result.json();
     })
     // ----------
@@ -61,6 +61,7 @@ class App extends Component {
   }
 
   render() {
+    console.log("~~~~~~~~~~", this.state.gatheringCenters)
     return (
       <div className="App">
         <div className="App-header">Acopio</div>
@@ -68,7 +69,7 @@ class App extends Component {
           <h1 className="title left">Sismo MX</h1>
           <h1 className="title">Información del centro de acopio</h1>
         </div>
-        <Map></Map>
+        <Map collectionCenters={ this.state.gatheringCenters }></Map>
       </div>
     );
   }
