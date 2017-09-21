@@ -66,7 +66,7 @@ class App extends Component {
           <h1 className="title left">Sismo MX</h1>
           <h1 className="title">Información del centro de acopio</h1>
         </div>
-        <Map></Map>
+        <Map collectionCenters={this.state.gatheringCenters}></Map>
       </div>
     );
   }
