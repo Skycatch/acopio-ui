@@ -90,9 +90,10 @@ class App extends Component {
       <div className="App drawer-container">
 
         <Drawer sidebar={sidebar} {...drawerProps} style={{ overflow: 'auto' }}>
-          <div className="App-header">Acopio</div>
-          <h1 className="title left">Sismo MX</h1>
-          <h1 className="title">Información del centro de acopio</h1>
+          <div className="App-header">
+            <h1 className="title left">Sismo MX</h1>
+            <h1 className="sub-title">Información de centros de acopio</h1>
+          </div>
           <Map collectionCenters={ this.state.gatheringCenters }></Map>
         </Drawer>
       </div>
