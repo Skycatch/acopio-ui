@@ -42,7 +42,6 @@ class Mapbox extends Component {
   componentWillReceiveProps(nextProps) {
 
     const component = this;
-
     component.setState({ collectionCenters: nextProps.collectionCenters });
   }
 

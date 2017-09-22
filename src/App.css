@@ -18,28 +18,32 @@ h1 {
   font-size: 1.5em
 }
 
+h3 {
+  margin-top: 0;
+}
+
 img {
   height: 8vh;
 }
 
-/*.App-header .title {
-  font-size: 2.5em;
-  font-weight: 700;
-  margin: 0;
-  padding: 0.3em;
-  display: flex;
-  box-sizing: border-box;
+address {
+  font-style: normal;
 }
 
-.App-header .sub-title {
-  font-size: 1.5em;
-  font-weight: 700;
-  margin: 0;
-  padding: 0.8em;
-  display: flex;
-  flex: 1;
-  box-sizing: border-box;
-}*/
+.pad {
+  height: 10px;
+}
+
+.close {
+  position: relative;
+  text-align: right;
+}
+
+.close span {
+  color: #aaa;
+  position: relative;
+  right: 20px;
+}
 
 @media (max-width: 375px) {
   .App-header {

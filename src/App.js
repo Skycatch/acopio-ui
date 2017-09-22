@@ -58,7 +58,14 @@ class App extends Component {
     });
   }
 
-  render() {
+  closeDrawer () {
+    console.log('closeDrawer');
+    this.setState({
+      activeCenter: null
+    });
+  }
+
+  render () {
 
     let sidebar;
     if (!this.state.activeCenter) {
@@ -78,16 +85,13 @@ class App extends Component {
     else {
       const collectionCenterData = this.state.activeCenter;
       sidebar = (<div>
-        <h3> Centro de Acopio</h3>
-        <div>
-          Nombre: {collectionCenterData.nombre}
-        </div>
-        <div>
+        <div className="pad"></div>
+        <h3>{collectionCenterData.nombre}</h3>
+        <address>
           Direccion: {collectionCenterData.direccion}
-        </div>
-        <div>
-          Estatus: {collectionCenterData.status}
-        </div>
+        </address>
+        <div className="close" onClick={this.closeDrawer.bind(this)}><span>Close</span></div>
+        <div className="pad"></div>
       </div>);
     }
 
