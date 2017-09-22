@@ -1,43 +1,66 @@
 import axios from 'axios';
+// import http from 'axios/lib/adapters/http.js'; // Use for testing only...
 
-axios.defaults.baseURL = 'http://ec2-54-242-119-209.compute-1.amazonaws.com/api/';
+axios.defaults.baseURL =
+  'http://ec2-54-242-119-209.compute-1.amazonaws.com/api';
+// axios.defaults.adapter = http; // Use for testing only...
 
 const acopios = 'acopios';
 const productos = 'productos';
-const responsables = 'responsables';
+const contactos = 'contactos';
 
 export default {
   getAcopios() {
     return axios.get(`/${acopios}`);
   },
-  getProductos(id) {
-    return axios.get(`/${acopios}/${id}/${productos}`);
+  getAcopio(id) {
+    return axios.get(`/${acopios}/${id}`);
   },
-  postAcopio(acopio) {
+  saveAcopio(acopio) {
     return axios.post(`/${acopios}`, acopio);
-  },
-  postProducto(producto) {
-    return axios.post(`/${productos}`, producto);
-  },
-  postResponsable(responsable) {
-    return axios.post(`/${responsables}`, responsable);
   },
   updateAcopio(id, acopio) {
     return axios.put(`/${acopios}/${id}`, acopio);
   },
-  updateProducto(id, producto) {
-    return axios.put(`/${productos}/${id}`, producto);
-  },
-  updateResponsable(id, responsable) {
-    return axios.put(`/${responsables}/${id}`, responsable);
-  },
   deleteAcopio(id) {
     return axios.delete(`/${acopios}/${id}`);
+  },
+
+  getProducto(id) {
+    return axios.get(`/${productos}/${id}`)
+  },
+  getProductos() {
+    return axios.get(`/${productos}`)
+  },
+  getProductosByAcopioId(id) {
+    return axios.get(`/${acopios}/${id}/${productos}`);
+  },
+  saveProducto(producto) {
+    return axios.post(`/${productos}`, producto);
+  },
+  updateProducto(id, producto) {
+    return axios.put(`/${productos}/${id}`, producto);
   },
   deleteProducto(id) {
     return axios.delete(`/${productos}/${id}`);
   },
-  deleteResponsable(id) {
-    return axios.delete(`/${responsables}/${id}`);
+
+  getContacto(id) {
+    return axios.get(`/${contactos}/${id}`)
+  },
+  getContactos() {
+    return axios.get(`/${contactos}`)
+  },
+  getContactosByAcopioId(id) {
+    return axios.get(`/${acopios}/${id}/${contactos}`);
+  },
+  saveContacto(contacto) {
+    return axios.post(`/${contactos}`, contacto);
+  },
+  updateContacto(idAcopio, idContacto, contacto) {
+    return axios.put(`/${acopios}/${idAcopio}/${contactos}/${idContacto}`, contacto);
+  },
+  deleteContacto(idAcopio, idContacto) {
+    return axios.delete(`/${acopios}/${idAcopio}/${contactos}/${idContacto}`);
   }
 };
