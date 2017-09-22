@@ -45,11 +45,6 @@ class Mapbox extends Component {
     component.setState({ collectionCenters: nextProps.collectionCenters });
   }
 
-  componentDidMount() {
-
-    this.centerMapOnUserLocation();
-  }
-
   markerClick(collectionCenter) {
 
     const component = this;
