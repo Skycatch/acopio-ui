@@ -52,6 +52,17 @@ class Mapbox extends Component {
     component.props.onSelect(collectionCenter);
   }
 
+  centerMapOnUserLocation() {
+
+    navigator.geolocation.getCurrentPosition(position => {
+      const newConfig = Object.assign({}, this.state.config);
+      newConfig.style.center = [position.coords.longitude, position.coords.latitude];
+      this.setState({
+        config: newConfig
+      });
+    });
+  }
+
   render() {
 
     const component = this;

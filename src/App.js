@@ -53,9 +53,17 @@ class App extends Component {
   }
 
   selectCenter (center) {
-    this.setState({
-      activeCenter: center
-    });
+
+    const component = this;
+
+    return api.getProductosByAcopioId(center.id)
+    .then((products) => {
+
+      center.products = products.data;
+      component.setState({
+        activeCenter: center
+      });
+    })
   }
 
   closeDrawer () {
@@ -67,9 +75,11 @@ class App extends Component {
 
   render () {
 
-    let sidebar;
+    let drawer;
+    let products;
+
     if (!this.state.activeCenter) {
-      sidebar = (<div>
+      drawer = (<div>
         <h3>
           {/*
             <button onClick={ this.onDock.bind(this) }>
@@ -84,12 +94,20 @@ class App extends Component {
     }
     else {
       const collectionCenterData = this.state.activeCenter;
-      sidebar = (<div>
+
+      products = collectionCenterData.products && collectionCenterData.products.map((prod) => {
+        return <div>
+          { prod.nombre }
+        </div>
+      });
+      drawer = (<div>
         <div className="pad"></div>
         <h3>{collectionCenterData.nombre}</h3>
         <address>
           Direccion: {collectionCenterData.direccion}
         </address>
+
+        {products}
         <div className="close" onClick={this.closeDrawer.bind(this)}><span>Close</span></div>
         <div className="pad"></div>
       </div>);
@@ -109,16 +127,21 @@ class App extends Component {
     return (
       <div className="App drawer-container">
 
-        <Drawer sidebar={sidebar} {...drawerProps} style={{ overflow: 'auto' }}>
+        <Drawer sidebar={drawer} {...drawerProps} style={{ overflow: 'auto' }}>
           <div className="App-header">
             <h1 className="title">Sismo MX</h1>
             <h1 className="sub-title">Información de centros de acopio</h1>
+            <button onClick={ this.centerMapOnUserLocation.bind(this) }>Cerca de mí</button>
             <img src={process.env.PUBLIC_URL + 'CMX_SISMO_ICON_04-01.png'} alt="CMX"/>
           </div>
-          <Map collectionCenters={ this.state.collectionCenters } onSelect={ this.selectCenter.bind(this) } ></Map>
+          <Map collectionCenters={ this.state.collectionCenters } onSelect={ this.selectCenter.bind(this) } ref={ map => this.map = map }></Map>
         </Drawer>
       </div>
     );
+  }
+
+  centerMapOnUserLocation() {
+    this.map.centerMapOnUserLocation();
   }
 }
 
