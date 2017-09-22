@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import api from './api';
-import './App.css';
 import Map from './components/map/Map';
 import Drawer from 'rc-drawer';
 
 import './InfoPanel.css';
 import 'rc-drawer/assets/index.css';
+import './App.css';
 
 class App extends Component {
 
@@ -88,22 +88,6 @@ class App extends Component {
         <div>
           Estatus: {collectionCenterData.status}
         </div>
-        <div>
-          Responsables:
-
-            {
-              [collectionCenterData.ResponsableDeCentro].map(responsable =>(
-                <ul>
-                  <li>Nombre: {responsable.nombreResponsable}</li>
-                  <li>Telefono: {responsable.telefonoResponsable}</li>
-                  <li>Twitter: {responsable.twitterResponsable}</li>
-                  <li>Facebook: {responsable.facebookResponsable}</li>
-                  <li>Email: {responsable.emailResponsable}</li>
-                </ul>
-              ))
-            }
-
-        </div>
       </div>);
     }
 
@@ -123,8 +107,9 @@ class App extends Component {
 
         <Drawer sidebar={sidebar} {...drawerProps} style={{ overflow: 'auto' }}>
           <div className="App-header">
-            <h1 className="title left">Sismo MX</h1>
+            <h1 className="title">Sismo MX</h1>
             <h1 className="sub-title">Información de centros de acopio</h1>
+            <img src={process.env.PUBLIC_URL + 'CMX_SISMO_ICON_04-01.png'} alt="CMX"/>
           </div>
           <Map collectionCenters={ this.state.collectionCenters } onSelect={ this.selectCenter.bind(this) } ></Map>
         </Drawer>
