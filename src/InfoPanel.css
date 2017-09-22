@@ -45,3 +45,7 @@
   justify-content: stretch;
   overflow: hidden;
 }
+
+.rc-drawer-sidebar {
+  max-height: 50vh;
+}

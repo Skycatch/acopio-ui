@@ -45,6 +45,40 @@ address {
   right: 20px;
 }
 
+.cta {
+  padding: 0.5em;
+  font-size: 1.5em;
+  cursor: pointer;
+  background-color: #F04A6F;
+}
+
+.searchBox {
+  padding: 0.7em;
+}
+
+.searchBox input {
+  border: 1px solid #ccc;
+  margin-left: 1em;
+}
+
+.prodNeeded {
+  display: flex;
+  flex-direction: row;
+  border-top: 1px solid #ccc;
+}
+
+.prodNeeded:last-child {
+  border-bottom: none;
+}
+
+.prodNeeded .prodName {
+  width: 30%
+}
+
+.prodNeeded .prodCenterName {
+  flex: 1;
+}
+
 @media (max-width: 375px) {
   .App-header {
     height: 12vh;

@@ -36,6 +36,11 @@ export default {
   getProductosByAcopioId(id) {
     return axios.get(`/${acopios}/${id}/${productos}`);
   },
+
+  getProductosByPartialName(string) {
+    return axios.get(`${productos}?filter=` + encodeURI(`{"where":{"nombre":{"like":"${string}"}}}`));
+  },
+
   saveProducto(producto) {
     return axios.post(`/${productos}`, producto);
   },
