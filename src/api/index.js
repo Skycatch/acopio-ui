@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://acopio-api.skycatch.net/v1';
+axios.defaults.baseURL = 'http://ec2-54-242-119-209.compute-1.amazonaws.com/api/';
 
 const acopios = 'acopios';
 const productos = 'productos';

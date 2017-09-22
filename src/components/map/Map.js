@@ -58,10 +58,11 @@ class Mapbox extends Component {
     const component = this;
     const style = component.state.config.style;
 
-    let markers = this.state.collectionCenters.map((center,index) =>(
+    const centersWithPosition = this.state.collectionCenters.filter(center => center.geopos);
+    let markers = centersWithPosition.map((center) =>(
       <Marker
         key={center.id}
-        coordinates={[center.longitud, center.latitud]}
+        coordinates={[center.geopos.lng, center.geopos.lat]}
         onClick={component.markerClick.bind(component, center)}>
       </Marker>
     ));
