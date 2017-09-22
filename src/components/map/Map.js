@@ -1,16 +1,7 @@
 import React, { Component } from 'react';
-import ReactMapboxGl, { Layer, Feature, Marker, ZoomControl, Popup } from "react-mapbox-gl";
-import styled from 'styled-components';
+import ReactMapboxGl, { Layer, Marker, ZoomControl } from "react-mapbox-gl";
 
 let Map;
-
-const StyledPopup = styled.div `
-  background: white;
-  color: #3F618C;
-  font-weight: 400;
-  padding: 5px;
-  border-radius: 2px;
-`;
 
 class Mapbox extends Component {
 
@@ -25,12 +16,14 @@ class Mapbox extends Component {
           "attributionControl": false,
           "center": [-99.133209, 19.4326],
           "keyboard": false,
+          "height": "88vh",
           "layers": [],
           "maxZoom": 24,
           "minZoom": 12,
           "sources": {},
           "style": "mapbox://styles/mapbox/streets-v10",
           "version": 8,
+          "width": "100vw",
           "zoom": 16
         }
       },
@@ -38,7 +31,7 @@ class Mapbox extends Component {
     };
   }
 
-  componentWillMount () {
+  componentWillMount() {
 
     Map = ReactMapboxGl({
       accessToken: this.state.config.token,
@@ -46,45 +39,40 @@ class Mapbox extends Component {
     });
   }
 
-  componentWillReceiveProps (nextProps, nextState) {
+  componentWillReceiveProps(nextProps) {
 
     const component = this;
-
     component.setState({ collectionCenters: nextProps.collectionCenters });
   }
 
-  markerClick (collectionCenter) {
+  markerClick(collectionCenter) {
 
-    this.setState({
-      center: [collectionCenter.longitud, collectionCenter.latitud],
-      zoom: [14],
-      collectionCenterData: collectionCenter
-    });
+    const component = this;
+
+    component.props.onSelect(collectionCenter);
   }
 
   render() {
 
-    const { collectionCenterData } = this.state;
     const component = this;
-    const config = component.state.config;
+    const style = component.state.config.style;
 
-    let markers = this.state.collectionCenters.map((center,index) =>(
+    const centersWithPosition = this.state.collectionCenters.filter(center => center.geopos);
+    let markers = centersWithPosition.map((center) =>(
       <Marker
         key={center.id}
-        coordinates={[center.longitud, center.latitud]}
+        coordinates={[center.geopos.lng, center.geopos.lat]}
         onClick={component.markerClick.bind(component, center)}>
       </Marker>
     ));
 
-    console.log('markers', markers);
-
     return (
       <Map
-      style="mapbox://styles/mapbox/streets-v10"
-      center={config.style.center}
+      style={style.style}
+      center={style.center}
       containerStyle={{
-        height: "88vh",
-        width: "100vw"
+        height: style.height,
+        width: style.width
       }}>
         <Layer
           id="marker"
@@ -95,28 +83,7 @@ class Mapbox extends Component {
           }}>
           {markers}
         </Layer>
-          {
-            collectionCenterData && (
-              <Popup
-                key={collectionCenterData}
-                offset={[0, -50]}
-                coordinates={[collectionCenterData.longitud, collectionCenterData.latitud]}>
-                <StyledPopup>
-                <h3>Centro de Acopio</h3>
-                  <div>
-                    Nombre: {collectionCenterData.nombre}
-                  </div>
-                  <div>
-                    Direccion: {collectionCenterData.direccion}
-                  </div>
-                  <div>
-                    Estatus: {collectionCenterData.status}
-                  </div>
-
-                </StyledPopup>
-              </Popup>
-            )
-          }
+        <ZoomControl />
       </Map>
     );
   }
