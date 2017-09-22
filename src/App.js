@@ -4,6 +4,7 @@ import Map from './components/map/Map';
 import Drawer from 'rc-drawer';
 import DebounceInput from 'react-debounce-input';
 import find from 'lodash.find';
+import Header  from './components/Header';
 
 import 'rc-drawer/assets/index.css';
 import './InfoPanel.css';
@@ -229,20 +230,13 @@ class App extends Component {
 
     return (
       <div className="App drawer-container">
-
         <Drawer sidebar={drawer} {...drawerProps} style={{ overflow: 'auto' }}>
-          <div className="App-header">
-            <div className="logo">
-              <img src={process.env.PUBLIC_URL + 'CMX_SISMO_ICON_04-01.png'} alt="CMX"/>
-              <h1 className="title">Sismo MX</h1>
-              <h2 className="smalltitle">| Centros de acopio</h2>
-            </div>
-            <h1 className="sub-title">Información de centros de acopio</h1>
+          <Header>
             <nav className="navigation">
               <button onClick={ this.centerMapOnUserLocation.bind(this) }>Cerca de mí</button>
             </nav>
 
-          </div>
+          </Header>
           <div className="map-container">
             <button className="cta" onClick={ this.openSearch.bind(this) }>Quiero Ayudar</button>
             <Map collectionCenters={ this.state.collectionCenters } onSelect={ this.selectCenter.bind(this) } ref={ map => this.map = map }></Map>
