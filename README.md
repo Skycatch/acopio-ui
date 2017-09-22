@@ -36,8 +36,30 @@ Otros:
 
 ## Running the project
 
-This application is built with React and Mapbox GL, using the [create-react-app CLI](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#developing-components-in-isolation). The app must be mobile friendly at all times.
+```
+npm start #run the app locally
 
-Per Codeando's design standards, the application uses the following fonts:
-- Roboto Mono for titles (weights: 400)
-- Roboto for everything else (weights: 400, 700)
+npm test #currently not working
+
+npm build #must be done before deployment
+```
+
+This application is built with the following stack:
+
+- [React](https://facebook.github.io/react/docs/hello-world.html)
+
+- [Mapbox GL](https://www.mapbox.com/mapbox-gl-js/api/)
+
+- [react-mapbox-gl](https://github.com/alex3165/react-mapbox-gl)
+
+- [Axios http library](https://github.com/mzabriskie/axios)
+
+- [create-react-app CLI](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#developing-components-in-isolation) (Please read the documentation here if you run into any issues in development or testing as this was used to scaffold the app)
+
+- [Jest testing framework](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#running-tests)
+
+Guidelines:
+- The app must be mobile friendly at all times.
+- Per Codeando's design standards, the application uses the following fonts (included via Google Fonts):
+  - Roboto Mono for titles (weights: 400)
+  - Roboto for everything else (weights: 400, 700)
