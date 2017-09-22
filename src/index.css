@@ -3,28 +3,3 @@ body {
   margin: 0;
   padding: 0;
 }
-
-.title {
-  display: inline-block;
-  font-size: 2.5em;
-  font-weight: 700;
-  margin: 0;
-  padding: 1em;
-}
-
-.left {
-  left: 0;
-  position: absolute;
-}
-
-@media (max-width: 375px) {
-  .title {
-    display: block;
-    font-size: 1.25em;
-    padding: 0;
-  }
-
-  .left {
-    position: relative;
-  }
-}

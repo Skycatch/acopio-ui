@@ -3,15 +3,55 @@
 }
 
 .App-header {
+  align-items: center;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
   background-color: #212824;
   box-sizing: border-box;
   color: #FFFFFF;
-  height: 15vh;
+  height: 14vh;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.5em
+}
+
+h3 {
+  margin-top: 0;
+}
+
+img {
+  height: 8vh;
+}
+
+address {
+  font-style: normal;
+}
+
+.pad {
+  height: 10px;
+}
+
+.close {
+  position: relative;
+  text-align: right;
+}
+
+.close span {
+  color: #aaa;
+  position: relative;
+  right: 20px;
 }
 
 @media (max-width: 375px) {
   .App-header {
     height: 12vh;
     padding: 1em;
+  }
+
+  .sub-title {
+    display: none;
   }
 }

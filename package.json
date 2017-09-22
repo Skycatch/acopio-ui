@@ -3,15 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "mapbox-gl": "^0.40.1",
+    "axios": "^0.16.2",
+    "mapbox-gl": "^0.39.1",
+    "node-sass-chokidar": "0.0.3",
+    "node-where": "^1.1.0",
+    "npm-run-all": "^4.1.1",
+    "rc-drawer": "^0.4.11",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-mapbox-gl": "^2.5.0",
-    "react-scripts": "1.0.13"
+    "react-scripts": "1.0.13",
+    "styled-components": "^2.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build-css": "node-sass-chokidar src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "start-js": "react-scripts start",
+    "start": "npm-run-all -p watch-css start-js",
+    "build": "npm run build-css && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
