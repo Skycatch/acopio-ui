@@ -131,12 +131,17 @@ class App extends Component {
           <div className="App-header">
             <h1 className="title">Sismo MX</h1>
             <h1 className="sub-title">Información de centros de acopio</h1>
+            <button onClick={ this.centerMapOnUserLocation.bind(this) }>Cerca de mí</button>
             <img src={process.env.PUBLIC_URL + 'CMX_SISMO_ICON_04-01.png'} alt="CMX"/>
           </div>
-          <Map collectionCenters={ this.state.collectionCenters } onSelect={ this.selectCenter.bind(this) } ></Map>
+          <Map collectionCenters={ this.state.collectionCenters } onSelect={ this.selectCenter.bind(this) } ref={ map => this.map = map }></Map>
         </Drawer>
       </div>
     );
+  }
+
+  centerMapOnUserLocation() {
+    this.map.centerMapOnUserLocation();
   }
 }
 
