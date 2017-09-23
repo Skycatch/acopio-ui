@@ -5,16 +5,20 @@ import api from '../../api'
 import ContactSingle from './ContactSingle'
 
 class ContactContainer extends Component {
-  state = {
-    fields: {
-      name: '',
-      email: '',
-      twitter: '',
-      facebook: '',
-      telefono: '',
-      acopioId: ''
-    },
-    acopios: []
+  constructor (props) {
+    super(props)
+    this.state = {
+      fields: {
+        name: '',
+        email: '',
+        twitter: '',
+        facebook: '',
+        telefono: '',
+        acopioId: ''
+      },
+      acopios: []
+    }
+    this.fieldsBaseState = this.state.fields
   }
 
   componentWillMount () {
@@ -50,14 +54,7 @@ class ContactContainer extends Component {
 
   resetFields () {
     this.setState({
-      fields: {
-        name: '',
-        email: '',
-        twitter: '',
-        facebook: '',
-        telefono: '',
-        acopioId: ''
-      }
+      fields: this.fieldsBaseState
     })
   }
 
