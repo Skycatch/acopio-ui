@@ -31,11 +31,10 @@ class CenterAdmin extends Component{
     componentDidMount() {
         const { id } = this.props.match.params
         const product = api.getProductosByAcopioId(id).then(({data: productList}) => {
-          console.log({productList})
           this.setState(() => ({ productList, filteredProdcuts: productList }))
         })
 
-        Promise.all([product]).then(() => {
+        product.then(() => {
             this.setState(() => ({ loading: false }))
         })
     }
@@ -43,10 +42,10 @@ class CenterAdmin extends Component{
       const { productList } = this.state
       const inputValue = filter.trim().toLowerCase()
       const inputLength = inputValue.length
-      const filteredProdcuts =  inputLength === 0 ? productList : productList.filter(({nombre}) =>
+      const filteredProducts =  inputLength === 0 ? productList : productList.filter(({nombre}) =>
         nombre.toLowerCase().slice(0, inputLength) === filter
       )
-      this.setState(() => ({ filteredProdcuts, filter }))
+      this.setState(() => ({ filteredProducts, filter }))
     }
 
     onRowSelection = (selected) => {
