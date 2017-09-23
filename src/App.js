@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import api from './api';
 import Map from './components/map/Map';
 import Drawer from 'rc-drawer';
+import DebounceInput from 'react-debounce-input';
+import find from 'lodash.find';
 
-import './InfoPanel.css';
 import 'rc-drawer/assets/index.css';
+import './InfoPanel.css';
 import './App.css';
 
 class App extends Component {
@@ -47,7 +49,8 @@ class App extends Component {
 
       this.setState({
         activeCenter: null,
-        collectionCenters: result.data
+        collectionCenters: result.data,
+        totalCollectionCenters: result.data
       });
     });
   }
@@ -66,6 +69,39 @@ class App extends Component {
     })
   }
 
+  openSearch () {
+
+    this.setState({
+      activeCenter: null,
+      search: true
+    });
+  }
+
+  searchProduct (value) {
+
+    const component = this;
+    api.getProductosByPartialName(value)
+    .then(function(result) {
+      const products = result.data;
+      console.log('Products found:', products.length);
+      products.forEach((prod) => {
+        const center = find(component.state.totalCollectionCenters, { id: prod.acopioId });
+        if (center) {
+          prod.centerName = center.nombre;
+        }
+      });
+      const centerIds = products.map((prod) => {
+        return prod.acopioId;
+      });
+      component.setState({
+        collectionCenters: component.state.collectionCenters.filter((center) => {
+          return centerIds.indexOf(center.id) !== -1;
+        }),
+        productsNeeded: products
+      });
+    });
+  }
+
   closeDrawer () {
     console.log('closeDrawer');
     this.setState({
@@ -78,21 +114,7 @@ class App extends Component {
     let drawer;
     let products;
 
-    if (!this.state.activeCenter) {
-      drawer = (<div>
-        <h3>
-          {/*
-            <button onClick={ this.onDock.bind(this) }>
-              {this.state.docked ? 'unpin' : 'pin'}
-            </button>
-          */}
-          Selecciona un centro de apoyo en el mapa
-
-          {/* Later on there will be search option here */}
-        </h3>
-      </div>);
-    }
-    else {
+    if (this.state.activeCenter) {
       const collectionCenterData = this.state.activeCenter;
 
       products = collectionCenterData.products && collectionCenterData.products.map((prod) => {
@@ -112,6 +134,41 @@ class App extends Component {
         <div className="pad"></div>
       </div>);
     }
+    else if (this.state.search) {
+      console.log('Rendering search');
+      const prods = (this.state.productsNeeded || []).map((prod) => {
+        return <div className="prodNeeded">
+          <span className="prodName">{ prod.nombre }</span>
+          <span className="prodCenterName">{ prod.centerName }</span>
+        </div>
+      });
+      drawer = <div>
+        <div className="searchBox">
+          <p class="instrucciones">Buscar centros que necesiten:</div>
+          <DebounceInput
+          minLength={2}
+          debounceTimeout={500}
+          onChange={ event => this.searchProduct(event.target.value)} />
+        </div>
+        <div className="result-list">
+          { prods }
+        </div>
+      </div>
+    }
+    else {
+      drawer = (<div>
+        <p class="instrucciones">
+          {/*
+            <button onClick={ this.onDock.bind(this) }>
+              {this.state.docked ? 'unpin' : 'pin'}
+            </button>
+          */}
+          Selecciona un centro de apoyo en el mapa para conocer sus necesidades
+
+          {/* Later on there will be search option here */}
+        </p>
+      </div>);
+    }
 
     const drawerProps = {
       docked: this.state.docked,
@@ -127,12 +184,13 @@ class App extends Component {
     return (
       <div className="App drawer-container">
 
-        <Drawer sidebar={drawer} {...drawerProps} style={{ overflow: 'auto' }}>
+       <Drawer sidebar={drawer} {...drawerProps} style={{ overflow: 'auto' }}>
           <div className="App-header">
-            <h1 className="title">Sismo MX</h1>
-            <h1 className="sub-title">Información de centros de acopio</h1>
-            <button onClick={ this.centerMapOnUserLocation.bind(this) }>Cerca de mí</button>
             <img src={process.env.PUBLIC_URL + 'CMX_SISMO_ICON_04-01.png'} alt="CMX"/>
+            <h1 className="title">Sismo MX</h1>
+            <h1 className="sub-title">Centros de acopio</h1>
+            <button class="locate-me" onClick={ this.centerMapOnUserLocation.bind(this) } >Cerca de mí</button>
+            
           </div>
           <Map collectionCenters={ this.state.collectionCenters } onSelect={ this.selectCenter.bind(this) } ref={ map => this.map = map }></Map>
         </Drawer>
