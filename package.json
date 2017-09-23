@@ -10,6 +10,7 @@
     "material-ui": "^0.19.2",
     "react": "^15.6.1",
     "react-debounce-input": "^3.0.1",
+    "react-document-title": "^2.0.3",
     "react-dom": "^15.6.1",
     "react-mapbox-gl": "^2.5.0",
     "react-router-dom": "^4.2.2",
