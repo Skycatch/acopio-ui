@@ -79,6 +79,11 @@ address {
   flex: 1;
 }
 
+.returnToSearch {
+  padding: 0.3em;
+  color: #ccc;
+}
+
 @media (max-width: 375px) {
   .App-header {
     height: 12vh;

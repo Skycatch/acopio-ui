@@ -55,6 +55,12 @@ class App extends Component {
     });
   }
 
+  goToCenter (centerId) {
+
+    const center = find(this.state.totalCollectionCenters, { id: centerId });
+    this.selectCenter(center);
+  }
+
   selectCenter (center) {
 
     const component = this;
@@ -102,6 +108,12 @@ class App extends Component {
     });
   }
 
+  returnToSearch () {
+    this.setState({
+      activeCenter: null
+    });
+  }
+
   closeDrawer () {
     console.log('closeDrawer');
     this.setState({
@@ -124,6 +136,10 @@ class App extends Component {
       });
       drawer = (<div>
         <div className="pad"></div>
+        { this.state.productsNeeded && <div className="returnToSearch" onClick={this.returnToSearch.bind(this)}>
+            Regresar a resultados
+          </div>
+        }
         <h3>{collectionCenterData.nombre}</h3>
         <address>
           Direccion: {collectionCenterData.direccion}
@@ -137,7 +153,7 @@ class App extends Component {
     else if (this.state.search) {
       console.log('Rendering search');
       const prods = (this.state.productsNeeded || []).map((prod) => {
-        return <div className="prodNeeded">
+        return <div className="prodNeeded" onClick={this.goToCenter.bind(this, prod.acopioId)}>
           <span className="prodName">{ prod.nombre }</span>
           <span className="prodCenterName">{ prod.centerName }</span>
         </div>
