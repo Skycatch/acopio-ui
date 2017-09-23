@@ -1,5 +1,5 @@
-import React from 'react';
-import logoImage from './CMX_SISMO_ICON_04-01.png';
+import React from 'react'
+import logoImage from './CMX_SISMO_ICON_04-01.png'
 
 const Layout = ({ children }) => {
   return (
@@ -8,14 +8,14 @@ const Layout = ({ children }) => {
         <h1 className="title">Sismo MX</h1>
         <h1 className="sub-title">Información de centros de acopio</h1>
         <button>Cerca de mí</button>
-        <img src={logoImage} alt="CMX"/>
+        <img src={logoImage} alt="CMX" />
       </div>
       <div className="cta">Quiero Ayudar</div>
       <div className="App-body">
         {children}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout
