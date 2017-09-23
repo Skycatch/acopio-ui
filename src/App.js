@@ -73,7 +73,13 @@ class App extends Component {
     })
     .then((contacts) => {
 
-      center.contacts = contacts.data;
+      // Filter out contacts without data
+      center.contacts = contacts.data.filter((contact) => {
+        return find(
+          ['nombre', 'telefono', 'email', 'twitter', 'facebook'],
+          (field) => { return contact[field]; }
+        );
+      });
       return component.setState({
         activeCenter: center
       });
