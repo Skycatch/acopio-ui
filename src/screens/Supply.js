@@ -101,6 +101,7 @@ class Supply extends Component {
       isLoading={isLoading}
       acopios={acopios}
       currentPosition={currentPosition}
+      displayProducts
     />
   }
 }
