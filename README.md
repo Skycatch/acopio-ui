@@ -51,7 +51,7 @@ Otros:
 - Click en el centro abre un card view con la lista de productos necesitados, y la información de contacto del centro / responsable
 - Solo español
 
-## Como ejecutar esta aplicacion localmente?
+## Como ejecutar esta aplicación localmente?
 
 Esta aplicación ha sido creada con React y Mapbox GL, utilizando [create-react-app CLI](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#developing-components-in-isolation). Esta aplicación ha sido planeada para ser _mobile friendly_ todo el tiempo.
 
