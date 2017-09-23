@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import api from './api';
 import Map from './components/map/Map';
 import Drawer from 'rc-drawer';
+import DebounceInput from 'react-debounce-input';
+import find from 'lodash.find';
 
-import './InfoPanel.css';
 import 'rc-drawer/assets/index.css';
+import './InfoPanel.css';
 import './App.css';
 
 class App extends Component {
@@ -47,7 +49,8 @@ class App extends Component {
 
       this.setState({
         activeCenter: null,
-        collectionCenters: result.data
+        collectionCenters: result.data,
+        totalCollectionCenters: result.data
       });
     });
   }
@@ -66,6 +69,39 @@ class App extends Component {
     })
   }
 
+  openSearch () {
+
+    this.setState({
+      activeCenter: null,
+      search: true
+    });
+  }
+
+  searchProduct (value) {
+
+    const component = this;
+    api.getProductosByPartialName(value)
+    .then(function(result) {
+      const products = result.data;
+      console.log('Products found:', products.length);
+      products.forEach((prod) => {
+        const center = find(component.state.totalCollectionCenters, { id: prod.acopioId });
+        if (center) {
+          prod.centerName = center.nombre;
+        }
+      });
+      const centerIds = products.map((prod) => {
+        return prod.acopioId;
+      });
+      component.setState({
+        collectionCenters: component.state.collectionCenters.filter((center) => {
+          return centerIds.indexOf(center.id) !== -1;
+        }),
+        productsNeeded: products
+      });
+    });
+  }
+
   closeDrawer () {
     console.log('closeDrawer');
     this.setState({
@@ -78,21 +114,7 @@ class App extends Component {
     let drawer;
     let products;
 
-    if (!this.state.activeCenter) {
-      drawer = (<div>
-        <h3>
-          {/*
-            <button onClick={ this.onDock.bind(this) }>
-              {this.state.docked ? 'unpin' : 'pin'}
-            </button>
-          */}
-          Selecciona un centro de apoyo en el mapa
-
-          {/* Later on there will be search option here */}
-        </h3>
-      </div>);
-    }
-    else {
+    if (this.state.activeCenter) {
       const collectionCenterData = this.state.activeCenter;
 
       products = collectionCenterData.products && collectionCenterData.products.map((prod) => {
@@ -110,6 +132,41 @@ class App extends Component {
         {products}
         <div className="close" onClick={this.closeDrawer.bind(this)}><span>Close</span></div>
         <div className="pad"></div>
+      </div>);
+    }
+    else if (this.state.search) {
+      console.log('Rendering search');
+      const prods = (this.state.productsNeeded || []).map((prod) => {
+        return <div className="prodNeeded">
+          <span className="prodName">{ prod.nombre }</span>
+          <span className="prodCenterName">{ prod.centerName }</span>
+        </div>
+      });
+      drawer = <div>
+        <div className="searchBox">
+          Buscar centros que necesiten:
+          <DebounceInput
+          minLength={2}
+          debounceTimeout={500}
+          onChange={ event => this.searchProduct(event.target.value)} />
+        </div>
+        <div className="result-list">
+          { prods }
+        </div>
+      </div>
+    }
+    else {
+      drawer = (<div>
+        <h3>
+          {/*
+            <button onClick={ this.onDock.bind(this) }>
+              {this.state.docked ? 'unpin' : 'pin'}
+            </button>
+          */}
+          Selecciona un centro de apoyo en el mapa
+
+          {/* Later on there will be search option here */}
+        </h3>
       </div>);
     }
 
@@ -134,6 +191,7 @@ class App extends Component {
             <button onClick={ this.centerMapOnUserLocation.bind(this) }>Cerca de mí</button>
             <img src={process.env.PUBLIC_URL + 'CMX_SISMO_ICON_04-01.png'} alt="CMX"/>
           </div>
+          <div className="cta" onClick={ this.openSearch.bind(this) }>Quiero Ayudar</div>
           <Map collectionCenters={ this.state.collectionCenters } onSelect={ this.selectCenter.bind(this) } ref={ map => this.map = map }></Map>
         </Drawer>
       </div>
