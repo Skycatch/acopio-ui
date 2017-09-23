@@ -52,7 +52,6 @@ export default {
     return axios.put(`/${productos}/${id}`, producto)
   },
   deleteProducto (id) {
-    console.log('deleteProducto')
     return axios.delete(`/${productos}/${id}`)
   },
 
