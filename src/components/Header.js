@@ -5,7 +5,7 @@ const Header = function(props) {
     <div className="App-header">
       <div className="logo">
         <img src={process.env.PUBLIC_URL + 'CMX_SISMO_ICON_04-01.png'} alt="CMX"/>
-        <h1 className="title">Sismo MX</h1>
+        <h1 className="title"><a href="/">Sismo MX</a></h1>
         <h2 className="smalltitle">| Centros de acopio</h2>
       </div>
       
