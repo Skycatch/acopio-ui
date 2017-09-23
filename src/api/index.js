@@ -1,76 +1,76 @@
-import axios from 'axios';
+import axios from 'axios'
 // import http from 'axios/lib/adapters/http.js'; // Use for testing only...
 // axios.defaults.adapter = http; // Use for testing only...
 
-axios.defaults.baseURL = process.env.REACT_APP_API_BASE;
+axios.defaults.baseURL = process.env.REACT_APP_API_BASE
 
-const acopios = 'acopios';
-const productos = 'productos';
-const contactos = 'contactos';
+const acopios = 'acopios'
+const productos = 'productos'
+const contactos = 'contactos'
 
 export default {
-  getAcopios() {
-    return axios.get(`/${acopios}`);
+  getAcopios () {
+    return axios.get(`/${acopios}`)
   },
-  getAcopiosWhere(filter) {
-    return axios.get(`/${acopios}?filter=${filter}`);
+  getAcopiosWhere (filter) {
+    return axios.get(`/${acopios}?filter=${filter}`)
   },
-  getAcopio(id) {
-    return axios.get(`/${acopios}/${id}`);
+  getAcopio (id) {
+    return axios.get(`/${acopios}/${id}`)
   },
-  saveAcopio(acopio) {
-    return axios.post(`/${acopios}`, acopio);
+  saveAcopio (acopio) {
+    return axios.post(`/${acopios}`, acopio)
   },
-  updateAcopio(id, acopio) {
-    return axios.put(`/${acopios}/${id}`, acopio);
+  updateAcopio (id, acopio) {
+    return axios.put(`/${acopios}/${id}`, acopio)
   },
-  deleteAcopio(id) {
-    return axios.delete(`/${acopios}/${id}`);
+  deleteAcopio (id) {
+    return axios.delete(`/${acopios}/${id}`)
   },
 
-  getProducto(id) {
+  getProducto (id) {
     return axios.get(`/${productos}/${id}`)
   },
-  getProductos() {
+  getProductos () {
     return axios.get(`/${productos}`)
   },
-  getProductosWhere(filter) {
+  getProductosWhere (filter) {
     return axios.get(`/${productos}?filter=${filter}`)
   },
-  getProductosByAcopioId(id) {
-    return axios.get(`/${acopios}/${id}/${productos}`);
+  getProductosByAcopioId (id) {
+    return axios.get(`/${acopios}/${id}/${productos}`)
   },
 
-  getProductosByPartialName(string) {
-    return axios.get(`${productos}?filter=` + encodeURI(`{"where":{"nombre":{"like":"${string}"}}}`));
+  getProductosByPartialName (string) {
+    return axios.get(`${productos}?filter=` + encodeURI(`{"where":{"nombre":{"like":"${string}"}}}`))
   },
 
-  saveProducto(producto) {
-    return axios.post(`/${productos}`, producto);
+  saveProducto (producto) {
+    return axios.post(`/${productos}`, producto)
   },
-  updateProducto(id, producto) {
-    return axios.put(`/${productos}/${id}`, producto);
+  updateProducto (id, producto) {
+    return axios.put(`/${productos}/${id}`, producto)
   },
-  deleteProducto(id) {
-    return axios.delete(`/${productos}/${id}`);
+  deleteProducto (id) {
+    return axios.delete(`/${productos}/${id}`)
   },
 
-  getContacto(id) {
+  getContacto (id) {
     return axios.get(`/${contactos}/${id}`)
   },
-  getContactos() {
+  getContactos () {
     return axios.get(`/${contactos}`)
   },
-  getContactosByAcopioId(id) {
-    return axios.get(`/${acopios}/${id}/${contactos}`);
+  getContactosByAcopioId (id) {
+    return axios.get(`/${acopios}/${id}/${contactos}`)
   },
-  saveContacto(contacto) {
-    return axios.post(`/${contactos}`, contacto);
+  saveContacto (contacto) {
+    return axios.post(`/${contactos}`, contacto)
   },
-  updateContacto(idAcopio, idContacto, contacto) {
-    return axios.put(`/${acopios}/${idAcopio}/${contactos}/${idContacto}`, contacto);
+  updateContacto (idAcopio, idContacto, contacto) {
+    return axios.put(`/${acopios}/${idAcopio}/${contactos}/${idContacto}`, contacto)
   },
-  deleteContacto(idAcopio, idContacto) {
-    return axios.delete(`/${acopios}/${idAcopio}/${contactos}/${idContacto}`);
+  deleteContacto (idAcopio, idContacto) {
+    return axios.delete(`/${acopios}/${idAcopio}/${contactos}/${idContacto}`)
   }
-};
+}
