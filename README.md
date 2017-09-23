@@ -29,24 +29,23 @@ _Sitio de información sobre centros de Acopio en respuesta al sismo en Mexico_
 
 ## Planeación
 
-v2
+### [v2](https://github.com/Skycatch/acopio-ui/milestone/2)
  - ~~Botón de auto-localización en el mapa~~.
  - UI de Lista que muestre los centros de acopio featured.
  - Usa centros de acopio más cercanos.
  - Caja de búsqueda para localizar productos. Te muestra los centros de acopio ordenados por cercanía que necesitan este producto
 
-v3
+### [v3](https://github.com/Skycatch/acopio-ui/milestone/3)
 - Herramienta para encargados de centro de acopio, para:
   - dar de alta lugares
   - agregar productos / marcar como que ya no se necesitan
 - Asume autenticación manejada por equipo de Codeando
 
 Otros:
-
 - Internacionalización
 - Auto-postulación de responsables de centro de acopio
 
-~~v1~~
+### [v1](https://github.com/Skycatch/acopio-ui/milestone/1?closed=1)
 - Sólo lectura
 - Muestra los puntos en el mapa con los centros de acopio
 - Click en el centro abre un card view con la lista de productos necesitados, y la información de contacto del centro / responsable
