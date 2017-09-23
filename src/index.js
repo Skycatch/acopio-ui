@@ -9,6 +9,7 @@ import Contacts from './components/contacts'
 
 import Supply from './screens/Supply'
 import Map from './screens/Map'
+import CenterAdmin from './screens/CenterAdmin'
 
 ReactDOM.render((
   <MuiThemeProvider>
@@ -17,6 +18,7 @@ ReactDOM.render((
         <Switch>
           <Route exact path="/" component={Supply} />
           <Route path="/map" component={Map} />
+          <Route path="/control/:id" component={CenterAdmin} />
         </Switch>
       </Layout>
     </BrowserRouter>
