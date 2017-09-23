@@ -1,0 +1,26 @@
+.contactWrapper {
+  padding: 16px;
+}
+
+.contactTitle {
+  text-align: center;
+}
+
+.contactFormContainer {
+  text-align: center;
+}
+
+.contactForm {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-bottom: 22px;
+}
+
+.contactMessage {
+  font-size: 12px;
+  width: 75%;
+  margin: auto;
+  color: red;
+  margin-bottom: 10px;
+}
