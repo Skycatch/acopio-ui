@@ -3,9 +3,7 @@ import {TextField, RaisedButton, SelectField, MenuItem} from 'material-ui'
 import './styles.css'
 import api from '../../api'
 
-const requiredMsg = {
-  optionalFields: '*Necesitamos al menos uno de los campos (Email, Facebook. Twitter, Teléfono para continuar)'
-}
+import ContactSingle from './ContactSingle'
 
 class ContactContainer extends Component {
   state = {
@@ -51,75 +49,36 @@ class ContactContainer extends Component {
     return validate
   }
 
+  resetFields () {
+    this.setState({
+      fields: {
+        name: '',
+        email: '',
+        twitter: '',
+        facebook: '',
+        telefono: '',
+        acopioId: ''
+      }
+    })
+  }
+
   onSave = (e) => {
     e.preventDefault()
     api.saveContacto(this.state.fields)
+    this.resetFields()
   }
 
   render () {
     return (
       <div className='contactWrapper'>
-        <h1 className='contactTitle'>Contactos</h1>
-        <div className='contactFormContainer'>
-          <div className='contactForm'>
-            <TextField
-              floatingLabelText='Nombre'
-              name='name'
-              onChange={this.handleChangeFields}
-            />
-            <div>
-              <TextField
-                floatingLabelText='Email'
-                name='email'
-                onChange={this.handleChangeFields}
-              />
-            </div>
-            <TextField
-              floatingLabelText='Twitter'
-              name='twitter'
-              onChange={this.handleChangeFields}
-            />
-            <TextField
-              floatingLabelText='Facebook'
-              name='facebook'
-              onChange={this.handleChangeFields}
-            />
-            <TextField
-              floatingLabelText='Teléfono'
-              name='telefono'
-              onChange={this.handleChangeFields}
-            />
-            <SelectField
-              floatingLabelText='Centro de acopio'
-              floatingLabelFixed
-              value={this.state.fields.acopioId}
-              onChange={this.handleSelectChange}
-              maxHeight={200}
-              autoWidth={true}
-              errorText={this.state.fields.acopioId ? null : '*Requerido'}
-              errorStyle={{color: 'red'}}
-             >
-              {
-                this.state.acopios.map((item, key) => (
-                  <MenuItem key={key} value={item.id} primaryText={item.nombre} />
-                ))
-              }
-            </SelectField>
-          </div>
-          <div>
-            {
-              !this.optionalFields()
-                ? <p className='contactMessage'>{requiredMsg.optionalFields}</p>
-                : null
-            }
-            <RaisedButton
-              label='guardar'
-              disabled={!this.disabledBtn()}
-              secondary
-              onClick={this.onSave}
-            />
-          </div>
-        </div>
+        <ContactSingle
+          handleChangeFields={this.handleChangeFields}
+          handleSelectChange={this.handleSelectChange}
+          state={this.state}
+          optionalFields={!this.optionalFields()}
+          disabledBtn={!this.disabledBtn()}
+          onSave={this.onSave}
+        />
       </div>
     )
   }
