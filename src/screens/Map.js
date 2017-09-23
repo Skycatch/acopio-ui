@@ -215,15 +215,13 @@ class MapScreen extends Component {
 
     return (
       <div className="App drawer-container">
+        <div className="cta">
+          <span onClick={ this.centerMapOnUserLocation.bind(this) }>Cerca de mí</span>
+          <span> | </span>
+          <span  onClick={ this.openSearch.bind(this) }>Quiero Ayudar</span>
+        </div>
         <Drawer sidebar={drawer} {...drawerProps} style={{ overflow: 'auto' }}>
-          <Header>
-            <nav className="navigation">
-              <button onClick={this.centerMapOnUserLocation.bind(this)}>Cerca de mí</button>
-            </nav>
-
-          </Header>
           <div className="map-container">
-            <button className="cta" onClick={this.openSearch.bind(this)}>Quiero Ayudar</button>
             <Map collectionCenters={this.state.collectionCenters} onSelect={this.selectCenter.bind(this)} ref={map => this.map = map} />
           </div>
         </Drawer>

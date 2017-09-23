@@ -116,14 +116,19 @@ class Supply extends Component {
       })
       return (
         <div>
-          <h1>¿Que se necesita cerca de ti?</h1>
+          <div className="cta">¿Que se necesita cerca de ti?</div>
           <ul>
             {centers}
           </ul>
         </div>
       )
     } else {
-      return (<span>cargando</span>)
+      return (
+        <div>
+          <div className="cta">¿Que se necesita cerca de ti?</div>
+          <span>cargando</span>
+        </div>
+      )
     }
   }
 }
