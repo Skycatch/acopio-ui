@@ -247,7 +247,7 @@ class App extends Component {
   }
 
   centerMapOnUserLocation() {
-    this.map.centerMapOnUserLocation();
+    this.map.centerOnUserLocation();
   }
 }
 
