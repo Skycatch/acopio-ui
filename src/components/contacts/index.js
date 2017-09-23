@@ -35,21 +35,14 @@ class ContactContainer extends Component {
     })
   }
 
-  handleChangeFields = (e) => this.handleChange(e.target.name, e.target.value)
-
-  handleSelectChange = (e, i, value) => this.handleChange('acopioId', value)
-
   optionalFields () {
     const { name, email, twitter, facebook, telefono } = this.state.fields
-    const validate = !!name || !!email || !!twitter || !!facebook || !!telefono
-    return validate
+    return !!name || !!email || !!twitter || !!facebook || !!telefono
   }
 
   disabledBtn () {
     const { acopioId } = this.state.fields
-    const _optionalFields = this.optionalFields()
-    const validate = _optionalFields && acopioId
-    return validate
+    return this.optionalFields() && this.state.fields.acopioId
   }
 
   resetFields () {
@@ -68,8 +61,12 @@ class ContactContainer extends Component {
     return (
       <div className='contactWrapper'>
         <ContactSingle
-          handleChangeFields={this.handleChangeFields}
-          handleSelectChange={this.handleSelectChange}
+          handleChangeFields={(e) =>
+            this.handleChange(e.target.name, e.target.value)
+          }
+          handleSelectChange={(e, i, value) =>
+            this.handleChange('acopioId', value)
+          }
           state={this.state}
           optionalFields={!this.optionalFields()}
           disabledBtn={!this.disabledBtn()}
