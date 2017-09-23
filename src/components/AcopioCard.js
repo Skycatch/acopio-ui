@@ -1,10 +1,6 @@
 import React, { Component } from 'react'
 import getDistance from '../utils/getDistance'
 
-const ProductItem = ({ product }) => (
-  <li key={product.id} data-date={product.fechaDeActualizacion}>{product.nombre}</li>
-)
-
 class AcopioCard extends Component {
   distanceString () {
     const { acopio, currentLocation } = this.props
@@ -31,7 +27,12 @@ class AcopioCard extends Component {
         {nombre} {this.distanceString()}
         <ul>
           {acopio.products && acopio.products.map(product => (
-            <ProductItem product={product} />
+            <li
+              key={`product-${product.id}`}
+              data-date={product.fechaDeActualizacion}
+            >
+              {product.nombre}
+            </li>
           ))}
         </ul>
       </li>
