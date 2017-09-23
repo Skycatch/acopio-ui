@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {TextField, RaisedButton, SelectField, MenuItem} from 'material-ui'
 import './styles.css'
 import api from '../../api'
@@ -54,7 +53,6 @@ class ContactContainer extends Component {
 
   onSave = (e) => {
     e.preventDefault()
-    console.log('On-SAVE', this.state.fields);
     api.saveContacto(this.state.fields)
   }
 
