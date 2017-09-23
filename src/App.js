@@ -202,13 +202,21 @@ class App extends Component {
 
         <Drawer sidebar={drawer} {...drawerProps} style={{ overflow: 'auto' }}>
           <div className="App-header">
-            <h1 className="title">Sismo MX</h1>
+            <div className="logo">
+              <img src={process.env.PUBLIC_URL + 'CMX_SISMO_ICON_04-01.png'} alt="CMX"/>
+              <h1 className="title">Sismo MX</h1>
+              <h2 className="smalltitle">| Centros de acopio</h2>
+            </div>
             <h1 className="sub-title">Información de centros de acopio</h1>
-            <button onClick={ this.centerMapOnUserLocation.bind(this) }>Cerca de mí</button>
-            <img src={process.env.PUBLIC_URL + 'CMX_SISMO_ICON_04-01.png'} alt="CMX"/>
+            <nav className="navigation">
+              <button onClick={ this.centerMapOnUserLocation.bind(this) }>Cerca de mí</button>
+            </nav>
+
           </div>
-          <div className="cta" onClick={ this.openSearch.bind(this) }>Quiero Ayudar</div>
-          <Map collectionCenters={ this.state.collectionCenters } onSelect={ this.selectCenter.bind(this) } ref={ map => this.map = map }></Map>
+          <div className="map-container">
+            <button className="cta" onClick={ this.openSearch.bind(this) }>Quiero Ayudar</button>
+            <Map collectionCenters={ this.state.collectionCenters } onSelect={ this.selectCenter.bind(this) } ref={ map => this.map = map }></Map>
+          </div>
         </Drawer>
       </div>
     );
