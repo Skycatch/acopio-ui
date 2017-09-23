@@ -4,7 +4,7 @@ import Drawer from 'rc-drawer'
 import find from 'lodash/find'
 
 import api from '../api'
-import Map from '../components/map'
+import Map from '../components/Map'
 
 import './InfoPanel.css'
 
