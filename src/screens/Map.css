@@ -1,34 +1,10 @@
-.App {
-  text-align: center;
-}
-
-.App-header {
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  background-color: #212824;
-  box-sizing: border-box;
-  color: #FFFFFF;
-  height: 14vh;
-  padding: 0 5%;
-}
-
 h1 {
   margin: 0;
   font-size: 1.5em
 }
 
-.App-header a {
-  text-decoration: none;
-  color: #fff;
-}
-
 h3 {
   margin-top: 0;
-}
-
-img {
-  height: 8vh;
 }
 
 address {
@@ -92,24 +68,6 @@ address {
   color: #ccc;
 }
 
-.logo {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: -ms-flex;
-  display: -o-flex;
-  display: flex;
-  flex: 2 0 0;
-  align-items: center;
-}
-.logo img, .logo h1{
-  /*display: inline-block;*/
-}
-.logo h1 {
-  margin-left: 20px;
-}
-.sub-title {
-  flex: 6 0 0;
-}
 .navigation{
   flex: 2 0 0;
 }

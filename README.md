@@ -1,44 +1,44 @@
 # Acopio UI
 
-Collection Center Management UI for Mexico earthquake response
-_Sitio de información sobre centros de Acopio en respuesta al sismo en Mexico_
+> Interfaz Gráfica para la adminstración de Centros de Acopio en respuesta a los sismos ocurridos en México en [Septiembre 17, 2017](https://es.wikipedia.org/wiki/Terremoto_del_sureste_de_M%C3%A9xico_de_2017) y [Septiembre 19, 2017](https://es.wikipedia.org/wiki/Terremoto_de_Puebla_de_2017). 
+> 
+> Collection Center Management UI in response to the earthquakes occurred in México in [September 17, 2017](https://en.wikipedia.org/wiki/2017_Chiapas_earthquake) and [September 19, 2017](https://en.wikipedia.org/wiki/2017_Central_Mexico_earthquake).
 
-## Features
+## Características
 
-- La UI se alimenta de la API [acopio-api](https://github.com/Skycatch/acopio-api)
-- Está diseñada principalmente para:
-  - Personas que buscan ayuda / centro de acopio a cual acudir por víveres
-  - Personas que desean ayudar en dichos centros donando productos
-  - Responsables de los centros de acopio para dar de alta lugares, y marcar necesidades
+- La interfaz gráfica se alimenta de la [acopio-api](https://github.com/Skycatch/acopio-api)
+- Ha sido diseñada principalmente para:
+  - Personas que desean acudir a centros de acopio para obtener víveres y/o productos
+  - Personas que desean acudir a centros de acopio para donar víveres y/o productos
+  - Responsables de centros de acopio que desean dar de alta lugares, publicar necesidades, etc.
 
 # Quiero ayudar
 
 ¡Gracias! Algunas ideas:
 
-  - Checa el canal de Slack
-  - [Revisa las etiquetas de primera contribución](https://github.com/Skycatch/acopio-ui/issues?q=is%3Aopen+is%3Aissue+label%3A%22buen+primer+issue%22
- )
-  - !Agrega documentación!
+- Checa el canal de Slack ([#sismomx-acopio-ui](https://codeandomexico.slack.com/messages/sismomx-acopio-ui))
+- [Revisa las etiquetas de primera contribución](https://github.com/Skycatch/acopio-ui/issues?q=is%3Aopen+is%3Aissue+label%3A%22buen+primer+issue%22)
+- !Mejora la documentación!
 
 # Contacto
 
- - Slack: [#sismomx-acopio-ui](https://codeandomexico.slack.com/messages/sismomx-acopio-ui/)
- - Preguntas generales: @pedrogk
- - Código: @chubas o @jeduan
- - Diseño @clasig o @mar
+- Slack: [#sismomx-acopio-ui](https://codeandomexico.slack.com/messages/sismomx-acopio-ui)
+  - Preguntas generales: @pedrogk
+  - Código: @chubas o @jeduan
+  - Diseño: @clasig o @mar
 
 ## Planeación
 
 ### [v2](https://github.com/Skycatch/acopio-ui/milestone/2)
- - ~~Botón de auto-localización en el mapa~~.
- - UI de Lista que muestre los centros de acopio featured.
- - Usa centros de acopio más cercanos.
- - Caja de búsqueda para localizar productos. Te muestra los centros de acopio ordenados por cercanía que necesitan este producto
+- ~~Botón de auto-localización en el mapa~~
+- UI de Lista que muestre los centros de acopio featured
+- Usa centros de acopio más cercanos
+- Caja de búsqueda para localizar productos. Te muestra los centros de acopio ordenados por cercanía que necesitan este producto
 
 ### [v3](https://github.com/Skycatch/acopio-ui/milestone/3)
 - Herramienta para encargados de centro de acopio, para:
-  - dar de alta lugares
-  - agregar productos / marcar como que ya no se necesitan
+  - Dar de alta lugares
+  - Agregar productos / marcar como que ya no se necesitan
 - Asume autenticación manejada por equipo de Codeando
 
 Otros:
@@ -51,17 +51,18 @@ Otros:
 - Click en el centro abre un card view con la lista de productos necesitados, y la información de contacto del centro / responsable
 - Solo español
 
-## Running the project
+## Como ejecutar esta aplicación localmente?
 
-This application is built with React and Mapbox GL, using the [create-react-app CLI](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#developing-components-in-isolation). The app must be mobile friendly at all times.
+Esta aplicación ha sido creada con React y Mapbox GL, utilizando [create-react-app CLI](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#developing-components-in-isolation). Esta aplicación ha sido planeada para ser _mobile friendly_ todo el tiempo.
 
-to run
+Para ejecutar esta aplicación localmente:
 
 ```bash
-npm install
-npm start
+$ npm install
+$ npm start
 ```
 
-Per Codeando's design standards, the application uses the following fonts:
-- Roboto Mono for titles (weights: 400)
-- Roboto for everything else (weights: 400, 700)
+> De acuerdo a los estándares de diseño de [Codeando México](http://www.codeandomexico.org), la aplicación debe utilizar las siguientes fuentes:
+> 
+> - [Roboto Mono](https://fonts.google.com/specimen/Roboto+Mono) para títulos (weights: 400)
+> - [Roboto](https://fonts.google.com/specimen/Roboto) para todo lo demas (weights: 400, 700)

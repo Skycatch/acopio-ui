@@ -18,7 +18,9 @@ ReactDOM.render((
         <Switch>
           <Route exact path="/" component={Supply} />
           <Route path="/map" component={Map} />
+
           <Route path="/control/:id" component={CenterAdmin} />
+          <Route path="/contacts" component={Contacts} />
         </Switch>
       </Layout>
     </BrowserRouter>
