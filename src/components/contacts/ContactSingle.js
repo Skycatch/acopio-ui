@@ -13,7 +13,8 @@ const ContactSingle = ({
   state,
   optionalFields,
   disabledBtn,
-  onSave
+  onSave,
+  emailErrorTxt
 }) => (
   <div>
     <h1 className='contactTitle'>Contactos</h1>
@@ -25,14 +26,13 @@ const ContactSingle = ({
           value={state.fields.name}
           onChange={handleChangeFields}
         />
-        <div>
-          <TextField
-            floatingLabelText='Email'
-            name='email'
-            value={state.fields.email}
-            onChange={handleChangeFields}
-          />
-        </div>
+        <TextField
+          floatingLabelText='Email'
+          name='email'
+          value={state.fields.email}
+          onChange={handleChangeFields}
+          errorText={emailErrorTxt}
+        />
         <TextField
           floatingLabelText='Twitter'
           name='twitter'
