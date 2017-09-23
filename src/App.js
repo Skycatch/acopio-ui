@@ -144,7 +144,7 @@ class App extends Component {
       });
       drawer = <div>
         <div className="searchBox">
-          Buscar centros que necesiten:
+          <p class="instrucciones">Buscar centros que necesiten:</div>
           <DebounceInput
           minLength={2}
           debounceTimeout={500}
@@ -157,16 +157,16 @@ class App extends Component {
     }
     else {
       drawer = (<div>
-        <h3>
+        <p class="instrucciones">
           {/*
             <button onClick={ this.onDock.bind(this) }>
               {this.state.docked ? 'unpin' : 'pin'}
             </button>
           */}
-          Selecciona un centro de apoyo en el mapa
+          Selecciona un centro de apoyo en el mapa para conocer sus necesidades
 
           {/* Later on there will be search option here */}
-        </h3>
+        </p>
       </div>);
     }
 
@@ -184,14 +184,14 @@ class App extends Component {
     return (
       <div className="App drawer-container">
 
-        <Drawer sidebar={drawer} {...drawerProps} style={{ overflow: 'auto' }}>
+       <Drawer sidebar={drawer} {...drawerProps} style={{ overflow: 'auto' }}>
           <div className="App-header">
-            <h1 className="title">Sismo MX</h1>
-            <h1 className="sub-title">Información de centros de acopio</h1>
-            <button onClick={ this.centerMapOnUserLocation.bind(this) }>Cerca de mí</button>
             <img src={process.env.PUBLIC_URL + 'CMX_SISMO_ICON_04-01.png'} alt="CMX"/>
+            <h1 className="title">Sismo MX</h1>
+            <h1 className="sub-title">Centros de acopio</h1>
+            <button class="locate-me" onClick={ this.centerMapOnUserLocation.bind(this) } >Cerca de mí</button>
+            
           </div>
-          <div className="cta" onClick={ this.openSearch.bind(this) }>Quiero Ayudar</div>
           <Map collectionCenters={ this.state.collectionCenters } onSelect={ this.selectCenter.bind(this) } ref={ map => this.map = map }></Map>
         </Drawer>
       </div>
