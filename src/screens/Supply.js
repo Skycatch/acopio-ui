@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import AcopioList from '../components/AcopioList'
 import api from '../api'
+import DocumentTitle from 'react-document-title'
 import normalize from '../utils/normalize'
 
 const ACOPIOS_LIMIT = 30
@@ -96,13 +97,17 @@ class Supply extends Component {
   render () {
     const { acopioIds, acopioData, isLoading, currentPosition } = this.state
     const acopios = acopioIds.map(id => acopioData[id])
-
-    return <AcopioList
-      isLoading={isLoading}
-      acopios={acopios}
-      currentPosition={currentPosition}
-      displayProducts
-    />
+    const title = process.env.REACT_APP_NAME
+    return (
+      <DocumentTitle title={title}>
+        <AcopioList
+          isLoading={isLoading}
+          acopios={acopios}
+          currentPosition={currentPosition}
+          displayProducts
+        />
+      </DocumentTitle>
+    )
   }
 }
 

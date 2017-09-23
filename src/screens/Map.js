@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import DebounceInput from 'react-debounce-input'
+import DocumentTitle from 'react-document-title'
 import Drawer from 'rc-drawer'
 import find from 'lodash/find'
 
@@ -211,19 +212,23 @@ class MapScreen extends Component {
       onOpenChange: this.onOpenChange.bind(this),
     }
 
+    const title = `Mapa · ${process.env.REACT_APP_NAME}`
+
     return (
-      <div className="App drawer-container">
-        <div className="cta">
-          <span onClick={this.centerMapOnUserLocation.bind(this)}>Cerca de mí</span>
-          <span> | </span>
-          <span onClick={this.openSearch.bind(this)}>Quiero Ayudar</span>
-        </div>
-        <Drawer sidebar={drawer} {...drawerProps} style={{ overflow: 'auto' }}>
-          <div className="map-container">
-            <Map collectionCenters={this.state.collectionCenters} onSelect={this.selectCenter.bind(this)} ref={function (map) { this.map = map }} />
+      <DocumentTitle title={title}>
+        <div className="App drawer-container">
+          <div className="cta">
+            <span onClick={ this.centerMapOnUserLocation.bind(this) }>Cerca de mí</span>
+            <span> | </span>
+            <span  onClick={ this.openSearch.bind(this) }>Quiero Ayudar</span>
           </div>
-        </Drawer>
-      </div>
+          <Drawer sidebar={drawer} {...drawerProps} style={{ overflow: 'auto' }}>
+            <div className="map-container">
+              <Map collectionCenters={this.state.collectionCenters} onSelect={this.selectCenter.bind(this)} ref={map => this.map = map} />
+            </div>
+          </Drawer>
+        </div>
+      </DocumentTitle>
     )
   }
 
