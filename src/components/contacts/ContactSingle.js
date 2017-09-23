@@ -85,4 +85,14 @@ const ContactSingle = ({
   </div>
 )
 
+ContactSingle.propTypes = {
+  handleChangeFields: PropTypes.func.isRequired,
+  handleSelectChange: PropTypes.func.isRequired,
+  state: PropTypes.object.isRequired,
+  optionalFields: PropTypes.bool.isRequired,
+  disabledBtn: PropTypes.bool.isRequired,
+  onSave: PropTypes.func.isRequired,
+  emailErrorTxt: PropTypes.string.isRequired
+}
+
 export default ContactSingle

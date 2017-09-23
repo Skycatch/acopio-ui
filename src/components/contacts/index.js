@@ -83,7 +83,7 @@ class ContactContainer extends Component {
           disabledBtn={!this.disabledBtn()}
           onSave={this.onSave}
           emailErrorTxt={
-            this.isEmail() ? null : '*Formato de email invalido'
+            this.isEmail() ? '' : '*Formato de email invalido'
           }
         />
       </div>
