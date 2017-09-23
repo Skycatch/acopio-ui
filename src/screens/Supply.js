@@ -125,6 +125,7 @@ class Supply extends Component {
     return <AcopioList
       isLoading={isLoading}
       acopios={acopios}
+      displayProducts
     />
   }
 }
