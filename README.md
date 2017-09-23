@@ -45,7 +45,7 @@ Otros:
 - Internacionalización
 - Auto-postulación de responsables de centro de acopio
 
-### [v1](https://github.com/Skycatch/acopio-ui/milestone/1?closed=1)
+### [~~v1~~](https://github.com/Skycatch/acopio-ui/milestone/1?closed=1)
 - Sólo lectura
 - Muestra los puntos en el mapa con los centros de acopio
 - Click en el centro abre un card view con la lista de productos necesitados, y la información de contacto del centro / responsable
