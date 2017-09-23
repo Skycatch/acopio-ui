@@ -4,6 +4,10 @@ import {TextField, RaisedButton, SelectField, MenuItem} from 'material-ui'
 import './styles.css'
 import api from '../../api'
 
+const requiredMsg = {
+  optionalFields: '*Necesitamos al menos uno de los campos (Email, Facebook. Twitter, Teléfono para continuar)'
+}
+
 class ContactContainer extends Component {
   state = {
     fields: {
@@ -48,13 +52,13 @@ class ContactContainer extends Component {
     return validate
   }
 
-  onSave () {
-    console.log('On-SAVE');
+  onSave = (e) => {
+    e.preventDefault()
+    console.log('On-SAVE', this.state.fields);
+    api.saveContacto(this.state.fields)
   }
 
   render () {
-    const isEmail = validate(this.state.fields.email)
-
     return (
       <div className='contactWrapper'>
         <h1 className='contactTitle'>Contactos</h1>
@@ -114,7 +118,7 @@ class ContactContainer extends Component {
               label='guardar'
               disabled={!this.disabledBtn()}
               secondary
-              onClick={this.onSave()}
+              onClick={this.onSave}
             />
           </div>
         </div>
