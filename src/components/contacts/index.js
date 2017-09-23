@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
-import './styles.css'
 import api from '../../api'
+import validateEmail from '../../utils/validateEmail'
 
 import ContactSingle from './ContactSingle'
+import './styles.css'
 
 class ContactContainer extends Component {
   constructor (props) {
@@ -40,9 +41,16 @@ class ContactContainer extends Component {
     return !!name || !!email || !!twitter || !!facebook || !!telefono
   }
 
+  isEmail () {
+    const {email} = this.state.fields
+    return !email
+      ? true
+      : validateEmail(email) ? true : false
+  }
+
   disabledBtn () {
     const { acopioId } = this.state.fields
-    return this.optionalFields() && acopioId
+    return this.optionalFields() && acopioId && this.isEmail()
   }
 
   resetFields () {
@@ -53,8 +61,11 @@ class ContactContainer extends Component {
 
   onSave = (e) => {
     e.preventDefault()
-    api.saveContacto(this.state.fields)
-    this.resetFields()
+    api.saveContacto(
+      this.state.fields
+    ).then(res =>
+      this.resetFields()
+    )
   }
 
   render () {
@@ -71,6 +82,9 @@ class ContactContainer extends Component {
           optionalFields={!this.optionalFields()}
           disabledBtn={!this.disabledBtn()}
           onSave={this.onSave}
+          emailErrorTxt={
+            this.isEmail() ? null : '*Formato de email invalido'
+          }
         />
       </div>
     )
