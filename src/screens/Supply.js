@@ -1,31 +1,27 @@
 import React, { Component } from 'react'
 
-import api from '../api';
+import api from '../api'
 
 class Supply extends Component {
-
-
-  constructor(props) {
-
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       centers: [],
       currentLocation: null,
       loadedProducts: false
     }
-    this.getNearbyCenters();
-
+    this.getNearbyCenters()
   }
 
-  getCurrentPosition(center) {
+  getCurrentPosition (center) {
     navigator.geolocation.getCurrentPosition(position => {
       center([position.coords.longitude, position.coords.latitude])
-    });
+    })
   }
 
-  getNearbyCenters(centers) {
+  getNearbyCenters (centers) {
     const parent = this
-    this.getCurrentPosition(function(position) {
+    this.getCurrentPosition(function (position) {
       position = position.reverse()
       const filter = {
         where: {
@@ -43,68 +39,64 @@ class Supply extends Component {
             currentLocation: position
           })
           parent.getProducts(data)
-
         })
-        .catch(err => err);
+        .catch(err => err)
     })
   }
 
-  getProducts(data) {
+  getProducts (data) {
     const parent = this
-    const center_ids = data.map(function(d) {
-      return { "acopioId": d.id }
+    const center_ids = data.map(function (d) {
+      return { 'acopioId': d.id }
     })
 
     const filter = {
-      where: { "or": center_ids }
+      where: { 'or': center_ids }
     }
 
     api.getProductosWhere(JSON.stringify(filter))
-    .then(({ data }) => {
+      .then(({ data }) => {
+        const products = data.reduce(function (center, d) {
+          if (!center[d['acopioId']]) {
+            center[d['acopioId']] = []
+          }
+          center[d['acopioId']].push({
+            fechaDeActualizacion: d['fechaDeActualizacion'],
+            nombre: d['nombre'],
+            id: d['id']
+          })
+          return center
+        }, {})
 
-      const products = data.reduce(function(center, d) {
-        if(!center[d["acopioId"]]) {
-          center[d["acopioId"]] = []
-        }
-        center[d["acopioId"]].push({
-          fechaDeActualizacion: d["fechaDeActualizacion"],
-          nombre: d["nombre"], id: d["id"]
+        parent.setState({
+          products: products,
+          loadedProducts: true
         })
-        return center
-
-      }, {})
-
-      parent.setState({
-        products: products,
-        loadedProducts: true
       })
-    })
-
   }
 
-  getDistance(pos1,pos2) {
-    var R = 6371e3; // metres
-    var phi1 = pos1[0] * (Math.PI/180);
-    var phi2 = pos2[0] * (Math.PI/180);
-    var delta_phi = (pos2[0]-pos1[0]) * (Math.PI/180);
-    var delta_lambda = (pos2[1]-pos1[1]) * (Math.PI/180);
+  getDistance (pos1, pos2) {
+    var R = 6371e3 // metres
+    var phi1 = pos1[0] * (Math.PI / 180)
+    var phi2 = pos2[0] * (Math.PI / 180)
+    var delta_phi = (pos2[0] - pos1[0]) * (Math.PI / 180)
+    var delta_lambda = (pos2[1] - pos1[1]) * (Math.PI / 180)
 
-    var a = Math.sin(delta_phi/2) * Math.sin(delta_phi/2) +
+    var a = Math.sin(delta_phi / 2) * Math.sin(delta_phi / 2) +
             Math.cos(phi1) * Math.cos(phi2) *
-            Math.sin(delta_lambda/2) * Math.sin(delta_lambda/2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            Math.sin(delta_lambda / 2) * Math.sin(delta_lambda / 2)
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
 
-    return Math.round((R * c) / 1000, 2);
+    return Math.round((R * c) / 1000, 2)
   }
 
-
-  render() {
+  render () {
     const parent = this
-    if(this.state.loadedProducts) {
-      const centers = this.state.centers.map(function(c) {
-        let prods = '';
-        if(parent.state.products[c.id]) {
-          prods = parent.state.products[c.id].map(function(p){
+    if (this.state.loadedProducts) {
+      const centers = this.state.centers.map(function (c) {
+        let prods = ''
+        if (parent.state.products[c.id]) {
+          prods = parent.state.products[c.id].map(function (p) {
             return <li key={p.id} data-date={p.fechaDeActualizacion}>{p.nombre}</li>
           })
 
@@ -118,11 +110,9 @@ class Supply extends Component {
               {prods}
             </ul>
           </li>
-
         } else {
           return null
         }
-
       })
       return (
         <div>
@@ -136,7 +126,6 @@ class Supply extends Component {
       return (<span>cargando</span>)
     }
   }
-
 }
 
 export default Supply

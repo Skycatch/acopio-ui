@@ -1,0 +1,16 @@
+{
+    "parser": "babel-eslint",
+    "extends": ["standard", "standard-jsx", "plugin:import/errors"],
+    "env": {
+        "es6": true,
+        "browser": true
+    },
+    "rules": {
+        "comma-dangle": 0,
+        "indent": [2, 2, {"SwitchCase": 0}],
+        "react/jsx-indent": [2, 2],
+        "react/jsx-indent-props": [2, 2],
+        "jsx-quotes": 0
+    }
+}
+
