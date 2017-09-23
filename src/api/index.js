@@ -14,6 +14,9 @@ export default {
   getAcopios() {
     return axios.get(`/${acopios}`);
   },
+  getAcopiosWhere(filter) {
+    return axios.get(`/${acopios}?filter=${filter}`);
+  },
   getAcopio(id) {
     return axios.get(`/${acopios}/${id}`);
   },
@@ -32,6 +35,9 @@ export default {
   },
   getProductos() {
     return axios.get(`/${productos}`)
+  },
+  getProductosWhere(filter) {
+    return axios.get(`/${productos}?filter=${filter}`)
   },
   getProductosByAcopioId(id) {
     return axios.get(`/${acopios}/${id}/${productos}`);
