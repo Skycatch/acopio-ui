@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Header  from './Header';
-// import Map from './map/Map';
 import api from '../api';
 
 class Supply extends Component {
