@@ -27,7 +27,7 @@ class AcopioCard extends Component {
         />
         <CardText expandable>
           <ul>
-            {products.map(product => (
+            {products.sort((a, b) => a.nombre.localeCompare(b.nombre)).map(product => (
               <li
                 key={`product-${product.id}`}
                 data-date={product.fechaDeActualizacion}
