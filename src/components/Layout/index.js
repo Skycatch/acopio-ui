@@ -1,12 +1,13 @@
 import React from 'react'
 import logoImage from './CMX_SISMO_ICON_04-01.png'
+import './Layout.css'
 
 const Layout = ({ children }) => {
   return (
-    <div className="App drawer-container">
+    <div className="App">
       <div className="App-header">
         <div className="logo">
-          <img src={logoImage} alt="CMX"/>
+          <img src={logoImage} alt="CMX" />
           <h1 className="title"><a href="/">Sismo MX</a></h1>
           <h2 className="smalltitle">| Centros de acopio</h2>
         </div>
@@ -17,7 +18,7 @@ const Layout = ({ children }) => {
 
       <div className="App-body">
         {children}
-      </div>   
+      </div>
     </div>
   )
 }
