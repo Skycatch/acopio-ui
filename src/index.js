@@ -18,7 +18,8 @@ ReactDOM.render((
         <Switch>
           <Route exact path="/" component={Supply} />
           <Route path="/map" component={Map} />
-          <Route exact path="/list" component={List} />
+          <Route path="/list" component={List} />
+          <Route path="/contacts" component={Contacts} />
         </Switch>
       </Layout>
     </BrowserRouter>

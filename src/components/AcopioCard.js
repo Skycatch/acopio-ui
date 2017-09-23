@@ -4,6 +4,14 @@ import getDistance from '../utils/getDistance'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 
 class AcopioCard extends Component {
+  mostRecetProductDate(products) {
+    let bestDate =  products.reduce((mostRecent, product) => {
+      let productDate = new Date(product.fechaDeActualizacion).valueOf()
+      return productDate > mostRecent ? productDate : mostRecent
+    },0)
+    return new Date(bestDate).toLocaleString()
+  }
+
   render () {
     const {
       acopio,
@@ -30,6 +38,7 @@ class AcopioCard extends Component {
         <CardHeader
           title={nombre}
           subtitle={kms != null && `a ${kms} kms.`}
+          children={<p>Última actualización: {this.mostRecetProductDate(products)}</p>}
           actAsExpander
           showExpandableButton
         />
