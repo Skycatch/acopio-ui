@@ -37,7 +37,7 @@ export default {
     return axios.get(`/${productos}`)
   },
   getProductosWhere(filter) {
-    return axios.get(`/${productos}?filter={"where":${filter}}`)
+    return axios.get(`/${productos}?filter=${filter}`)
   },
   getProductosByAcopioId(id) {
     return axios.get(`/${acopios}/${id}/${productos}`);

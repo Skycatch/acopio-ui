@@ -56,7 +56,9 @@ class Supply extends Component {
       return { "acopioId": d.id }
     })
 
-    const filter = {"or":center_ids}
+    const filter = {
+      where: { "or": center_ids }
+    }
 
     api.getProductosWhere(JSON.stringify(filter))
     .then(({ data }) => {
