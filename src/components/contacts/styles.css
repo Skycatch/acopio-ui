@@ -1,0 +1,18 @@
+.wrapper {
+  padding: 16px;
+}
+
+.title {
+  text-align: center;
+}
+
+.formContainer {
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-bottom: 10px;
+}
