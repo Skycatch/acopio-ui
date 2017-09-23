@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Header  from './Header';
+
 import api from '../api';
 
 class Supply extends Component {
@@ -38,8 +38,8 @@ class Supply extends Component {
       }
       api.getAcopiosWhere(JSON.stringify(filter))
         .then(({ data }) => {
-          parent.setState({ 
-            centers: data, 
+          parent.setState({
+            centers: data,
             currentLocation: position
           })
           parent.getProducts(data)
@@ -66,20 +66,20 @@ class Supply extends Component {
         if(!center[d["acopioId"]]) {
           center[d["acopioId"]] = []
         }
-        center[d["acopioId"]].push({ 
-          fechaDeActualizacion: d["fechaDeActualizacion"], 
-          nombre: d["nombre"], id: d["id"] 
+        center[d["acopioId"]].push({
+          fechaDeActualizacion: d["fechaDeActualizacion"],
+          nombre: d["nombre"], id: d["id"]
         })
         return center
 
       }, {})
 
-      parent.setState({ 
+      parent.setState({
         products: products,
-        loadedProducts: true 
+        loadedProducts: true
       })
     })
-    
+
   }
 
   getDistance(pos1,pos2) {
@@ -109,7 +109,7 @@ class Supply extends Component {
           })
 
           const distance = parent.getDistance(
-            [c.geopos.lat, c.geopos.lng], 
+            [c.geopos.lat, c.geopos.lng],
             [parent.state.currentLocation[0], parent.state.currentLocation[1]]
           )
           return <li key={c.id}>
@@ -126,7 +126,6 @@ class Supply extends Component {
       })
       return (
         <div>
-          <Header />
           <h1>¿Que se necesita cerca de ti?</h1>
           <ul>
             {centers}
@@ -134,7 +133,7 @@ class Supply extends Component {
         </div>
       )
     } else {
-      return (<div><Header />cargando</div>)
+      return (<span>cargando</span>)
     }
   }
 

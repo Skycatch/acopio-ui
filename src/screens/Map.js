@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
-import api from './api';
-import Map from './components/map/Map';
-import Drawer from 'rc-drawer';
 import DebounceInput from 'react-debounce-input';
-import find from 'lodash.find';
-import Header  from './components/Header';
+import Drawer from 'rc-drawer';
+import find from 'lodash/find';
 
-import 'rc-drawer/assets/index.css';
+import api from '../api';
+import Map from '../components/map';
+import Header from '../components/Header';
+
 import './InfoPanel.css';
-import './App.css';
+import './Map.css';
 
-class App extends Component {
+class MapScreen extends Component {
 
   constructor () {
-
     super();
     this.state = {
       collectionCenters: [],
@@ -251,4 +250,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default MapScreen;
