@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import api from './api';
 import Map from './components/map/Map';
+import {CollectionCenterRegistrationForm} from './components/CollectionCenterRegistrationForm.js'
 import Drawer from 'rc-drawer';
 import DebounceInput from 'react-debounce-input';
 import find from 'lodash.find';
@@ -8,6 +9,7 @@ import find from 'lodash.find';
 import 'rc-drawer/assets/index.css';
 import './InfoPanel.css';
 import './App.css';
+
 
 class App extends Component {
 
@@ -61,7 +63,6 @@ class App extends Component {
 
     return api.getProductosByAcopioId(center.id)
     .then((products) => {
-
       center.products = products.data;
       component.setState({
         activeCenter: center
@@ -183,7 +184,7 @@ class App extends Component {
 
     return (
       <div className="App drawer-container">
-
+        <CollectionCenterRegistrationForm/>
         <Drawer sidebar={drawer} {...drawerProps} style={{ overflow: 'auto' }}>
           <div className="App-header">
             <h1 className="title">Sismo MX</h1>
