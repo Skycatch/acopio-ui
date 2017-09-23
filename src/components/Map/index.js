@@ -66,7 +66,6 @@ class Mapbox extends Component {
     //   position: Array. [longitude, latitude]
     //   zoom: Array of Number. Default [11], will never go above max zoom.
 
-    const component = this
     const config = this.state.config
     const newConfig = Object.assign({}, config)
     newConfig.style.center = position
