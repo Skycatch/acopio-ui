@@ -103,7 +103,9 @@ class Supply extends Component {
         <AcopioList
           isLoading={isLoading}
           acopios={acopios}
-          currentPosition={currentPosition} />
+          currentPosition={currentPosition}
+          displayProducts
+        />
       </DocumentTitle>
     )
   }
