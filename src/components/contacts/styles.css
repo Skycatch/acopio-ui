@@ -1,18 +1,26 @@
-.wrapper {
+.contactWrapper {
   padding: 16px;
 }
 
-.title {
+.contactTitle {
   text-align: center;
 }
 
-.formContainer {
+.contactFormContainer {
   text-align: center;
 }
 
-.form {
+.contactForm {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding-bottom: 10px;
+  padding-bottom: 22px;
+}
+
+.contactMessage {
+  font-size: 12px;
+  width: 75%;
+  margin: auto;
+  color: red;
+  margin-bottom: 10px;
 }

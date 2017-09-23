@@ -35,27 +35,43 @@ class ContactContainer extends Component {
 
   handleSelectChange = (e, i, value) => this.handleChange('acopioId', value)
 
+  optionalFields () {
+    const { name, email, twitter, facebook, telefono } = this.state.fields
+    const validate = !!name || !!email || !!twitter || !!facebook || !!telefono
+    return validate
+  }
 
   disabledBtn () {
+    const { acopioId } = this.state.fields
+    const _optionalFields = this.optionalFields()
+    const validate = _optionalFields && acopioId
+    return validate
+  }
 
+  onSave () {
+    console.log('On-SAVE');
   }
 
   render () {
+    const isEmail = validate(this.state.fields.email)
+
     return (
-      <div className='wrapper'>
-        <h1 className='title'>Contactos</h1>
-        <div className='formContainer'>
-          <div className='form'>
+      <div className='contactWrapper'>
+        <h1 className='contactTitle'>Contactos</h1>
+        <div className='contactFormContainer'>
+          <div className='contactForm'>
             <TextField
               floatingLabelText='Nombre'
               name='name'
               onChange={this.handleChangeFields}
             />
-            <TextField
-              floatingLabelText='Email'
-              name='email'
-              onChange={this.handleChangeFields}
-            />
+            <div>
+              <TextField
+                floatingLabelText='Email'
+                name='email'
+                onChange={this.handleChangeFields}
+              />
+            </div>
             <TextField
               floatingLabelText='Twitter'
               name='twitter'
@@ -72,25 +88,35 @@ class ContactContainer extends Component {
               onChange={this.handleChangeFields}
             />
             <SelectField
-               floatingLabelText='Centro de acopio'
-               floatingLabelFixed={true}
-               value={this.state.fields.acopioId}
-               onChange={this.handleSelectChange}
-               maxHeight={200}
-               autoWidth={true}
+              floatingLabelText='Centro de acopio'
+              floatingLabelFixed={true}
+              value={this.state.fields.acopioId}
+              onChange={this.handleSelectChange}
+              maxHeight={200}
+              autoWidth={true}
+              errorText={this.state.fields.acopioId ? null : '*Requerido'}
+              errorStyle={{color: 'red'}}
              >
-               {
-                 this.state.acopios.map((item, key) => (
-                   <MenuItem key={key} value={item.id} primaryText={item.nombre} />
-                 ))
-               }
-             </SelectField>
+              {
+                this.state.acopios.map((item, key) => (
+                  <MenuItem key={key} value={item.id} primaryText={item.nombre} />
+                ))
+              }
+            </SelectField>
           </div>
-          <RaisedButton
-            label='guardar'
-            disabled={this.disabledBtn()}
-            secondary
-          />
+          <div>
+            {
+              !this.optionalFields()
+                ? <p className='contactMessage'>{requiredMsg.optionalFields}</p>
+                : null
+            }
+            <RaisedButton
+              label='guardar'
+              disabled={!this.disabledBtn()}
+              secondary
+              onClick={this.onSave()}
+            />
+          </div>
         </div>
       </div>
     )
