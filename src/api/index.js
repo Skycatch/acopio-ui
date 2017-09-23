@@ -1,9 +1,12 @@
 import axios from 'axios';
 // import http from 'axios/lib/adapters/http.js'; // Use for testing only...
 
-axios.defaults.baseURL =
-  // 'http://ec2-54-242-119-209.compute-1.amazonaws.com/api';
-  'https://hapi.balterbyte.com/api';
+if (process.env.NODE_ENV === 'production') {
+  axios.defaults.baseURL = 'http://ec2-54-242-119-209.compute-1.amazonaws.com/api'
+} else {
+  axios.defaults.baseURL = 'https://hapi.balterbyte.com/api'
+}
+;
 // axios.defaults.adapter = http; // Use for testing only...
 
 const acopios = 'acopios';
