@@ -4,7 +4,7 @@ import './Layout.css'
 
 const Layout = ({ children }) => {
   return (
-    <div className="App">
+    <div>
       <div className="App-header">
         <div className="logo">
           <img src={logoImage} alt="CMX" />
