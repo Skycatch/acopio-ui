@@ -1,17 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
 import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import Layout from './components/Layout';
 
-import Contacts from './components/contacts'
+import Supply from './screens/Supply';
+import Map from './screens/Map';
 
-// ReactDOM.render(<App />, document.getElementById('root'));
-ReactDOM.render(
-  <MuiThemeProvider>
-    <Contacts />
-  </MuiThemeProvider>
-  , document.getElementById('root')
-);
-registerServiceWorker();
+ReactDOM.render((
+  <BrowserRouter>
+    <Layout>
+      <Switch>
+        <Route exact path="/" component={Supply}/>
+        <Route path="/map" component={Map}/>
+      </Switch>
+    </Layout>
+  </BrowserRouter>
+), document.getElementById('root'));

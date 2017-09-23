@@ -18,13 +18,13 @@ class Mapbox extends Component {
           "keyboard": false,
           "height": "88vh",
           "layers": [],
-          "maxZoom": 24,
+          "maxZoom": 20,
           "minZoom": 12,
           "sources": {},
           "style": "mapbox://styles/mapbox/streets-v10",
           "version": 8,
           "width": "100vw",
-          "zoom": 16
+          "zoom": [11]
         }
       },
       collectionCenters: []
@@ -46,20 +46,38 @@ class Mapbox extends Component {
   }
 
   markerClick(collectionCenter) {
-
     const component = this;
 
     component.props.onSelect(collectionCenter);
+    const markerLocation = [collectionCenter.geopos.lng, collectionCenter.geopos.lat];
+    this.centerOnLocation(markerLocation);
   }
 
-  centerMapOnUserLocation() {
+  centerOnUserLocation(zoom) {
+    // Centers the map on the user location.
+    // The user location is obtained using the navigator.geolocation api.
+    // Params:
+    //   zoom: Array of Number.
 
     navigator.geolocation.getCurrentPosition(position => {
-      const newConfig = Object.assign({}, this.state.config);
-      newConfig.style.center = [position.coords.longitude, position.coords.latitude];
-      this.setState({
-        config: newConfig
-      });
+      this.centerOnLocation([position.coords.longitude, position.coords.latitude], zoom);
+    });
+  }
+
+  centerOnLocation(position, zoom) {
+    // Centers the map at the specified position, optionally set zoom too.
+    // Params:
+    //   position: Array. [longitude, latitude]
+    //   zoom: Array of Number. Default [11], will never go above max zoom.
+
+    const component = this;
+    const config = this.state.config;
+    const newConfig = Object.assign({}, config);
+    newConfig.style.center = position;
+    newConfig.style.zoom = (zoom === undefined) && zoom !== config.style.zoom[0] ?
+                           [11] : [Math.floor(zoom, config.style.maxZoom)];
+    this.setState({
+      config: newConfig
     });
   }
 
@@ -81,6 +99,7 @@ class Mapbox extends Component {
       <Map
       style={style.style}
       center={style.center}
+      zoom={style.zoom}
       containerStyle={{
         height: style.height,
         width: style.width

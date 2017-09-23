@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
-import api from './api';
-import Map from './components/map/Map';
-import Drawer from 'rc-drawer';
 import DebounceInput from 'react-debounce-input';
-import find from 'lodash.find';
+import Drawer from 'rc-drawer';
+import find from 'lodash/find';
 
-import 'rc-drawer/assets/index.css';
+import api from '../api';
+import Map from '../components/map';
+import Header from '../components/Header';
+
 import './InfoPanel.css';
-import './App.css';
+import './Map.css';
 
-class App extends Component {
+class MapScreen extends Component {
 
   constructor () {
-
     super();
     this.state = {
       collectionCenters: [],
@@ -69,10 +69,21 @@ class App extends Component {
     .then((products) => {
 
       center.products = products.data;
-      component.setState({
+      return api.getContactosByAcopioId(center.id);
+    })
+    .then((contacts) => {
+
+      // Filter out contacts without data
+      center.contacts = contacts.data.filter((contact) => {
+        return find(
+          ['nombre', 'telefono', 'email', 'twitter', 'facebook'],
+          (field) => { return contact[field]; }
+        );
+      });
+      return component.setState({
         activeCenter: center
       });
-    })
+    });
   }
 
   openSearch () {
@@ -125,6 +136,7 @@ class App extends Component {
 
     let drawer;
     let products;
+    let contacts;
 
     if (this.state.activeCenter) {
       const collectionCenterData = this.state.activeCenter;
@@ -134,6 +146,22 @@ class App extends Component {
           { prod.nombre }
         </div>
       });
+      contacts = collectionCenterData.contacts && <div>
+        <hr />
+        <h3> Información de contacto </h3>
+        <div className="contacts">
+          { collectionCenterData.contacts.map((contact) => {
+            return <div>
+              { contact.nombre && <div> Nombre: { contact.nombre } </div> }
+              { contact.telefono && <div> Teléfono: { contact.telefono } </div> }
+              { contact.email && <div> Email: { contact.email } </div> }
+              { contact.twitter && <div> Twitter: { contact.twitter } </div> }
+              { contact.facebook && <div> Facebook: { contact.facebook } </div> }
+            </div>
+            })
+          }
+        </div>
+      </div>;
       drawer = (<div>
         <div className="pad"></div>
         { this.state.productsNeeded && <div className="returnToSearch" onClick={this.returnToSearch.bind(this)}>
@@ -146,6 +174,8 @@ class App extends Component {
         </address>
 
         {products}
+
+        {contacts}
         <div className="close" onClick={this.closeDrawer.bind(this)}><span>Close</span></div>
         <div className="pad"></div>
       </div>);
@@ -199,24 +229,25 @@ class App extends Component {
 
     return (
       <div className="App drawer-container">
-
         <Drawer sidebar={drawer} {...drawerProps} style={{ overflow: 'auto' }}>
-          <div className="App-header">
-            <h1 className="title">Sismo MX</h1>
-            <h1 className="sub-title">Información de centros de acopio</h1>
-            <button onClick={ this.centerMapOnUserLocation.bind(this) }>Cerca de mí</button>
-            <img src={process.env.PUBLIC_URL + 'CMX_SISMO_ICON_04-01.png'} alt="CMX"/>
+          <Header>
+            <nav className="navigation">
+              <button onClick={ this.centerMapOnUserLocation.bind(this) }>Cerca de mí</button>
+            </nav>
+
+          </Header>
+          <div className="map-container">
+            <button className="cta" onClick={ this.openSearch.bind(this) }>Quiero Ayudar</button>
+            <Map collectionCenters={ this.state.collectionCenters } onSelect={ this.selectCenter.bind(this) } ref={ map => this.map = map }></Map>
           </div>
-          <div className="cta" onClick={ this.openSearch.bind(this) }>Quiero Ayudar</div>
-          <Map collectionCenters={ this.state.collectionCenters } onSelect={ this.selectCenter.bind(this) } ref={ map => this.map = map }></Map>
         </Drawer>
       </div>
     );
   }
 
   centerMapOnUserLocation() {
-    this.map.centerMapOnUserLocation();
+    this.map.centerOnUserLocation();
   }
 }
 
-export default App;
+export default MapScreen;
