@@ -91,7 +91,7 @@ class ContactContainer extends Component {
             />
             <SelectField
               floatingLabelText='Centro de acopio'
-              floatingLabelFixed={true}
+              floatingLabelFixed
               value={this.state.fields.acopioId}
               onChange={this.handleSelectChange}
               maxHeight={200}
