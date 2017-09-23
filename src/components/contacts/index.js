@@ -42,7 +42,7 @@ class ContactContainer extends Component {
 
   disabledBtn () {
     const { acopioId } = this.state.fields
-    return this.optionalFields() && this.state.fields.acopioId
+    return this.optionalFields() && acopioId
   }
 
   resetFields () {

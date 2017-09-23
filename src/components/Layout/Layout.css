@@ -1,0 +1,83 @@
+.App-header {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  background-color: #212824;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  height: 14vh;
+  padding: 0 5%;
+}
+
+.App-header a {
+  text-decoration: none;
+  color: #fff;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.5em
+}
+
+h3 {
+  margin-top: 0;
+}
+
+.logo {
+  display: flex;
+  flex: 2 0 0;
+  align-items: center;
+}
+
+.logo img {
+  max-height: 100%;
+  height: 8vh;
+}
+
+.logo h1 {
+  margin-left: 20px;
+}
+
+.sub-title {
+  flex: 6 0 0;
+}
+
+@media (max-width: 375px) {
+  .App-header {
+    height: 12vh;
+    padding: 1em;
+  }
+
+  .sub-title {
+    display: none;
+  }
+  .navigation {
+    display: none;
+  }
+  .logo .title{
+    margin-left: 10px;
+  }
+  .map-container{
+    position: relative;
+  }
+  button.cta {
+    position: absolute;
+    top: 3%;
+    left: 3%;
+    z-index: 10000;
+    border-radius: 50px;
+    font-size: 1em;
+    font-weight: 700;
+    width: 60%;
+    height: 10vh;
+  }
+}
+.smalltitle{
+  margin-left: 8px;
+  font-size: 13px;
+}
+@media(min-width: 375px) {
+  .smalltitle{
+    display: none;
+  }
+}
