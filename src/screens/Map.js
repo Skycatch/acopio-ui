@@ -5,10 +5,8 @@ import find from 'lodash/find'
 
 import api from '../api'
 import Map from '../components/Map'
-import Header from '../components/Header'
 
 import './InfoPanel.css'
-import './Map.css'
 
 class MapScreen extends Component {
   constructor () {

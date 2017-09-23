@@ -1,41 +1,43 @@
 import React, { Component } from 'react'
 import getDistance from '../utils/getDistance'
 
+import { Card, CardHeader, CardText } from 'material-ui/Card'
+
 class AcopioCard extends Component {
-  distanceString () {
-    const { acopio, currentLocation } = this.props
-    if (!currentLocation) {
-      return ''
-    }
-
-    const { geopos } = acopio
-    const distance = getDistance([geopos.lat, geopos.lng], currentLocation)
-    return `a ${distance} km`
-  }
-
   render () {
     const {
       acopio,
+      currentPosition
     } = this.props
 
     const {
       nombre,
+      products
     } = acopio
 
+    const kms = getDistance(currentPosition, acopio.geopos)
+
     return (
-      <li>
-        {nombre} {this.distanceString()}
-        <ul>
-          {acopio.products && acopio.products.map(product => (
-            <li
-              key={`product-${product.id}`}
-              data-date={product.fechaDeActualizacion}
-            >
-              {product.nombre}
-            </li>
-          ))}
-        </ul>
-      </li>
+      <Card style={{marginBottom: '0.5rem'}}>
+        <CardHeader
+          title={nombre}
+          subtitle={kms != null && `a ${kms} kms.`}
+          actAsExpander
+          showExpandableButton
+        />
+        <CardText expandable>
+          <ul>
+            {products.map(product => (
+              <li
+                key={`product-${product.id}`}
+                data-date={product.fechaDeActualizacion}
+              >
+                {product.nombre}
+              </li>
+            ))}
+          </ul>
+        </CardText>
+      </Card>
     )
   }
 }

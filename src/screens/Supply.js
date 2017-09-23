@@ -8,7 +8,7 @@ const ACOPIOS_LIMIT = 30
 
 const getLocation = () => new Promise((resolve, reject) => {
   navigator.geolocation.getCurrentPosition(position => {
-    resolve([position.coords.latitude, position.coords.longitude])
+    resolve({lat: position.coords.latitude, lng: position.coords.longitude})
   }, reject)
 })
 
@@ -40,7 +40,7 @@ class Supply extends Component {
     this.state = {
       acopioIds: [],
       acopioData: {},
-      currentLocation: null,
+      currentPosition: null,
       isLoading: true
     }
 
@@ -94,12 +94,13 @@ class Supply extends Component {
   }
 
   render () {
-    const { acopioIds, acopioData, isLoading } = this.state
+    const { acopioIds, acopioData, isLoading, currentPosition } = this.state
     const acopios = acopioIds.map(id => acopioData[id])
 
     return <AcopioList
       isLoading={isLoading}
       acopios={acopios}
+      currentPosition={currentPosition}
     />
   }
 }
