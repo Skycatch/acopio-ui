@@ -15,7 +15,6 @@
     "react-debounce-input": "^3.0.1",
     "react-dom": "^15.6.1",
     "react-mapbox-gl": "^2.5.0",
-    "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.13",
     "styled-components": "^2.1.2"
   },
