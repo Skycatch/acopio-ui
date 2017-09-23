@@ -23,13 +23,10 @@ class List extends Component {
   }
 
   loadAcopios () {
+    this.setState({
+      isLoading: true
+    })
     getAcopios()
-      .then(() => {
-        this.setState({
-          isLoading: true
-        })
-        return getAcopios()
-      })
       .then(response => {
         const acopios = response.data
           .map(acopio => ({
