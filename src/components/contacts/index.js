@@ -54,7 +54,7 @@ class ContactContainer extends Component {
 
   onSave = (e) => {
     e.preventDefault()
-    console.log('On-SAVE', this.state.fields);
+    console.log('On-SAVE', this.state.fields)
     api.saveContacto(this.state.fields)
   }
 
@@ -100,7 +100,7 @@ class ContactContainer extends Component {
               autoWidth={true}
               errorText={this.state.fields.acopioId ? null : '*Requerido'}
               errorStyle={{color: 'red'}}
-             >
+            >
               {
                 this.state.acopios.map((item, key) => (
                   <MenuItem key={key} value={item.id} primaryText={item.nombre} />
