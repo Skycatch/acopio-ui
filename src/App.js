@@ -69,10 +69,15 @@ class App extends Component {
     .then((products) => {
 
       center.products = products.data;
-      component.setState({
+      return api.getContactosByAcopioId(center.id);
+    })
+    .then((contacts) => {
+
+      center.contacts = contacts.data;
+      return component.setState({
         activeCenter: center
       });
-    })
+    });
   }
 
   openSearch () {
@@ -125,6 +130,7 @@ class App extends Component {
 
     let drawer;
     let products;
+    let contacts;
 
     if (this.state.activeCenter) {
       const collectionCenterData = this.state.activeCenter;
@@ -134,6 +140,22 @@ class App extends Component {
           { prod.nombre }
         </div>
       });
+      contacts = collectionCenterData.contacts && <div>
+        <hr />
+        <h3> Información de contacto </h3>
+        <div className="contacts">
+          { collectionCenterData.contacts.map((contact) => {
+            return <div>
+              { contact.nombre && <div> Nombre: { contact.nombre } </div> }
+              { contact.telefono && <div> Teléfono: { contact.telefono } </div> }
+              { contact.email && <div> Email: { contact.email } </div> }
+              { contact.twitter && <div> Twitter: { contact.twitter } </div> }
+              { contact.facebook && <div> Facebook: { contact.facebook } </div> }
+            </div>
+            })
+          }
+        </div>
+      </div>;
       drawer = (<div>
         <div className="pad"></div>
         { this.state.productsNeeded && <div className="returnToSearch" onClick={this.returnToSearch.bind(this)}>
@@ -146,6 +168,8 @@ class App extends Component {
         </address>
 
         {products}
+
+        {contacts}
         <div className="close" onClick={this.closeDrawer.bind(this)}><span>Close</span></div>
         <div className="pad"></div>
       </div>);
