@@ -10,8 +10,6 @@ import {
   RaisedButton,
 } from 'material-ui'
 
-import { browserHistory } from 'react-router-dom'
-
 import './CenterAdmin.css'
 
 import api from '../api'
@@ -35,14 +33,16 @@ class CenterAdmin extends Component {
   }
 
   componentDidMount () {
-    console.log({ browserHistory })
+    this.initComp()
+  }
+  initComp = () => {
     const { id } = this.props.match.params
     const product = api.getProductosByAcopioId(id).then(({data: productList}) => {
       this.setState(() => ({ productList, filteredProducts: productList }))
     })
-
+    this.setState(() => ({ loading: true }))
     product.then(() => {
-      this.setState(() => ({ loading: false }))
+      this.setState(() => ({ loading: false, filter: '', newProduct: '' }))
     })
   }
     onChangeFilter = (evt, filter) => {
@@ -68,7 +68,7 @@ class CenterAdmin extends Component {
         acopioId: id,
         nombre: newProduct
       }).then((res) => {
-        window.location.reload()
+        this.initComp()
       })
     }
     onDelete = () => {
@@ -79,7 +79,7 @@ class CenterAdmin extends Component {
 
       const fns = toDelete.map(id => () => api.deleteProducto(id))
       serial(fns).then((res) => {
-        window.location.reload()
+        this.initComp()
       })
     }
     render () {
