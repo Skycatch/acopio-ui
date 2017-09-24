@@ -6,13 +6,6 @@ import {AutoComplete} from 'material-ui'
 import AcopioList from '../components/AcopioList'
 import api from '../api'
 
-/**
- * Maximum number of results.
- * @type {Number}
- * @constant
- */
-const MAX_RESULTS = 3
-
 class CenterSearch extends Component {
   constructor (props) {
     super(props)
@@ -31,7 +24,6 @@ class CenterSearch extends Component {
 
   handleUpdateInput = (searchText) => {
     if (searchText) {
-      const component = this
       api.getProductosByPartialName(searchText)
         .then(result => {
           let products = result.data || []
@@ -39,7 +31,7 @@ class CenterSearch extends Component {
           products = _.uniqBy(products, 'nombre')
           // Sort products by name ascending
           products = _.orderBy(products, ['nombre'])
-          component.setState({
+          this.setState({
             products
           })
         })
@@ -58,8 +50,8 @@ class CenterSearch extends Component {
       const productNameRegex = new RegExp(productName, 'i')
       const {acopios} = this.state
       const filteredAcopios = acopios.filter(acopio => {
-        if (acopio.products && acopio.products.length) {
-          const product = acopio.products.find(product => product.nombre.match(productNameRegex))
+        if (acopio.productos && acopio.productos.length) {
+          const product = acopio.productos.find(product => product.nombre.match(productNameRegex))
           return !!product
         }
         return false
@@ -81,15 +73,15 @@ class CenterSearch extends Component {
           geopos: acopio.geopos,
           id: acopio.id,
           nombre: acopio.nombre,
-          products: []
-        })).slice(0, MAX_RESULTS)
+          productos: []
+        })).slice(0, process.env.REACT_APP_MAX_RESULTS)
 
         let acopiosPromises = []
         acopios.forEach(acopio => {
           acopiosPromises.push(new Promise((resolve, reject) => {
             api.getProductosByAcopioId(acopio.id)
               .then(response => {
-                acopio.products = response.data
+                acopio.productos = response.data
                 resolve(acopio)
               })
               .catch(reject)
