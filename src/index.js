@@ -14,6 +14,7 @@ import Supply from './screens/Supply'
 import Map from './screens/Map'
 import List from './screens/List'
 import CenterAdmin from './screens/CenterAdmin'
+import CenterSearch from './screens/CenterSearch'
 
 ReactDOM.render((
   <MuiThemeProvider>
@@ -27,6 +28,7 @@ ReactDOM.render((
                 <Route path="/map" component={Map} />
                 <Route path="/list" component={List} />
                 <Route path="/control/:id" component={CenterAdmin} />
+                <Route path="/centers/search" component={CenterSearch} />
                 <Route path="/contacts" component={Contacts} />
               </Switch>
             </Layout>
