@@ -4,6 +4,7 @@
 a{
 	color: #33C3F0;
 }
+
 .container {
 	width: 80%;
 	margin: 0 auto;
@@ -12,6 +13,7 @@ a{
 .tac{
 	text-align: center;
 }
+
 .u-fl{
 	float: left;
 }
