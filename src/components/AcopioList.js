@@ -2,15 +2,18 @@ import React from 'react'
 import AcopioCard from './AcopioCard'
 import withLoading from './withLoading'
 
-const AcopioList = ({ acopios, currentPosition }) => (
-  <div style={{padding: '0.5rem'}}>
-    {acopios.map(acopio => (
-      <AcopioCard
-        key={`acopio-${acopio.id}`}
-        acopio={acopio}
-        currentPosition={currentPosition}
-      />
-    ))}
+const AcopioList = ({ acopios, skipProducts }) => (
+  <div>
+    {acopios.length === 0
+      ? 'No encontramos Centros de Acopio cerca de ti.'
+      : acopios.map(acopio => (
+        <AcopioCard
+          key={`acopio-${acopio.id}`}
+          acopio={acopio}
+          skipProducts={skipProducts}
+        />
+      ))
+    }
   </div>
 )
 

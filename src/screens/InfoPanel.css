@@ -2,7 +2,7 @@
   // position: relative;
   // height: 400px;
   // border: 3px solid red;
-  display: flex;
+//  display: flex;
   flex-direction: column;
   justify-content: stretch;
   overflow: hidden;
@@ -18,9 +18,9 @@
 }
 .rc-drawer {
 
-  display: flex;
+//  display: flex;
   // border: 3px solid blue;
-  height: 100vh;
+//  height: 100vh;
   position: relative !important;
   overflow-y: hidden !important;
 
@@ -47,5 +47,5 @@
 }
 
 .rc-drawer-sidebar {
-  max-height: 50vh;
+//  max-height: 50vh;
 }

@@ -1,24 +1,26 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
-import {TextField, RaisedButton, SelectField, MenuItem} from 'material-ui'
-import './styles.css'
 import api from '../../api'
+import DocumentTitle from 'react-document-title'
+import validateEmail from '../../utils/validateEmail'
 
-const requiredMsg = {
-  optionalFields: '*Necesitamos al menos uno de los campos (Email, Facebook. Twitter, Teléfono para continuar)'
-}
+import ContactSingle from './ContactSingle'
+import './styles.css'
 
 class ContactContainer extends Component {
-  state = {
-    fields: {
-      name: '',
-      email: '',
-      twitter: '',
-      facebook: '',
-      telefono: '',
-      acopioId: ''
-    },
-    acopios: []
+  constructor (props) {
+    super(props)
+    this.state = {
+      fields: {
+        name: '',
+        email: '',
+        twitter: '',
+        facebook: '',
+        telefono: '',
+        acopioId: ''
+      },
+      acopios: []
+    }
+    this.fieldsBaseState = this.state.fields
   }
 
   componentWillMount () {
@@ -35,94 +37,60 @@ class ContactContainer extends Component {
     })
   }
 
-  handleChangeFields = (e) => this.handleChange(e.target.name, e.target.value)
-
-  handleSelectChange = (e, i, value) => this.handleChange('acopioId', value)
-
   optionalFields () {
     const { name, email, twitter, facebook, telefono } = this.state.fields
-    const validate = !!name || !!email || !!twitter || !!facebook || !!telefono
-    return validate
+    return !!name || !!email || !!twitter || !!facebook || !!telefono
+  }
+
+  isEmail () {
+    const {email} = this.state.fields
+    return !email
+      ? true
+      : validateEmail(email) ? true : false
   }
 
   disabledBtn () {
     const { acopioId } = this.state.fields
-    const _optionalFields = this.optionalFields()
-    const validate = _optionalFields && acopioId
-    return validate
+    return this.optionalFields() && acopioId && this.isEmail()
+  }
+
+  resetFields () {
+    this.setState({
+      fields: this.fieldsBaseState
+    })
   }
 
   onSave = (e) => {
     e.preventDefault()
-    console.log('On-SAVE', this.state.fields)
-    api.saveContacto(this.state.fields)
+    api.saveContacto(
+      this.state.fields
+    ).then(res =>
+      this.resetFields()
+    )
   }
 
   render () {
+    const title = `Contactos · ${process.env.REACT_APP_NAME}`
     return (
-      <div className='contactWrapper'>
-        <h1 className='contactTitle'>Contactos</h1>
-        <div className='contactFormContainer'>
-          <div className='contactForm'>
-            <TextField
-              floatingLabelText='Nombre'
-              name='name'
-              onChange={this.handleChangeFields}
-            />
-            <div>
-              <TextField
-                floatingLabelText='Email'
-                name='email'
-                onChange={this.handleChangeFields}
-              />
-            </div>
-            <TextField
-              floatingLabelText='Twitter'
-              name='twitter'
-              onChange={this.handleChangeFields}
-            />
-            <TextField
-              floatingLabelText='Facebook'
-              name='facebook'
-              onChange={this.handleChangeFields}
-            />
-            <TextField
-              floatingLabelText='Teléfono'
-              name='telefono'
-              onChange={this.handleChangeFields}
-            />
-            <SelectField
-              floatingLabelText='Centro de acopio'
-              floatingLabelFixed={true}
-              value={this.state.fields.acopioId}
-              onChange={this.handleSelectChange}
-              maxHeight={200}
-              autoWidth={true}
-              errorText={this.state.fields.acopioId ? null : '*Requerido'}
-              errorStyle={{color: 'red'}}
-            >
-              {
-                this.state.acopios.map((item, key) => (
-                  <MenuItem key={key} value={item.id} primaryText={item.nombre} />
-                ))
-              }
-            </SelectField>
-          </div>
-          <div>
-            {
-              !this.optionalFields()
-                ? <p className='contactMessage'>{requiredMsg.optionalFields}</p>
-                : null
+      <DocumentTitle title={title}>
+        <div className='contactWrapper'>
+          <ContactSingle
+            handleChangeFields={(e) =>
+              this.handleChange(e.target.name, e.target.value)
             }
-            <RaisedButton
-              label='guardar'
-              disabled={!this.disabledBtn()}
-              secondary
-              onClick={this.onSave}
-            />
-          </div>
+            handleSelectChange={(e, i, value) =>
+              this.handleChange('acopioId', value)
+            }
+            state={this.state}
+            optionalFields={!this.optionalFields()}
+            disabledBtn={!this.disabledBtn()}
+            onSave={this.onSave}
+            emailErrorTxt={
+              this.isEmail() ? '' : '*Formato de email invalido'
+            }
+          />
         </div>
-      </div>
+      </DocumentTitle>
     )
   }
 }

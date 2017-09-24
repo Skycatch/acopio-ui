@@ -1,0 +1,17 @@
+.admin-nav ul {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+.admin-nav li{
+	list-style: none;
+}
+.AdminCenters {
+	margin-bottom: 5%;
+}
+.rowhover:hover {
+	background: rgba(204, 204, 204, .2);
+}
+.edit-btn{
+	margin-right: 10px;
+}
