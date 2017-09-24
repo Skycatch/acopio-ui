@@ -4,16 +4,15 @@ import AcopioList from '../components/AcopioList'
 import api from '../api'
 import DocumentTitle from 'react-document-title'
 import normalize from '../utils/normalize'
+import withCurrentPosition from '../components/withCurrentPosition'
 
 const ACOPIOS_LIMIT = 30
 
-const getLocation = () => new Promise((resolve, reject) => {
-  navigator.geolocation.getCurrentPosition(position => {
-    resolve({lat: position.coords.latitude, lng: position.coords.longitude})
-  }, reject)
-})
-
 const getNearbyAcopios = (position) => {
+  if (!position) {
+    return Promise.reject(new Error('no location'))
+  }
+
   const filter = {
     where: {
       geopos: {
@@ -35,53 +34,68 @@ const getProductosForAcopioIds = (acopioIds) => {
   return api.getProductosWhere(JSON.stringify(filter))
 }
 
+const getNormalizedAcopios = (response) => {
+  if (!(response && response.data && response.data.length)) {
+    return Promise.resolve({
+      acopioIds: [],
+      acopioData: {}
+    })
+  }
+
+  const acopios = response.data
+    .map(acopio => ({
+      id: acopio.id,
+      direccion: acopio.direccion,
+      geopos: acopio.geopos,
+      nombre: acopio.nombre,
+      products: [],
+    }))
+
+  const acopioIds = acopios.map(acopio => acopio.id)
+  const acopioData = normalize(acopios)
+
+  return getProductosForAcopioIds(acopioIds)
+    .then(response => {
+      response.data.forEach((product) => {
+        const acopio = acopioData[product.acopioId]
+        acopio.products.push(product)
+      }, {})
+
+      return {
+        acopioIds,
+        acopioData,
+      }
+    })
+}
+
 class Supply extends Component {
   constructor (props) {
     super(props)
     this.state = {
       acopioIds: [],
       acopioData: {},
-      currentPosition: null,
-      isLoading: true
     }
 
-    // eslint-disable-next-line
-    const featuredAcopioIds = []
-
-    this.tryToLoadNearbyCenters()
+    this.tryToLoadNearbyCenters(props.currentPosition)
   }
 
-  tryToLoadNearbyCenters () {
-    getLocation()
-      .then(currentPosition => {
-        this.setState({ currentPosition })
-        return getNearbyAcopios(currentPosition)
-      })
-      .then(response => {
-        const acopios = response.data
-          .map(acopio => ({
-            id: acopio.id,
-            direccion: acopio.direccion,
-            geopos: acopio.geopos,
-            nombre: acopio.nombre,
-            products: [],
-          }))
-        const acopioIds = acopios.map(acopio => acopio.id)
-        const acopioData = normalize(acopios)
-        this.setState({
-          acopioData,
-          acopioIds
-        })
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.currentPosition !== this.props.currentPosition) {
+      this.tryToLoadNearbyCenters(nextProps.currentPosition)
+    }
+  }
 
-        return getProductosForAcopioIds(acopioIds)
-      })
-      .then(response => {
-        const { acopioData } = this.state
-        response.data.forEach((product) => {
-          const acopio = acopioData[product.acopioId]
-          acopio.products.push(product)
-        }, {})
+  tryToLoadNearbyCenters (currentPosition) {
+    if (!currentPosition) {
+      return
+    }
+
+    this.setState({ isLoading: true })
+    return getNearbyAcopios(currentPosition)
+      .then(getNormalizedAcopios)
+      .then(({acopioIds, acopioData}) => {
         this.setState({
+          acopioIds,
           acopioData,
           isLoading: false
         })
@@ -89,13 +103,24 @@ class Supply extends Component {
       .catch(err => {
         this.setState({
           hasError: true,
+          isLoading: false,
         })
         console.error(err)
       })
   }
 
   render () {
-    const { acopioIds, acopioData, isLoading, currentPosition } = this.state
+    const { acopioIds, acopioData, isLoading } = this.state
+    const { positionUnknown, positionUnavailable } = this.props
+
+    if (positionUnknown) {
+      return <span>Permite tu ubicación</span>
+    }
+
+    if (positionUnavailable) {
+      return <span>Ubicación no disponible</span>
+    }
+
     const acopios = acopioIds.map(id => acopioData[id])
     const title = process.env.REACT_APP_NAME
     return (
@@ -103,7 +128,6 @@ class Supply extends Component {
         <AcopioList
           isLoading={isLoading}
           acopios={acopios}
-          currentPosition={currentPosition}
           displayProducts
         />
       </DocumentTitle>
@@ -111,4 +135,4 @@ class Supply extends Component {
   }
 }
 
-export default Supply
+export default withCurrentPosition(Supply)

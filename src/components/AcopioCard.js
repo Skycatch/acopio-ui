@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import getDistance from '../utils/getDistance'
+import withCurrentPosition from '../components/withCurrentPosition'
 
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 
@@ -77,4 +78,4 @@ class AcopioCard extends Component {
   }
 }
 
-export default AcopioCard
+export default withCurrentPosition(AcopioCard)
