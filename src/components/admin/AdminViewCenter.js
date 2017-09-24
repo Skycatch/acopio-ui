@@ -15,6 +15,8 @@ import api from '../../api'
 import './admin.css'
 import './ViewCenter.css'
 
+const googleMapsApiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY 
+
 const serial = fn =>
   fn.reduce((promise, fn) =>
     promise.then(result => fn().then(Array.prototype.concat.bind(result))),
@@ -93,6 +95,22 @@ class AdminViewCenter extends Component {
     serial(fns).then((res) => {
       this.initComp()
     })
+  }
+
+  map(center) {
+    if (!center || !center.geopos) { return null}
+    const latLng = `${center.geopos.lat}%2C${center.geopos.lng}`
+
+    const gmapsLink =`https://www.google.com/maps/search/?api=1&query=${latLng}`
+
+    const imgSrc = 'https://maps.googleapis.com/maps/api/staticmap'+
+      `?center=${latLng}`+
+      `&markers=color:red%7C${latLng}`+
+      '&zoom=15&size=400x350'+
+      '&maptype=roadmap'+
+      `&key=${googleMapsApiKey}`
+      
+    return <a href={gmapsLink} target="_blank"><img src={imgSrc} alt="mapa del centro de acopio" style={{maxWidth: 100+'%'}}/></a>
   }
 
   render () {
