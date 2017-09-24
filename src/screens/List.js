@@ -58,6 +58,7 @@ class List extends Component {
       <AcopioList
         isLoading={isLoading}
         acopios={acopios}
+        skipProducts
       />
     )
   }
