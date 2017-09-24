@@ -105,11 +105,11 @@ class AdminViewCenter extends Component {
     const imgSrc = 'https://maps.googleapis.com/maps/api/staticmap'+
       `?center=${latLng}`+
       `&markers=color:red%7C${latLng}`+
-      '&zoom=15&size=600x450'+
+      '&zoom=15&size=400x350'+
       '&maptype=roadmap'+
       `&key=${googleMapsApiKey}`
       
-    return <a href={gmapsLink} target="_blank"><img src={imgSrc} alt=""/></a>
+    return <a href={gmapsLink} target="_blank"><img src={imgSrc} alt="mapa del centro de acopio" style={{maxWidth: 100+'%'}}/></a>
   }
 
   render () {
