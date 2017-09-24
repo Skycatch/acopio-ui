@@ -5,11 +5,11 @@ import withCurrentPosition from '../components/withCurrentPosition'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 
 class AcopioCard extends Component {
-  mostRecentProductDate(products) {
-    let bestDate =  products.reduce((mostRecent, product) => {
+  mostRecentProductDate (products) {
+    let bestDate = products.reduce((mostRecent, product) => {
       let productDate = new Date(product.fechaDeActualizacion).valueOf()
       return productDate > mostRecent ? productDate : mostRecent
-    },0)
+    }, 0)
     return new Date(bestDate).toLocaleString()
   }
 
@@ -40,7 +40,7 @@ class AcopioCard extends Component {
         <CardHeader
           title={nombre}
           subtitle={kms != null && `a ${kms} kms.`}
-          children={displayProducts && <p style={{ fontSize: '14px' }}>Última actualización: {this.mostRecentProductDate(products)}</p>}
+          children={displayProducts && <p style={{ fontSize: '14px' }}>Última actualización: {this.mostRecentProductDate(productos)}</p>}
           actAsExpander
           showExpandableButton
         />
