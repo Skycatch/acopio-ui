@@ -5,6 +5,7 @@ import {AutoComplete} from 'material-ui'
 
 import AcopioList from '../components/AcopioList'
 import api from '../api'
+import getProductosForAcopioIds from '../utils/getProductosForAcopioIds'
 
 class CenterSearch extends Component {
   constructor (props) {
@@ -66,7 +67,8 @@ class CenterSearch extends Component {
     this.setState({
       isLoading: true
     })
-    api.getAcopios()
+    const filterString = JSON.stringify({limit: process.env.REACT_APP_MAX_RESULTS})
+    api.getAcopiosWhere(filterString)
       .then(response => {
         let acopios = response.data.map(acopio => ({
           direccion: acopio.direccion,
@@ -74,27 +76,30 @@ class CenterSearch extends Component {
           id: acopio.id,
           nombre: acopio.nombre,
           productos: []
-        })).slice(0, process.env.REACT_APP_MAX_RESULTS)
+        }))
 
-        let acopiosPromises = []
-        acopios.forEach(acopio => {
-          acopiosPromises.push(new Promise((resolve, reject) => {
-            api.getProductosByAcopioId(acopio.id)
-              .then(response => {
-                acopio.productos = response.data
-                resolve(acopio)
-              })
-              .catch(reject)
-          }))
-        })
-        return Promise.all(acopiosPromises)
-      })
-      .then(acopios => {
-        this.setState({
-          acopios,
-          allAcopios: acopios,
-          isLoading: false
-        })
+        const acopioIds = acopios.map(acopio => acopio.id)
+        getProductosForAcopioIds(acopioIds)
+          .then(response => {
+            const products = response.data
+            products.forEach(product => {
+              let acopio = acopios.find(acopio => acopio.id === product.acopioId)
+              if (acopio) acopio.productos.push(product)
+            })
+
+            this.setState({
+              acopios,
+              allAcopios: acopios,
+              isLoading: false
+            })
+          })
+          .catch(err => {
+            this.setState({
+              hasError: true,
+              isLoading: false
+            })
+            console.error(err)
+          })
       })
       .catch(err => {
         this.setState({
