@@ -22,13 +22,13 @@ class AcopioCard extends Component {
 
     const {
       nombre,
-      products,
+      productos,
       direccion,
       geopos
     } = acopio
 
     const kms = getDistance(currentPosition, acopio.geopos)
-    const hasProducts = products.length !== 0
+    const hasProducts = productos.length !== 0
 
     let mapsQuery
     if (geopos && geopos.hasOwnProperty('lat') && geopos.hasOwnProperty('lng')) {
@@ -40,7 +40,7 @@ class AcopioCard extends Component {
         <CardHeader
           title={nombre}
           subtitle={kms != null && `a ${kms} kms.`}
-          children={displayProducts ? <p style={{ fontSize: '14px' }}>Última actualización: {this.mostRecetProductDate(products)}</p> : ''}
+          children={displayProducts ? <p style={{ fontSize: '14px' }}>Última actualización: {this.mostRecetProductDate(productos)}</p> : ''}
           actAsExpander
           showExpandableButton
         />
@@ -53,7 +53,7 @@ class AcopioCard extends Component {
                 </p>
                 { hasProducts &&
                   <ul>
-                    {products.sort((a, b) => a.nombre.localeCompare(b.nombre)).map(product => (
+                    {productos.sort((a, b) => a.nombre.localeCompare(b.nombre)).map(product => (
                       <li
                         key={`product-${product.id}`}
                         data-date={product.fechaDeActualizacion}
