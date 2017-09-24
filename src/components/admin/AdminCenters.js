@@ -53,7 +53,7 @@ export default class AdminCenters extends React.Component {
   }
   render() {
     var centers;
-    let uri = '/admin/centers/';
+    let uri = '/admin/centers/view/';
     if(this.state.centers) {
       centers = Object.keys(this.state.centers).map((centerkey, index) => {
         let center = this.state.centers[centerkey]
@@ -90,7 +90,9 @@ export default class AdminCenters extends React.Component {
           <h1>Administrar centros de acopio</h1>
           <div className="row cf">
             <a className="u-fl" href="#">Ver todos</a>
-            <RaisedButton label="+ Agregar nuevo" primary className="u-fr" />
+            <Link to="/admin/centers/addnew" className="u-fr">
+              <RaisedButton label="+ Agregar nuevo" primary />
+            </Link>
           </div>
           <div className="centerList">
             <Table >

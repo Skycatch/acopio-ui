@@ -7,8 +7,11 @@ a{
 .container {
 	width: 80%;
 	margin: 0 auto;
+	margin-bottom: 5%;
 }
-
+.tac{
+	text-align: center;
+}
 .u-fl{
 	float: left;
 }

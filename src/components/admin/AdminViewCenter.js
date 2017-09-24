@@ -19,7 +19,7 @@ const serial = fn =>
     promise.then(result => fn().then(Array.prototype.concat.bind(result))),
   Promise.resolve([]))
 
-class ViewCenter extends Component {
+class AdminViewCenter extends Component {
 
   constructor (props) {
     super(props)
@@ -47,10 +47,10 @@ class ViewCenter extends Component {
     const product = api.getProductosByAcopioId(id).then(({data: productList}) => {
       this.setState(() => ({ productList, filteredProducts: productList }))
     })
+    this.setState(() => ({ loading: true }))
     api.getAcopio(id).then(result => {
       this.setState({center: result.data});
     })
-    this.setState(() => ({ loading: true }))
     product.then(() => {
       this.setState(() => ({ loading: false, filter: '', newProduct: '' }))
     })
@@ -146,4 +146,4 @@ class ViewCenter extends Component {
   }
 }
 
-export default ViewCenter;
+export default AdminViewCenter;
