@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import api from '../../api'
+import DocumentTitle from 'react-document-title'
 import validateEmail from '../../utils/validateEmail'
 
 import ContactSingle from './ContactSingle'
@@ -69,24 +70,27 @@ class ContactContainer extends Component {
   }
 
   render () {
+    const title = `Contactos · ${process.env.REACT_APP_NAME}`
     return (
-      <div className='contactWrapper'>
-        <ContactSingle
-          handleChangeFields={(e) =>
-            this.handleChange(e.target.name, e.target.value)
-          }
-          handleSelectChange={(e, i, value) =>
-            this.handleChange('acopioId', value)
-          }
-          state={this.state}
-          optionalFields={!this.optionalFields()}
-          disabledBtn={!this.disabledBtn()}
-          onSave={this.onSave}
-          emailErrorTxt={
-            this.isEmail() ? '' : '*Formato de email invalido'
-          }
-        />
-      </div>
+      <DocumentTitle title={title}>
+        <div className='contactWrapper'>
+          <ContactSingle
+            handleChangeFields={(e) =>
+              this.handleChange(e.target.name, e.target.value)
+            }
+            handleSelectChange={(e, i, value) =>
+              this.handleChange('acopioId', value)
+            }
+            state={this.state}
+            optionalFields={!this.optionalFields()}
+            disabledBtn={!this.disabledBtn()}
+            onSave={this.onSave}
+            emailErrorTxt={
+              this.isEmail() ? '' : '*Formato de email invalido'
+            }
+          />
+        </div>
+      </DocumentTitle>
     )
   }
 }

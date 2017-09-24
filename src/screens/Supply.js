@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import AcopioList from '../components/AcopioList'
 import api from '../api'
+import DocumentTitle from 'react-document-title'
 import normalize from '../utils/normalize'
 import withCurrentPosition from '../components/withCurrentPosition'
 
@@ -121,12 +122,16 @@ class Supply extends Component {
     }
 
     const acopios = acopioIds.map(id => acopioData[id])
-
-    return <AcopioList
-      isLoading={isLoading}
-      acopios={acopios}
-      displayProducts
-    />
+    const title = process.env.REACT_APP_NAME
+    return (
+      <DocumentTitle title={title}>
+        <AcopioList
+          isLoading={isLoading}
+          acopios={acopios}
+          displayProducts
+        />
+      </DocumentTitle>
+    )
   }
 }
 
