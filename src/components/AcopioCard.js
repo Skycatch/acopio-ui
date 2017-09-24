@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import getDistance from '../utils/getDistance'
 import withCurrentPosition from '../components/withCurrentPosition'
 
-import { Card, CardHeader, CardText } from 'material-ui/Card'
+import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card'
+import FlatButton from 'material-ui/FlatButton';
 
 class AcopioCard extends Component {
   mostRecetProductDate(products) {
@@ -30,10 +31,13 @@ class AcopioCard extends Component {
     const kms = getDistance(currentPosition, acopio.geopos)
     const hasProducts = products.length !== 0
 
-    let mapsQuery
+    let mapsQuery, mapsUrl
     if (geopos && geopos.hasOwnProperty('lat') && geopos.hasOwnProperty('lng')) {
       mapsQuery = `${geopos.lat},${geopos.lng}`
-    } else mapsQuery = direccion
+    } else {
+      mapsQuery = direccion
+    }
+    mapsUrl = `https://maps.google.com/?q=${mapsQuery}`
 
     return (
       <Card style={{marginBottom: '0.5rem'}}>
@@ -66,13 +70,14 @@ class AcopioCard extends Component {
               </div>
             ) : (
               <div>
-                <span style={{ fontWeight: 'bold' }}>Dirección: </span>
-                <a href={`https://maps.google.com/?q=${mapsQuery}`}>{direccion}</a>
+                <strong>Dirección:</strong> {direccion}
               </div>
             )
           }
-
         </CardText>
+        <CardActions expandable>
+          <FlatButton label="Ver en Google Maps" href={mapsUrl} target="_blank" />
+        </CardActions>
       </Card>
     )
   }
