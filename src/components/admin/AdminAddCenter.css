@@ -1,0 +1,32 @@
+.AdminAddCenter {
+	margin-top: 2%;
+}
+
+form.AddCenterForm {
+	width: 50%;
+	margin: 0 auto;
+}
+.AdminAddCenter h1{
+	text-align: center;
+	margin-top: 4%;
+}
+form.AddCenterForm .submit {
+	margin-top: 20px;
+}
+form.AddCenterForm > div {
+	margin-bottom: 20px;
+}
+form.AddCenterForm .half {
+	width: 48% !important;
+}
+form.AddCenterForm .half:first-child {
+	margin-right: 4%;
+}
+.successMsg{
+	background: rgba(63, 191, 117, 0.4);
+	width: 50%;
+	margin: 0 auto;
+	padding: 10px 0;
+	border-radius: 20px;
+	color: #3C8F5D;
+}
