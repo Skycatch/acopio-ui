@@ -8,7 +8,8 @@ const GeolocationPermissionToolbar = ({
   currentPosition,
   positionDeclined,
   positionUnavailable,
-  onClick
+  onClick,
+  style = {}
 }) => {
   if (currentPosition || positionDeclined) {
     return null
@@ -16,14 +17,16 @@ const GeolocationPermissionToolbar = ({
 
   if (positionUnavailable) {
     return (
-      <div style={{height: 44, display: 'flex', alignItems: 'center'}}>
-        Hubo un error obteniendo tu posición
+      <div style={style}>
+        <div style={{height: 44, display: 'flex', alignItems: 'center'}}>
+          Hubo un error obteniendo tu posición
+        </div>
       </div>
     )
   }
 
   return (
-    <Toolbar>
+    <Toolbar style={{...style, padding: '0 0.5rem'}} noGutter>
       <ToolbarGroup>
         Centros de acopio más cercanos
       </ToolbarGroup>

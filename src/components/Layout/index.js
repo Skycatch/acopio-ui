@@ -2,7 +2,6 @@ import React from 'react'
 import logoImage from './CMX_SISMO_ICON_04-01.png'
 import { AppBar, FlatButton } from 'material-ui'
 import { withRouter } from 'react-router'
-import './Layout.css'
 
 const appName = process.env.REACT_APP_NAME
 
@@ -13,9 +12,9 @@ const Layout = ({ children, history }) => {
         style={{position: 'fixed', top: '0', backgroundColor: '#191E1B'}}
         title={appName}
         iconElementLeft={<img src={logoImage} alt="CMX" style={{height: 56}} />}
-        iconElementRight={<FlatButton label="Mapa" onClick={() => { history.push('/map') }}/>}
+        iconElementRight={<FlatButton label="Mapa" onClick={() => { history.push('/map') }} />}
       />
-      <div className="App-body" style={{paddingTop: 64}}>
+      <div className="App-body" style={{padding: '5rem 0.5rem 0'}}>
         {children}
       </div>
     </div>

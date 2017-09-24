@@ -21,7 +21,6 @@ ReactDOM.render((
       <PositionManager>
         {requestPosition => (
           <div className="App">
-            <GeolocationPermissionToolbar onClick={requestPosition} />
             <Layout>
               <Switch>
                 <Route exact path="/" component={Supply} />
@@ -31,6 +30,9 @@ ReactDOM.render((
                 <Route path="/contacts" component={Contacts} />
               </Switch>
             </Layout>
+            <GeolocationPermissionToolbar onClick={requestPosition}
+              style={{position: 'fixed', bottom: 0}} />
+
           </div>
         )}
       </PositionManager>

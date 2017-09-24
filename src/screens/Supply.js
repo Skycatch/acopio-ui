@@ -114,7 +114,7 @@ class Supply extends Component {
     const { positionUnknown, positionUnavailable } = this.props
 
     if (positionUnknown) {
-      return <span>Permite tu ubicación arriba</span>
+      return <span>Permite tu ubicación</span>
     }
 
     if (positionUnavailable) {
