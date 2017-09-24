@@ -138,9 +138,10 @@ class MapScreen extends Component {
         <h3> Información de contacto </h3>
         <div className="contacts">
           { collectionCenterData.contacts.map((contact) => {
+            contact.telefonoUrl = 'tel:' + contact.telefono.replace(/[\s-+]/g, '')
             return <div>
               { contact.nombre && <div> Nombre: { contact.nombre } </div> }
-              { contact.telefono && <div> Teléfono: { contact.telefono } </div> }
+              { contact.telefono && <div> Teléfono: <a href={contact.telefonoUrl}>{ contact.telefono }</a> </div> }
               { contact.email && <div> Email: { contact.email } </div> }
               { contact.twitter && <div> Twitter: { contact.twitter } </div> }
               { contact.facebook && <div> Facebook: { contact.facebook } </div> }
