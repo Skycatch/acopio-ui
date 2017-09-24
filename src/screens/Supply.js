@@ -115,7 +115,6 @@ class Supply extends Component {
         <AcopioList
           isLoading={isLoading}
           acopios={acopios}
-          displayProducts
         />
       </DocumentTitle>
     )
