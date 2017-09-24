@@ -9,11 +9,12 @@ import GeolocationPermissionToolbar from './components/GeolocationPermissionTool
 import './index.css'
 import Layout from './components/Layout'
 import Contacts from './components/contacts'
-
 import Supply from './screens/Supply'
 import Map from './screens/Map'
 import List from './screens/List'
-import CenterAdmin from './screens/CenterAdmin'
+import ViewCenter from './components/admin/ViewCenter'
+import AdminCenters from './components/admin/AdminCenters'
+
 
 ReactDOM.render((
   <MuiThemeProvider>
@@ -26,8 +27,9 @@ ReactDOM.render((
                 <Route exact path="/" component={Supply} />
                 <Route path="/map" component={Map} />
                 <Route path="/list" component={List} />
-                <Route path="/control/:id" component={CenterAdmin} />
                 <Route path="/contacts" component={Contacts} />
+                <Route exact path="/admin/centers" component={AdminCenters} />
+                <Route path="/admin/centers/:id" component={ViewCenter} />
               </Switch>
             </Layout>
             <GeolocationPermissionToolbar onClick={requestPosition}
