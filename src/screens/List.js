@@ -4,7 +4,6 @@ import React, {
 
 import AcopioList from '../components/AcopioList'
 import api from '../api'
-import normalize from '../utils/normalize'
 
 const getAcopios = () => api.getAcopios()
 
@@ -12,8 +11,7 @@ class List extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      acopioIds: [],
-      acopioData: {},
+      acopios: [],
       isLoading: false
     }
   }
@@ -23,10 +21,9 @@ class List extends Component {
   }
 
   loadAcopios () {
-    this.setState({
-      isLoading: true
-    })
-    getAcopios()
+    this.setState({ isLoading: true })
+
+    return getAcopios()
       .then(response => {
         const acopios = response.data
           .map(acopio => ({
@@ -34,13 +31,11 @@ class List extends Component {
             direccion: acopio.direccion,
             geopos: acopio.geopos,
             nombre: acopio.nombre,
-            products: [],
+            productos: [],
           }))
-        const acopioIds = acopios.map(acopio => acopio.id)
-        const acopioData = normalize(acopios)
+
         this.setState({
-          acopioData,
-          acopioIds,
+          acopios,
           isLoading: false
         })
       })
@@ -55,11 +50,9 @@ class List extends Component {
 
   render () {
     const {
-      acopioIds,
-      acopioData,
+      acopios,
       isLoading,
     } = this.state
-    const acopios = acopioIds.map(id => acopioData[id])
 
     return (
       <AcopioList

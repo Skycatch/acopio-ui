@@ -3,10 +3,9 @@ import React, { Component } from 'react'
 import AcopioList from '../components/AcopioList'
 import api from '../api'
 import DocumentTitle from 'react-document-title'
-import normalize from '../utils/normalize'
 import withCurrentPosition from '../components/withCurrentPosition'
 
-const ACOPIOS_LIMIT = 30
+const ACOPIOS_LIMIT = 20
 
 const getNearbyAcopios = (position) => {
   if (!position) {
@@ -16,87 +15,53 @@ const getNearbyAcopios = (position) => {
   const filter = {
     where: {
       geopos: {
-        near: position,
-        maxDistance: 20,
-        unit: 'kilometers'
+        near: position
       }
     },
+    include: 'productos',
     limit: ACOPIOS_LIMIT
   }
 
   return api.getAcopiosWhere(JSON.stringify(filter))
 }
 
-const getProductosForAcopioIds = (acopioIds) => {
-  const query = acopioIds.map(id => ({ acopioId: id }))
-  const filter = { where: { or: query } }
-
-  return api.getProductosWhere(JSON.stringify(filter))
-}
-
-const getNormalizedAcopios = (response) => {
-  if (!(response && response.data && response.data.length)) {
-    return Promise.resolve({
-      acopioIds: [],
-      acopioData: {}
-    })
+const getRecentlyUpdatedAcopios = () => {
+  const filter = {
+    include: {
+      relation: 'productos',
+      scope: {
+        order: 'fechaDeActualizacion DESC'
+      }
+    },
+    order: 'fechaDeActualizacion DESC',
+    limit: ACOPIOS_LIMIT
   }
 
-  const acopios = response.data
-    .map(acopio => ({
-      id: acopio.id,
-      direccion: acopio.direccion,
-      geopos: acopio.geopos,
-      nombre: acopio.nombre,
-      products: [],
-    }))
-
-  const acopioIds = acopios.map(acopio => acopio.id)
-  const acopioData = normalize(acopios)
-
-  return getProductosForAcopioIds(acopioIds)
-    .then(response => {
-      response.data.forEach((product) => {
-        const acopio = acopioData[product.acopioId]
-        acopio.products.push(product)
-      }, {})
-
-      return {
-        acopioIds,
-        acopioData,
-      }
-    })
+  return api.getAcopiosWhere(JSON.stringify(filter))
 }
 
 class Supply extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      acopioIds: [],
-      acopioData: {},
+      acopios: [],
     }
 
-    this.tryToLoadNearbyCenters(props.currentPosition)
+    this.loadAcopios(props.currentPosition)
   }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.currentPosition !== this.props.currentPosition) {
-      this.tryToLoadNearbyCenters(nextProps.currentPosition)
+      this.loadAcopios(nextProps.currentPosition)
     }
   }
 
-  tryToLoadNearbyCenters (currentPosition) {
-    if (!currentPosition) {
-      return
-    }
-
+  loadRecentlyUpdatedAcopios () {
     this.setState({ isLoading: true })
-    return getNearbyAcopios(currentPosition)
-      .then(getNormalizedAcopios)
-      .then(({acopioIds, acopioData}) => {
+    return getRecentlyUpdatedAcopios()
+      .then((response) => {
         this.setState({
-          acopioIds,
-          acopioData,
+          acopios: response.data,
           isLoading: false
         })
       })
@@ -109,20 +74,42 @@ class Supply extends Component {
       })
   }
 
-  render () {
-    const { acopioIds, acopioData, isLoading } = this.state
-    const { positionUnknown, positionUnavailable } = this.props
+  loadNearbyAcopios (currentPosition) {
+    this.setState({ isLoading: true })
+    return getNearbyAcopios(currentPosition)
+      .then((response) => {
+        this.setState({
+          acopios: response.data,
+          isLoading: false
+        })
+      })
+      .catch(err => {
+        this.setState({
+          hasError: true,
+          isLoading: false,
+        })
+        console.error(err)
+      })
+  }
 
-    if (positionUnknown) {
-      return <span>Permite tu ubicación</span>
+  loadAcopios (currentPosition) {
+    if (currentPosition) {
+      return this.loadNearbyAcopios(currentPosition)
     }
+
+    return this.loadRecentlyUpdatedAcopios()
+  }
+
+  render () {
+    const { acopios, isLoading } = this.state
+    const { positionUnavailable } = this.props
+
+    const title = process.env.REACT_APP_NAME
 
     if (positionUnavailable) {
       return <span>Ubicación no disponible</span>
     }
 
-    const acopios = acopioIds.map(id => acopioData[id])
-    const title = process.env.REACT_APP_NAME
     return (
       <DocumentTitle title={title}>
         <AcopioList
