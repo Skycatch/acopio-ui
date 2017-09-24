@@ -191,7 +191,7 @@ class MapScreen extends Component {
           <DebounceInput
             minLength={2}
             debounceTimeout={500}
-            onChange={event => this.searchProduct(event.target.value)} />
+            onChange={event => this.searchProduct(event.target.value.toLowerCase())} />
         </div>
         <div className="result-list">
           { prods }
