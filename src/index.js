@@ -14,6 +14,8 @@ import Supply from './screens/Supply'
 import Map from './screens/Map'
 import List from './screens/List'
 import CenterAdmin from './screens/CenterAdmin'
+import AdminCenters from './components/admin/AdminCenters'
+
 
 ReactDOM.render((
   <MuiThemeProvider>
@@ -28,6 +30,7 @@ ReactDOM.render((
                 <Route path="/list" component={List} />
                 <Route path="/control/:id" component={CenterAdmin} />
                 <Route path="/contacts" component={Contacts} />
+                <Route path="/admin/centers" component={AdminCenters} />
               </Switch>
             </Layout>
             <GeolocationPermissionToolbar onClick={requestPosition}
