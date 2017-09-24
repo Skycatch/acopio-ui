@@ -14,6 +14,8 @@ import api from '../../api'
 import './admin.css'
 import './ViewCenter.css'
 
+const googleMapsApiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY 
+
 const serial = fn =>
   fn.reduce((promise, fn) =>
     promise.then(result => fn().then(Array.prototype.concat.bind(result))),
@@ -94,6 +96,22 @@ class AdminViewCenter extends Component {
     })
   }
 
+  map(center) {
+    if (!center || !center.geopos) { return null}
+    const latLng = `${center.geopos.lat}%2C${center.geopos.lng}`
+
+    const gmapsLink =`https://www.google.com/maps/search/?api=1&query=${latLng}`
+
+    const imgSrc = 'https://maps.googleapis.com/maps/api/staticmap'+
+      `?center=${latLng}`+
+      `&markers=color:red%7C${latLng}`+
+      '&zoom=15&size=600x450'+
+      '&maptype=roadmap'+
+      `&key=${googleMapsApiKey}`
+      
+    return <a href={gmapsLink}><img src={imgSrc} alt=""/></a>
+  }
+
   render () {
     const { newProduct, filteredProducts, filter, selected, center } = this.state
     return this.state.loading ? <div className="container"><h1>Loading</h1></div> : (
@@ -103,9 +121,7 @@ class AdminViewCenter extends Component {
         <section className="centerInfo">
           <strong>Centro de acopio:</strong> {center.nombre} <br />
           <strong>Direcci&oacute;n:</strong> {center.direccion} <br />
-          {center.geopos && (
-            <strong>Coordenadas: </strong>, '(' + center.geopos.lat + ', ' + center.geopos.lng + ')'
-          )}
+          {this.map(center)}
         </section>
         <section className="needsList">
           <h2>Necesidades</h2>
