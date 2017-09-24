@@ -109,7 +109,7 @@ class AdminViewCenter extends Component {
       '&maptype=roadmap'+
       `&key=${googleMapsApiKey}`
       
-    return <a href={gmapsLink}><img src={imgSrc} alt=""/></a>
+    return <a href={gmapsLink} target="_blank"><img src={imgSrc} alt=""/></a>
   }
 
   render () {
