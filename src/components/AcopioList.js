@@ -5,7 +5,7 @@ import withLoading from './withLoading'
 const AcopioList = ({ acopios, displayProducts }) => (
   <div>
     {acopios.length === 0
-      ? 'No encontramos Centros de Acopio'
+      ? 'No encontramos Centros de Acopio cerca de ti.'
       : acopios.map(acopio => (
         <AcopioCard
           key={`acopio-${acopio.id}`}
