@@ -20,7 +20,6 @@ const serial = fn =>
   Promise.resolve([]))
 
 class AdminViewCenter extends Component {
-
   constructor (props) {
     super(props)
     this.state = {
@@ -49,12 +48,11 @@ class AdminViewCenter extends Component {
     })
     this.setState(() => ({ loading: true }))
     api.getAcopio(id).then(result => {
-      this.setState({center: result.data});
+      this.setState({center: result.data})
     })
     product.then(() => {
       this.setState(() => ({ loading: false, filter: '', newProduct: '' }))
     })
-
   }
 
   onChangeFilter (evt, filter) {
@@ -103,13 +101,15 @@ class AdminViewCenter extends Component {
         <Link className="viewAll btn" to="/admin/centers">Ver todos los centros</Link>
         <h1>{center.nombre}</h1>
         <section className="centerInfo">
-          <strong>Centro de acopio:</strong> {center.nombre} <br/>
+          <strong>Centro de acopio:</strong> {center.nombre} <br />
           <strong>Direcci&oacute;n:</strong> {center.direccion} <br />
-          {center.geopos ?  [<strong>Coordenadas: </strong>, '(' + center.geopos.lat + ', ' + center.geopos.lng + ')']: ''}
+          {center.geopos && (
+            <strong>Coordenadas: </strong>, '(' + center.geopos.lat + ', ' + center.geopos.lng + ')'
+          )}
         </section>
         <section className="needsList">
           <h2>Necesidades</h2>
-          <hr/>
+          <hr />
           <TextField
             hintText="Nuevo Producto"
             value={newProduct}
@@ -124,7 +124,6 @@ class AdminViewCenter extends Component {
             onChange={this.onChangeFilter}
           />
           <br />
-          <RaisedButton label="Borrar" secondary onClick={this.onDelete} />
           <Table multiSelectable onRowSelection={this.onRowSelection} >
             <TableHeader>
               <TableRow>
@@ -132,18 +131,18 @@ class AdminViewCenter extends Component {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredProducts.map(({ nombre, id }, index) =>
-                (<TableRow key={id} selected={selected.indexOf(index) !== -1}>
+              {filteredProducts.map(({ nombre, id }, index) => (
+                <TableRow key={`product-${id}`} selected={selected.indexOf(index) !== -1}>
                   <TableRowColumn>{nombre}</TableRowColumn>
-                </TableRow>)
-              )}
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
-          <RaisedButton label="Borrar" secondary onClick={this.onDelete} />
+          <RaisedButton label="Borrar Necesidades" secondary onClick={this.onDelete} />
         </section>
       </div>
     )
   }
 }
 
-export default AdminViewCenter;
+export default AdminViewCenter

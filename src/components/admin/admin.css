@@ -6,9 +6,14 @@ a{
 }
 
 .container {
-	width: 80%;
-	margin: 0 auto;
-	margin-bottom: 5%;
+	margin-bottom: 1rem;
+}
+
+@media (min-width: 800px) {
+	.container {
+		width: 80%;
+		margin: 0 auto;
+	}
 }
 .tac{
 	text-align: center;

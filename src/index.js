@@ -16,7 +16,6 @@ import AdminCenters from './components/admin/AdminCenters'
 import AdminViewCenter from './components/admin/AdminViewCenter'
 import AdminAddCenter from './components/admin/AdminAddCenter'
 
-
 ReactDOM.render((
   <MuiThemeProvider>
     <BrowserRouter>
