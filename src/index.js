@@ -9,11 +9,12 @@ import GeolocationPermissionToolbar from './components/GeolocationPermissionTool
 import './index.css'
 import Layout from './components/Layout'
 import Contacts from './components/contacts'
-
 import Supply from './screens/Supply'
 import Map from './screens/Map'
 import List from './screens/List'
-import CenterAdmin from './screens/CenterAdmin'
+import AdminCenters from './components/admin/AdminCenters'
+import AdminViewCenter from './components/admin/AdminViewCenter'
+import AdminAddCenter from './components/admin/AdminAddCenter'
 import CenterSearch from './screens/CenterSearch'
 
 ReactDOM.render((
@@ -27,9 +28,11 @@ ReactDOM.render((
                 <Route exact path="/" component={Supply} />
                 <Route path="/map" component={Map} />
                 <Route path="/list" component={List} />
-                <Route path="/control/:id" component={CenterAdmin} />
                 <Route path="/centers/search" component={CenterSearch} />
                 <Route path="/contacts" component={Contacts} />
+                <Route exact path="/admin/centers" component={AdminCenters} />
+                <Route path="/admin/centers/view/:id" component={AdminViewCenter} />
+                <Route path="/admin/centers/addnew" component={AdminAddCenter} />
               </Switch>
             </Layout>
             <GeolocationPermissionToolbar onClick={requestPosition}

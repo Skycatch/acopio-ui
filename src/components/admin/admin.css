@@ -1,0 +1,48 @@
+*{
+	box-sizing: border-box;
+}
+a{
+	color: #33C3F0;
+}
+
+.container {
+	margin-bottom: 1rem;
+}
+
+@media (min-width: 800px) {
+	.container {
+		width: 80%;
+		margin: 0 auto;
+	}
+}
+.tac{
+	text-align: center;
+}
+
+.u-fl{
+	float: left;
+}
+.u-fr{
+	float: right;
+}
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.cf {
+    *zoom: 1;
+}
+hr{
+	border: 0 none;
+	border-top: 1px solid #ccc;
+}
