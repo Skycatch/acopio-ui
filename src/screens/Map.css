@@ -71,7 +71,7 @@ address {
 .navigation{
   flex: 2 0 0;
 }
-
+/*
 @media (max-width: 375px) {
   .App-header {
     height: 12vh;
@@ -102,6 +102,7 @@ address {
     height: 10vh;
   }
 }
+*/
 .smalltitle{
   margin-left: 8px;
   font-size: 13px;

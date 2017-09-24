@@ -9,6 +9,7 @@ import Map from '../components/Map'
 import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton';
 import './InfoPanel.css'
+import './Map.css'
 
 class MapScreen extends Component {
   constructor () {
@@ -173,7 +174,7 @@ class MapScreen extends Component {
           {products}
         </ul>
         {contacts}
-        <div className="close" onClick={this.closeDrawer.bind(this)}><span>Close</span></div>
+        <div className="close" onClick={this.closeDrawer.bind(this)}><span>Cerrar</span></div>
         <div className="pad" />
       </div>)
     } else if (this.state.search) {
