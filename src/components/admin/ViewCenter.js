@@ -11,7 +11,7 @@ import {
 } from 'material-ui'
 import {Link} from 'react-router-dom'
 import api from '../../api'
-import googleMapImage from '../googleMapImage.js'
+import GoogleMapImage from '../googleMapImage.js'
 import './admin.css'
 import './ViewCenter.css'
 
@@ -21,7 +21,6 @@ const serial = fn =>
   Promise.resolve([]))
 
 class ViewCenter extends Component {
-
   constructor (props) {
     super(props)
     this.state = {
@@ -45,17 +44,22 @@ class ViewCenter extends Component {
 
   initComp () {
     const { id } = this.props.match.params
-    const product = api.getProductosByAcopioId(id).then(({data: productList}) => {
-      this.setState(() => ({ productList, filteredProducts: productList }))
-    })
-    api.getAcopio(id).then(result => {
-      this.setState({center: result.data});
-    })
     this.setState(() => ({ loading: true }))
-    product.then(() => {
-      this.setState(() => ({ loading: false, filter: '', newProduct: '' }))
-    })
 
+    const acopioPromise = api.getAcopio(id).then(res => res.data)
+    const productPromise = api.getProductosByAcopioId(id).then(res => res.data)
+
+    Promise.all([acopioPromise, productPromise])
+      .then(([center, productList]) => {
+        this.setState({
+          center,
+          productList,
+          filter: '',
+          newProduct: '',
+          loading: false,
+          filteredProducts: productList,
+        })
+      })
   }
 
   onChangeFilter (evt, filter) {
@@ -98,19 +102,25 @@ class ViewCenter extends Component {
   }
 
   render () {
+    if (this.state.loading) {
+      return (
+        <div className="container"><h1>Loading</h1></div>
+      )
+    }
+
     const { newProduct, filteredProducts, filter, selected, center } = this.state
-    return this.state.loading ? <div className="container"><h1>Loading</h1></div> : (
+    return (
       <div className="ViewCenter container content">
         <Link className="viewAll btn" to="/admin/centers">Ver todos los centros</Link>
         <h1>{center.nombre}</h1>
         <section className="centerInfo">
-          <strong>Centro de acopio:</strong> {center.nombre} <br/>
+          <strong>Centro de acopio:</strong> {center.nombre} <br />
           <strong>Direcci&oacute;n:</strong> {center.direccion} <br />
-          {googleMapImage(center)}
+          <GoogleMapImage acopio={center} />
         </section>
         <section className="needsList">
           <h2>Necesidades</h2>
-          <hr/>
+          <hr />
           <TextField
             hintText="Nuevo Producto"
             value={newProduct}
@@ -147,4 +157,4 @@ class ViewCenter extends Component {
   }
 }
 
-export default ViewCenter;
+export default ViewCenter
