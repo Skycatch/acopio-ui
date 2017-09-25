@@ -46,25 +46,29 @@ class AdminViewCenter extends Component {
 
   initComp () {
     const { id } = this.props.match.params
-    const product = api.getProductosByAcopioId(id).then(({data: productList}) => {
-      this.setState(() => ({ productList, filteredProducts: productList }))
-    })
     this.setState(() => ({ loading: true }))
-    api.getAcopio(id).then(result => {
-      this.setState({center: result.data})
-    })
-    product.then(() => {
-      this.setState(() => ({ loading: false, filter: '', newProduct: '' }))
-    })
-  }
 
+    Promise.all([api.getAcopioWithContactos(id), api.getProductosByAcopioId(id)])
+      .then(([acopio, productos]) => 
+        this.setState({
+          center: acopio.data,
+          productList: productos.data, 
+          filteredProducts: productos.data,
+          loading: false, 
+          filter: '', 
+          newProduct: '' 
+        })
+      )
+  }
+  
   onChangeFilter (evt, filter) {
     const { productList } = this.state
-    const inputValue = filter.trim().toLowerCase()
-    const inputLength = inputValue.length
-    const filteredProducts = inputLength === 0 ? productList : productList.filter(({nombre}) =>
-      nombre.toLowerCase().slice(0, inputLength) === filter
-    )
+    const filterLength = filter.length
+    const filteredProducts = filterLength === 0 
+      ? productList 
+      : productList.filter(({nombre}) => 
+          nombre.toLowerCase().indexOf(filter.trim().toLowerCase()) > -1//busca productos que el cualquier punto contengan las letras del filtro
+      )
     this.setState(() => ({ filteredProducts, filter }))
   }
 
@@ -97,20 +101,17 @@ class AdminViewCenter extends Component {
     })
   }
 
-  map(center) {
-    if (!center || !center.geopos) { return null}
-    const latLng = `${center.geopos.lat}%2C${center.geopos.lng}`
-
-    const gmapsLink =`https://www.google.com/maps/search/?api=1&query=${latLng}`
-
-    const imgSrc = 'https://maps.googleapis.com/maps/api/staticmap'+
-      `?center=${latLng}`+
-      `&markers=color:red%7C${latLng}`+
-      '&zoom=15&size=400x350'+
-      '&maptype=roadmap'+
-      `&key=${googleMapsApiKey}`
-      
-    return <a href={gmapsLink} target="_blank"><img src={imgSrc} alt="mapa del centro de acopio" style={{maxWidth: 100+'%'}}/></a>
+  contactos({contactos}) {
+    return contactos.map((contacto, i)=> (
+      <div key={i}>
+        {<p><strong>Nombre:</strong> {contacto.nombre || 'No identificado'}</p>}
+        {contacto.telefono && <p><strong>Teléfono:</strong> <a href={`tel:${contacto.telefono}`}>{contacto.telefono}</a></p>}
+        {contacto.email &&  <p><strong>Email:</strong> <a href={`mailto:${contacto.email}`}>{contacto.email}</a></p>}
+        {contacto.facebook &&  <p><strong>Facebook:</strong> <a href={`http://facebook.com/${contacto.facebook}`}>{contacto.facebook}</a></p>}
+        {contacto.twitter &&  <p><strong>Twitter:</strong> <a href={`http://twitter.com/${contacto.twitter.replace('@', '')}`}>{contacto.twitter}</a></p>}
+        <hr/>
+      </div>
+    ))
   }
 
   render () {
@@ -122,6 +123,7 @@ class AdminViewCenter extends Component {
         <section className="centerInfo">
           <strong>Centro de acopio:</strong> {center.nombre} <br />
           <strong>Direcci&oacute;n:</strong> {center.direccion} <br />
+          {this.contactos(center)}
           {googleMapImage(center)}
         </section>
         <section className="needsList">
