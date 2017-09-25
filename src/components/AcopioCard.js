@@ -44,7 +44,7 @@ class AcopioCard extends Component {
     } else {
       mapsQuery = direccion
     }
-    const mapsUrl = `https://maps.google.com/?q=${mapsQuery}`
+    const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`
 
     return (
       <Card style={{marginBottom: '0.5rem'}}>
