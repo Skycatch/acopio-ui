@@ -30,16 +30,15 @@ ReactDOM.render((
                 <Route path="/map" component={Map} />
                 <Route path="/list" component={List} />
                 <Route path="/centers/search" component={CenterSearch} />
+                <Route path="/centers/:id" component={ViewCenter} />
                 <Route path="/contacts" component={Contacts} />
-                <Route path="/acopios/:id" component={ViewCenter} />
                 <Route exact path="/admin/centers" component={AdminCenters} />
-                <Route path="/admin/centers/view/:id" component={AdminViewCenter} />
-                <Route path="/admin/centers/addnew" component={AdminAddCenter} />
+                <Route path="/admin/centers/new" component={AdminAddCenter} />
+                <Route path="/admin/centers/:id" component={AdminViewCenter} />
               </Switch>
             </Layout>
             <GeolocationPermissionToolbar onClick={requestPosition}
               style={{position: 'fixed', bottom: 0}} />
-
           </div>
         )}
       </PositionManager>
