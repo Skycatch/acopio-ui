@@ -46,7 +46,7 @@ class ContactContainer extends Component {
     const {email} = this.state.fields
     return !email
       ? true
-      : validateEmail(email) ? true : false
+      : !!validateEmail(email)
   }
 
   disabledBtn () {

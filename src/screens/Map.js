@@ -7,7 +7,7 @@ import find from 'lodash/find'
 import api from '../api'
 import Map from '../components/Map'
 import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card'
-import FlatButton from 'material-ui/FlatButton';
+import FlatButton from 'material-ui/FlatButton'
 import './InfoPanel.css'
 import './Map.css'
 
@@ -229,9 +229,9 @@ class MapScreen extends Component {
       <DocumentTitle title={title}>
         <div className="App drawer-container">
           <div className="cta">
-            <span onClick={ this.centerMapOnUserLocation.bind(this) }>Cerca de mí</span>
+            <span onClick={this.centerMapOnUserLocation.bind(this)}>Cerca de mí</span>
             <span> | </span>
-            <span  onClick={ this.openSearch.bind(this) }>Quiero Ayudar</span>
+            <span onClick={this.openSearch.bind(this)}>Quiero Ayudar</span>
           </div>
           <Drawer sidebar={drawer} {...drawerProps} style={{ overflow: 'auto' }}>
             <div className="map-container">
