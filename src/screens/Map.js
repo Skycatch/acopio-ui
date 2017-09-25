@@ -24,11 +24,11 @@ class MapScreen extends Component {
   }
 
   selectCenter = (center) => {
-    console.log({ center })
+    // console.log({ center })
+    // TODO: implement slection functionality
   }
 
   render () {
-    const { currentPosition } = this.props
     return (
       <DocumentTitle title={'Mapa'}>
         <div className="map-container">
