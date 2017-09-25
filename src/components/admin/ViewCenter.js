@@ -43,20 +43,17 @@ class ViewCenter extends Component {
     const { id } = this.props.match.params
     this.setState(() => ({ loading: true }))
 
-    const acopioPromise = api.getAcopio(id).then(res => res.data)
-    const productPromise = api.getProductosByAcopioId(id).then(res => res.data)
-
-    Promise.all([acopioPromise, productPromise])
-      .then(([center, productList]) => {
+    Promise.all([api.getAcopioWithContactos(id), api.getProductosByAcopioId(id)])
+      .then(([acopio, productos]) => 
         this.setState({
-          center,
-          productList,
-          filter: '',
-          newProduct: '',
-          loading: false,
-          filteredProducts: productList,
+          center: acopio.data,
+          productList: productos.data, 
+          filteredProducts: productos.data,
+          loading: false, 
+          filter: '', 
+          newProduct: '' 
         })
-      })
+      )
   }
 
   onChangeFilter (evt, filter) {
