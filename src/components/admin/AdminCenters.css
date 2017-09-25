@@ -15,3 +15,8 @@
 .edit-btn{
 	margin-right: 10px;
 }
+
+.admin-pagination-selected {
+    font-weight: bold;
+    color: #f3476d !important;
+}

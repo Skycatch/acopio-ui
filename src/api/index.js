@@ -15,6 +15,9 @@ export default {
   getAcopiosWhere (filter) {
     return axios.get(`/${acopios}?filter=${filter}`)
   },
+  getPaginatedAcopios (limit, offset) {
+    return this.getAcopiosWhere(JSON.stringify({limit, offset}))
+  },
   getAcopio (id) {
     return axios.get(`/${acopios}/${id}`)
   },

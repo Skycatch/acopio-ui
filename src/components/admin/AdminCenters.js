@@ -15,48 +15,69 @@ import {
   TableRowColumn,
 } from 'material-ui/Table'
 import { Link } from 'react-router-dom'
+import _ from 'lodash'
 
 export default class AdminCenters extends React.Component {
   constructor () {
     super()
-    this.state = {}
+    this.state = {
+      paginateEvery: 20,
+      selectedPage: 1,
+      centers: [],
+      shownCenters: []
+    }
   }
 
   componentDidMount () {
-    api.getAcopios().then(result => {
-      if (result.status === 200) {
-        let centerObj = {}
-        result.data.forEach(center => {
-          centerObj[center.id] = center
-        })
-        this.setState({
-          centers: centerObj
-        })
-      }
+    api.getAcopios()
+      .then(result => {
+          const centers = _.sortBy(result.data, ['nombre'])
+          this.setState({
+            centers,
+            shownCenters: centers.slice(0, this.state.paginateEvery)
+          })
+      })
+      .catch(console.error)
+  }
+
+  showPage (page) {
+    let startingIndex = (page - 1)*this.state.paginateEvery
+    this.setState({
+      selectedPage: page,
+      shownCenters: this.state.centers.slice(startingIndex, startingIndex + this.state.paginateEvery)
     })
   }
 
+  pagination (centers) {
+    return _.flow(
+      centers => (centers.length/this.state.paginateEvery) + 1,
+      numOfPages => _.range(1, numOfPages),
+      pageNums => pageNums.map(num => (
+        <span 
+          onClick={() => this.showPage(num)} 
+          value={num} 
+          key={num} 
+          className={this.state.selectedPage === num ? 'admin-pagination-selected': ''}
+          style={{color:"#33C3F0", textDecoration:'underline', cursor: 'pointer'}}
+        >
+          {num}
+        </span>)),
+      pages => (
+        <div style={{margin: '10px auto', maxWidth:500 , display:'flex' , justifyContent:'space-around'}}>
+          {pages}
+        </div>)//TODO prefijos
+    )(centers)
+  }
+
   deleteCenter = (e) => {
-    e.preventDefault()
-    let delid = e.target.dataset['id']
-    if (!window.confirm('Are you sure you want to delete ' + this.state.centers[delid].nombre + '?')) {
-      return false
-    }
-    api.deleteAcopio(delid).then(result => {
-      if (result.status === 200) {
-        const centers = {...this.state.centers}
-        delete centers[delid]
-        this.setState({centers})
-      }
-    })
+    //TODO, versión anterior borrada, porque no se utilizaba y asumia que this.state.centers era un objeto, pero puede  ser problemátuci para hacer sorts o filtros
   }
 
   render () {
     var centers
     let uri = '/admin/centers/'
     if (this.state.centers) {
-      centers = Object.keys(this.state.centers).map((centerkey, index) => {
-        let center = this.state.centers[centerkey]
+      centers = this.state.shownCenters.map((center, index) => {
         return (
           <TableRow key={center.id} className="rowhover">
             <TableRowColumn>
@@ -75,12 +96,13 @@ export default class AdminCenters extends React.Component {
         <div className="AdminCenters">
           <h1>Administrar centros de acopio</h1>
           <div className="row cf">
-            <a className="u-fl" href="#">Ver todos</a>
+            <a className="u-fl" href="#" style={{display:'none'}}>Ver todos</a>
             <Link to="/admin/centers/new" className="u-fr">
               <RaisedButton label="+ Agregar nuevo" primary />
             </Link>
           </div>
           <div className="centerList">
+            {this.pagination(this.state.centers)}
             <Table >
               <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
                 <TableRow>
