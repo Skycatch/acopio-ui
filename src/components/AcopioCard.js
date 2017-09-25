@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
 import spanish from 'date-fns/locale/es'
+import { Link } from 'react-router-dom'
 
 import getDistance from '../utils/getDistance'
 import withCurrentPosition from '../components/withCurrentPosition'
@@ -60,7 +61,9 @@ class AcopioCard extends Component {
           showExpandableButton
         />
         <CardActions expandable>
-          <FlatButton label="Ver datos de contacto del Centro" href={`/acopios/${acopio.id}`} target="_blank" />
+          <Link to={`/centers/${acopio.id}`}>
+            <FlatButton label="Ver datos de contacto del Centro" />
+          </Link>
           <FlatButton label="Ver direcciones en Google Maps" href={mapsUrl} target="_blank" />
         </CardActions>
         <CardText expandable>
