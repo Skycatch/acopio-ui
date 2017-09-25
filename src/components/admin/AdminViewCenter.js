@@ -10,6 +10,7 @@ import {
   RaisedButton,
 } from 'material-ui'
 import {Link} from 'react-router-dom'
+import googleMapImage from '../googleMapImage.js'
 import api from '../../api'
 import './admin.css'
 import './ViewCenter.css'
@@ -121,7 +122,7 @@ class AdminViewCenter extends Component {
         <section className="centerInfo">
           <strong>Centro de acopio:</strong> {center.nombre} <br />
           <strong>Direcci&oacute;n:</strong> {center.direccion} <br />
-          {this.map(center)}
+          {googleMapImage(center)}
         </section>
         <section className="needsList">
           <h2>Necesidades</h2>

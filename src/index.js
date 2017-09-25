@@ -12,6 +12,7 @@ import Contacts from './components/contacts'
 import Supply from './screens/Supply'
 import Map from './screens/Map'
 import List from './screens/List'
+import ViewCenter from './components/admin/ViewCenter'
 import AdminCenters from './components/admin/AdminCenters'
 import AdminViewCenter from './components/admin/AdminViewCenter'
 import AdminAddCenter from './components/admin/AdminAddCenter'
@@ -30,6 +31,7 @@ ReactDOM.render((
                 <Route path="/list" component={List} />
                 <Route path="/centers/search" component={CenterSearch} />
                 <Route path="/contacts" component={Contacts} />
+                <Route path="/acopios/:id" component={ViewCenter} />
                 <Route exact path="/admin/centers" component={AdminCenters} />
                 <Route path="/admin/centers/view/:id" component={AdminViewCenter} />
                 <Route path="/admin/centers/addnew" component={AdminAddCenter} />

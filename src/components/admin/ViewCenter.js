@@ -11,6 +11,7 @@ import {
 } from 'material-ui'
 import {Link} from 'react-router-dom'
 import api from '../../api'
+import googleMapImage from '../googleMapImage.js'
 import './admin.css'
 import './ViewCenter.css'
 
@@ -105,7 +106,7 @@ class ViewCenter extends Component {
         <section className="centerInfo">
           <strong>Centro de acopio:</strong> {center.nombre} <br/>
           <strong>Direcci&oacute;n:</strong> {center.direccion} <br />
-          {center.geopos ?  [<strong>Coordenadas: </strong>, '(' + center.geopos.lat + ', ' + center.geopos.lng + ')']: ''}
+          {googleMapImage(center)}
         </section>
         <section className="needsList">
           <h2>Necesidades</h2>
