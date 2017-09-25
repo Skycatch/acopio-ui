@@ -57,10 +57,10 @@ const ContactSingle = ({
           value={state.fields.acopioId}
           onChange={handleSelectChange}
           maxHeight={200}
-          autoWidth={true}
+          autoWidth
           errorText={state.fields.acopioId ? null : '*Requerido'}
           errorStyle={{color: 'red'}}
-         >
+        >
           {
             state.acopios.map((item, key) => (
               <MenuItem key={key} value={item.id} primaryText={item.nombre} />

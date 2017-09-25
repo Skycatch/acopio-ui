@@ -67,6 +67,7 @@ class CenterSearch extends Component {
     this.setState({
       isLoading: true
     })
+
     const filterString = JSON.stringify({limit: process.env.REACT_APP_MAX_RESULTS})
     api.getAcopiosWhere(filterString)
       .then(response => {
