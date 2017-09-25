@@ -10,9 +10,12 @@ import {
   RaisedButton,
 } from 'material-ui'
 import {Link} from 'react-router-dom'
+import GoogleMapImage from '../googleMapImage.js'
 import api from '../../api'
 import './admin.css'
 import './ViewCenter.css'
+
+const googleMapsApiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY 
 
 const serial = fn =>
   fn.reduce((promise, fn) =>
@@ -43,25 +46,29 @@ class AdminViewCenter extends Component {
 
   initComp () {
     const { id } = this.props.match.params
-    const product = api.getProductosByAcopioId(id).then(({data: productList}) => {
-      this.setState(() => ({ productList, filteredProducts: productList }))
-    })
     this.setState(() => ({ loading: true }))
-    api.getAcopio(id).then(result => {
-      this.setState({center: result.data})
-    })
-    product.then(() => {
-      this.setState(() => ({ loading: false, filter: '', newProduct: '' }))
-    })
-  }
 
+    Promise.all([api.getAcopioWithContactos(id), api.getProductosByAcopioId(id)])
+      .then(([acopio, productos]) => 
+        this.setState({
+          center: acopio.data,
+          productList: productos.data, 
+          filteredProducts: productos.data,
+          loading: false, 
+          filter: '', 
+          newProduct: '' 
+        })
+      )
+  }
+  
   onChangeFilter (evt, filter) {
     const { productList } = this.state
-    const inputValue = filter.trim().toLowerCase()
-    const inputLength = inputValue.length
-    const filteredProducts = inputLength === 0 ? productList : productList.filter(({nombre}) =>
-      nombre.toLowerCase().slice(0, inputLength) === filter
-    )
+    const filterLength = filter.length
+    const filteredProducts = filterLength === 0 
+      ? productList 
+      : productList.filter(({nombre}) => 
+          nombre.toLowerCase().indexOf(filter.trim().toLowerCase()) > -1//busca productos que el cualquier punto contengan las letras del filtro
+      )
     this.setState(() => ({ filteredProducts, filter }))
   }
 
@@ -94,6 +101,19 @@ class AdminViewCenter extends Component {
     })
   }
 
+  contactos({contactos}) {
+    return contactos.map((contacto, i)=> (
+      <div key={i}>
+        {<p><strong>Nombre:</strong> {contacto.nombre || 'No identificado'}</p>}
+        {contacto.telefono && <p><strong>Teléfono:</strong> <a href={`tel:${contacto.telefono}`}>{contacto.telefono}</a></p>}
+        {contacto.email &&  <p><strong>Email:</strong> <a href={`mailto:${contacto.email}`}>{contacto.email}</a></p>}
+        {contacto.facebook &&  <p><strong>Facebook:</strong> <a href={`http://facebook.com/${contacto.facebook}`}>{contacto.facebook}</a></p>}
+        {contacto.twitter &&  <p><strong>Twitter:</strong> <a href={`http://twitter.com/${contacto.twitter.replace('@', '')}`}>{contacto.twitter}</a></p>}
+        <hr/>
+      </div>
+    ))
+  }
+
   render () {
     const { newProduct, filteredProducts, filter, selected, center } = this.state
     return this.state.loading ? <div className="container"><h1>Loading</h1></div> : (
@@ -103,9 +123,8 @@ class AdminViewCenter extends Component {
         <section className="centerInfo">
           <strong>Centro de acopio:</strong> {center.nombre} <br />
           <strong>Direcci&oacute;n:</strong> {center.direccion} <br />
-          {center.geopos && (
-            <strong>Coordenadas: </strong>, '(' + center.geopos.lat + ', ' + center.geopos.lng + ')'
-          )}
+          {this.contactos(center)}
+          <GoogleMapImage acopio={center} />
         </section>
         <section className="needsList">
           <h2>Necesidades</h2>

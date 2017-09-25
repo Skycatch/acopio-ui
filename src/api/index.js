@@ -18,6 +18,9 @@ export default {
   getAcopio (id) {
     return axios.get(`/${acopios}/${id}`)
   },
+  getAcopioWithContactos (id) {
+    return axios.get(`/${acopios}/${id}?filter=`+JSON.stringify({"include": "contactos"}))
+  },
   saveAcopio (acopio) {
     return axios.post(`/${acopios}`, acopio)
   },

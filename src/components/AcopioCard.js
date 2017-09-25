@@ -60,7 +60,8 @@ class AcopioCard extends Component {
           showExpandableButton
         />
         <CardActions expandable>
-          <FlatButton label="Ver en Google Maps" href={mapsUrl} target="_blank" />
+          <FlatButton label="Ver datos de contacto del Centro" href={`/acopios/${acopio.id}`} target="_blank" />
+          <FlatButton label="Ver direcciones en Google Maps" href={mapsUrl} target="_blank" />
         </CardActions>
         <CardText expandable>
           {
