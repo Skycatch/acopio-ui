@@ -47,7 +47,10 @@ class Supply extends Component {
       acopios: [],
     }
 
-    this.loadAcopios(props.currentPosition)
+  }
+
+  componentDidMount() {
+    this.loadAcopios(this.props.currentPosition)
   }
 
   componentWillReceiveProps (nextProps) {
