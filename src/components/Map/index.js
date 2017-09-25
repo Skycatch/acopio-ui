@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import ReactMapboxGl, { Layer, Marker, ZoomControl } from 'react-mapbox-gl'
 
+import withCurrentPosition from '../withCurrentPosition'
+
 let Map
 
 class Mapbox extends Component {
@@ -25,7 +27,8 @@ class Mapbox extends Component {
           'zoom': [11]
         }
       },
-      collectionCenters: []
+      collectionCenters: [],
+      currentMarker: undefined,
     }
   }
 
@@ -37,14 +40,23 @@ class Mapbox extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const component = this
-    component.setState({ collectionCenters: nextProps.collectionCenters })
+    const { currentPosition } = this.props
+    if (currentPosition) {
+      this.centerOnLocation(currentPosition, 13)
+      const currentMarker = <Marker
+        key={1}
+        coordinates={[currentPosition.lng, currentPosition.lat]}
+        style={ { color: '#2196F3' }}
+      />
+      this.setState(() => ({ currentMarker }))
+    }
+    
+    this.setState({ collectionCenters: nextProps.collectionCenters })
   }
 
   markerClick (collectionCenter) {
-    const component = this
+    // component.props.onSelect(collectionCenter)
 
-    component.props.onSelect(collectionCenter)
     const markerLocation = [collectionCenter.geopos.lng, collectionCenter.geopos.lat]
     this.centerOnLocation(markerLocation)
   }
@@ -79,13 +91,14 @@ class Mapbox extends Component {
   render () {
     const component = this
     const style = component.state.config.style
-
     const centersWithPosition = this.state.collectionCenters.filter(center => center.geopos)
     let markers = centersWithPosition.map((center) => (
       <Marker
         key={center.id}
         coordinates={[center.geopos.lng, center.geopos.lat]}
-        onClick={component.markerClick.bind(component, center)} />
+        onClick={component.markerClick.bind(component, center)}
+        style={ { color: '#2196F3' }}
+      />
     ))
 
     return (
@@ -98,13 +111,22 @@ class Mapbox extends Component {
           width: style.width
         }}>
         <Layer
-          id="marker"
+          id="center"
           type="symbol"
           layout={{
-            'icon-image': 'marker-15',
-            'icon-size': 3
+            'icon-image': 'pharmacy-11',
+            'icon-size': 2
           }}>
           {markers}
+        </Layer>
+        <Layer
+          id="current"
+          type="symbol"
+          layout={{
+            'icon-image': 'star-11',
+            'icon-size': 2
+          }}>
+          {this.state.currentMarker}
         </Layer>
         <ZoomControl />
       </Map>
@@ -112,4 +134,4 @@ class Mapbox extends Component {
   }
 }
 
-export default Mapbox
+export default withCurrentPosition(Mapbox)
