@@ -3,11 +3,6 @@ import DocumentTitle from 'react-document-title'
 
 import api from '../api'
 import Map from '../components/Map'
-<<<<<<< HEAD
-=======
-import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card'
-import FlatButton from 'material-ui/FlatButton'
->>>>>>> upstream/develop
 import './InfoPanel.css'
 import './Map.css'
 

@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import ReactMapboxGl, { Layer, Marker, ZoomControl } from 'react-mapbox-gl'
 
+import { withRouter } from 'react-router-dom'
+
 import withCurrentPosition from '../withCurrentPosition'
 
 let Map
@@ -54,11 +56,8 @@ class Mapbox extends Component {
     this.setState({ collectionCenters: nextProps.collectionCenters })
   }
 
-  markerClick (collectionCenter) {
-    // component.props.onSelect(collectionCenter)
-
-    const markerLocation = [collectionCenter.geopos.lng, collectionCenter.geopos.lat]
-    this.centerOnLocation(markerLocation)
+  markerClick ({ id }) {
+    this.props.history.push(`/acopios/${id}`)
   }
 
   centerOnUserLocation (zoom) {
@@ -119,7 +118,7 @@ class Mapbox extends Component {
           }}>
           {markers}
         </Layer>
-        <Layer
+        {this.state.currentMarker && <Layer
           id="current"
           type="symbol"
           layout={{
@@ -127,11 +126,11 @@ class Mapbox extends Component {
             'icon-size': 2
           }}>
           {this.state.currentMarker}
-        </Layer>
+        </Layer>}
         <ZoomControl />
       </Map>
     )
   }
 }
 
-export default withCurrentPosition(Mapbox)
+export default withCurrentPosition(withRouter(Mapbox))
