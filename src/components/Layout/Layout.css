@@ -48,6 +48,14 @@ h3 {
     padding: 1em;
   }
 
+  .App-name {
+    font-size: 0.75em;
+  }
+
+  .App-body {
+    margin-bottom: 5rem;
+  }
+
   .sub-title {
     display: none;
   }
