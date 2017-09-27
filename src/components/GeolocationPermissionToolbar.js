@@ -27,7 +27,7 @@ const GeolocationPermissionToolbar = ({
   }
 
   return (
-    <Toolbar style={{...style, padding: '0 0.5rem', zIndex: 2}} noGutter>
+    <Toolbar style={{...style, padding: '0 0.5rem', zIndex: 2, width: '100%'}} noGutter>
       <ToolbarGroup>
         Centros de acopio más cercanos
       </ToolbarGroup>
