@@ -4,6 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import withCurrentPosition from './withCurrentPosition'
 import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar'
 
+
 const GeolocationPermissionToolbar = ({
   currentPosition,
   positionDeclined,
@@ -26,7 +27,7 @@ const GeolocationPermissionToolbar = ({
   }
 
   return (
-    <Toolbar style={{...style, padding: '0 0.5rem'}} noGutter>
+    <Toolbar style={{...style, padding: '0 0.5rem', zIndex: 2, width: '100%'}} noGutter>
       <ToolbarGroup>
         Centros de acopio más cercanos
       </ToolbarGroup>

@@ -42,10 +42,18 @@ h3 {
   flex: 6 0 0;
 }
 
+.App-body {
+  margin-bottom: 5rem;
+}
+
 @media (max-width: 375px) {
   .App-header {
     height: 12vh;
     padding: 1em;
+  }
+
+  .App-name {
+    font-size: 0.75em;
   }
 
   .sub-title {
