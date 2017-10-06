@@ -13,6 +13,7 @@ export default function GoogleMapImage ({acopio}) {
     center: latLng,
     markers: `color:red|${latLng}`,
     zoom: 16,
+    scale: 2,
     size: '600x550',
     maptype: 'roadmap',
     language: 'es',
