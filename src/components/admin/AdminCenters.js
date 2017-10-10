@@ -17,15 +17,15 @@ import {
 import { Link } from 'react-router-dom'
 import _ from 'lodash'
 
+const deleteCenter = id => api.deleteAcopio(id)
+
 export default class AdminCenters extends React.Component {
-  constructor () {
-    super()
-    this.state = {
-      paginateEvery: 20,
-      selectedPage: 1,
-      centers: [],
-      shownCenters: []
-    }
+  state = {
+    paginateEvery: 20,
+    selectedPage: 1,
+    centers: [],
+    shownCenters: [],
+    selectedRows: []
   }
 
   componentDidMount () {
@@ -40,11 +40,16 @@ export default class AdminCenters extends React.Component {
       .catch(console.error)
   }
 
+  getSelectedCenters (startingIndex) {
+    return this.state.centers.slice(startingIndex, startingIndex + this.state.paginateEvery)
+  }
+
+
   showPage (page) {
     let startingIndex = (page - 1)*this.state.paginateEvery
     this.setState({
       selectedPage: page,
-      shownCenters: this.state.centers.slice(startingIndex, startingIndex + this.state.paginateEvery)
+      shownCenters: this.getSelectedCenters(startingIndex)
     })
   }
 
@@ -69,27 +74,41 @@ export default class AdminCenters extends React.Component {
     )(centers)
   }
 
-  deleteCenter = (e) => {
-    //TODO, versión anterior borrada, porque no se utilizaba y asumia que this.state.centers era un objeto, pero puede  ser problemátuci para hacer sorts o filtros
+  onDelete = () => {
+    const { selectedRows, selectedPage, paginateEvery, centers: oldCenters } = this.state
+    const offset = (selectedPage - 1) * paginateEvery
+    const selectedWithOffset = selectedRows.map(r => r + offset)
+    const selectedWithOffsetPopulated = selectedWithOffset.map((r) => oldCenters[r])
+    selectedWithOffsetPopulated.reduce((pAcc, { id }) => pAcc.then(() => deleteCenter(id)), Promise.resolve()).then(() => {
+      const centers = _.remove(oldCenters, (_, index) => selectedWithOffset.indexOf(index) === -1)
+      this.setState(() => ({ centers }))
+    }).then(() => {
+      this.showPage(1)
+    }).catch(console.error)
   }
 
+  onRowSelection = (selectedRows) => {
+    window.requestAnimationFrame(() => {
+      this.setState(() => ( { selectedRows }))
+    })
+    
+  }
+
+  isSelected = (index) => this.state.selectedRows.indexOf(index) !== -1
+
   render () {
-    var centers
-    let uri = '/admin/centers/'
-    if (this.state.centers) {
-      centers = this.state.shownCenters.map((center, index) => {
-        return (
-          <TableRow key={center.id} className="rowhover">
-            <TableRowColumn>
-              <Link to={uri + center.id}>{center.nombre}</Link>
-            </TableRowColumn>
-            <TableRowColumn title={center.direccion}>{center.direccion}</TableRowColumn>
-          </TableRow>
-        )
-      })
-    } else {
-      centers = (<TableRow> <TableRowColumn colSpan={4}> No se encontraron resultados </TableRowColumn> </TableRow>)
-    }
+    const uri = '/admin/centers/'
+    const { centers, shownCenters } = this.state
+    const renderedCenters = this.state.centers.length !== 0 ? shownCenters.map((center, index) => {
+      return (
+        <TableRow key={center.id} className="rowhover" selected={this.isSelected(index)}>
+          <TableRowColumn>
+            <Link to={uri + center.id}>{center.nombre}</Link>
+          </TableRowColumn>
+          <TableRowColumn title={center.direccion}>{center.direccion}</TableRowColumn>
+        </TableRow>
+      )
+    }) :(<TableRow> <TableRowColumn colSpan={4}> No se encontraron resultados </TableRowColumn> </TableRow>)
 
     return (
       <div className="content container">
@@ -97,21 +116,22 @@ export default class AdminCenters extends React.Component {
           <h1>Administrar centros de acopio</h1>
           <div className="row cf">
             <a className="u-fl" href="#" style={{display:'none'}}>Ver todos</a>
+            <RaisedButton label="- Borrar" secondary onClick={this.onDelete} />
             <Link to="/admin/centers/new" className="u-fr">
               <RaisedButton label="+ Agregar nuevo" primary />
             </Link>
           </div>
           <div className="centerList">
-            {this.pagination(this.state.centers)}
-            <Table >
-              <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+            {this.pagination(centers)}
+            <Table multiSelectable onRowSelection onRowSelection={this.onRowSelection}>
+              <TableHeader displaySelectAll={false}>
                 <TableRow>
                   <TableHeaderColumn>Nombre</TableHeaderColumn>
                   <TableHeaderColumn>Direcci&oacute;n</TableHeaderColumn>
                 </TableRow>
               </TableHeader>
-              <TableBody displayRowCheckbox={false}>
-                {centers}
+              <TableBody  >
+                {renderedCenters}
               </TableBody>
             </Table>
           </div>
