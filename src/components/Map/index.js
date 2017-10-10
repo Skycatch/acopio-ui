@@ -57,7 +57,7 @@ class Mapbox extends Component {
   }
 
   markerClick ({ id }) {
-    this.props.history.push(`/acopios/${id}`)
+    this.props.history.push(`/centers/${id}`)
   }
 
   centerOnUserLocation (zoom) {
